@@ -1,0 +1,52 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import './login.css';
+import userData from '../json/userData.json';
+
+function Login(props) {
+  const { setUsername } = props;
+
+  const navigate = useNavigate();
+  let [id, setId] = useState('');
+  let [password, setPassword] = useState('');
+
+  const saveId = event => { setId(event.target.value); };
+  const savePassword = event => { setPassword(event.target.value); };
+
+  console.log(userData.userInfo.id);
+
+  return (
+    <div className='login-component'>
+      <div className='login-page'>
+        <div className="login-title">
+          <h1 className="miniwappy">ㅁi니왑ㅍi</h1>
+          <h6 className="login">로그인</h6>
+        </div>
+
+        <div className='login-form'>
+          <form name='login-form' onSubmit={e => {
+            e.preventDefault();
+            if (id === userData.userInfo.id && password === userData.userInfo.password) {
+              alert('login success!');
+              setUsername(userData.userInfo.id);
+              navigate('../main');
+            } else {
+              alert('login failed');
+            }
+          }}>
+            <input id="id" name="id" type="text" placeholder="아이디" value={id} onChange={saveId} />
+            <input id="password" name="password" type="password" placeholder="비밀번호" value={password} onChange={savePassword} />
+            <input id="submit" type="submit" value="로그인" />
+          </form>
+        </div>
+
+        <div className="others">
+          <Link id='signup' to='../signup'>회원가입</Link>
+          <Link id='login-exception' to='../loginexception'>로그인이 안되시나요?</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Login;
