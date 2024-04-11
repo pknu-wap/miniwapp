@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.calender {
+  width: 46%;
+  height: 46%;
+  border: 2px solid;
+  border-radius: 20px;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  transform: translate(-48%, -50%);
+}
+
+.menu {
+  width: 46%;
+  height: 46%;
+  border: 2px solid;
+  border-radius: 20px;
+  position: absolute;
+  top: 25%;
+  right: 25%;
+  transform: translate(48%, -50%);
+}
+
+.chatroom {
+  width: 46%;
+  height: 46%;
+  border: 2px solid;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 25%;
+  left: 25%;
+  transform: translate(-48%, 50%);
+}
+
+.posts {
+  width: 46%;
+  height: 46%;
+  border: 2px solid;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 25%;
+  right: 25%;
+  transform: translate(48%, 50%);
+}
