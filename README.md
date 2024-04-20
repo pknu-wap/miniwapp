@@ -1,6 +1,6 @@
-ㅁi니왑ㅍi
-===========
->WAP의 소셜 네트워크 서비스
+![header](https://capsule-render.vercel.app/api?type=waving&desc=2024-1%20Web%203%20team&text=miniwapp&animation=fadeIn&fontsize=30&color=gradient&customColorList=1,2,3&height=200&fontColor=ffffff&fontAlign=76&fontAlign=75&fontAlignY=45&descAlign=83.6&descAlignY=20)
+
+>WAP의 마이크로 블로그 서비스, ㅁi니왑ㅍi
 
 🤷소개
 ------------
