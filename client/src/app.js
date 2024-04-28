@@ -3,7 +3,7 @@ import { useState } from "react";
 import Login from './component/login.js';
 import Signup from "./component/signup.js";
 import Verify from "./component/verify.js";
-import Mainpage from "./component/mainpage.js";
+import Mainpage from './component/mainpage.js';
 import Mypage from './component/mypage.js';
 import Loginexception from './component/loginException.js';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
