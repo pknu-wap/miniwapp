@@ -3,14 +3,12 @@ package com.my.kde_db.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.my.kde_db.service.UserService;
 import com.my.kde_db.vo.User;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 
 @Controller
 @RequestMapping(value = "user")
@@ -46,7 +44,7 @@ public class UserController {
 	@ResponseBody
 	public String login(
 			@RequestParam(value = "id") String id,
-			@RequestParam(value = "pw") String pw,
+			@RequestParam(value = "password") String password,
 			
 			
 			
@@ -57,7 +55,7 @@ public class UserController {
 		
 		User user = new User();
 		user.setId(id);
-		user.setPw(pw);
+		user.setPassword(password);
 		
 		User result = userService.findByIdAndPw(user);
 		
@@ -82,38 +80,35 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("create")
+	@PostMapping("create")
 	@ResponseBody //데이터 리턴하는 ....
 	public String create(
 				@RequestParam(value = "id") String id,
-				@RequestParam(value = "pw") String pw,
-				@RequestParam(value = "nick") String nickname,
-				@RequestParam(value = "address") String address,
-				@RequestParam(value = "g") String gender
-				
+				@RequestParam(value = "password") String password,
+				@RequestParam(value = "name") String name,
+				@RequestParam(value = "nickname") String nickname,
+				@RequestParam(value = "birthday") Date birthday
 			) {
 		
 
 		
 		User user = new User();
 		user.setId(id);
-		user.setPw(pw);
+		user.setPassword(password);
 		user.setNickname(nickname);
-		user.setAddress(address);
-		user.setGender(gender);
+		user.setName(name);
+		user.setBirthday(birthday);
 		
 		//아이디 검증
 		User u1 = userService.findById(id);
 		if(u1 != null) {
 			//이미 가입된 아이디가 존재
 			return "이미 가입된 아이디가 존재";
-			
 		}
 		
 		User u2 = userService.findByNickname(nickname);
 		if(u2 != null) {
 			return "이미 가입된 닉네임이 존재";
-		
 		}
 		
 		
