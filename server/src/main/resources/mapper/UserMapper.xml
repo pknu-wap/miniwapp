@@ -4,7 +4,7 @@
 
 	<select id = "findByIdAndPw" parameterType = "User" resultType ="User">
 		SELECT * FROM user
-		WHERE id =#{id} AND pw =MD5(#{pw})
+		WHERE id =#{id} AND password =MD5(#{password})
 	</select>
 
 
@@ -26,18 +26,18 @@
 		INSERT INTO user
 		(
 			id,
-			pw,
+			password,
+			name,
 			nickname,
-			address,
-			gender
+			birthday
 		)
 		VALUES
 		(
 			#{id},
-			MD5(#{pw}), 
-			#{nickname},
-			#{address},
-			#{gender}
+			MD5(#{password}),
+			#{name},
+            #{nickname},
+			#{birthday}
 		)
 	
 
