@@ -3,7 +3,6 @@ import { useState } from 'react';
 import './mypage.css';
 
 function Mypage(props) {
-
   const { username } = props
   const [mode, setMode] = useState('default');
   let content = null;
@@ -33,28 +32,16 @@ function Mypage(props) {
       <div className='mypage-page'>
         <div className='mypage-profile'>
           <h1 className='mypage-title'>{username}의 미니왑피</h1>
-          <div className='mypage-viewcountbox'>
-            <h6 className='mypage-today'>today: 0</h6>
-            <h6 className='mypage-total'>total: 0</h6>
-          </div>
+          <div className='mypage-viewcountbox'></div>
           <div className='profile-image'></div>
           <div className='profile-edits'>
             <form className='profile-edits-form'>
-              <div className='feeling'>
-                <label htmlFor="feeling"></label>
-                <select className='feeling-select' name="feeling-select">
-                  <option value="feeling1">감정 1</option>
-                  <option value="feeling2">감정 2</option>
-                  <option value="feeling3">감정 3</option>
-                  <option value="feeling4">감정 4</option>
-                  <option value="feeling5">감정 5</option>
-                </select>
-              </div>
+              <div className='feeling'></div>
               <div className='mypage-descriptionbox'>
-                <textarea className='mypage-description' placeholder="깃허브, 노션, 블로그 링크"></textarea>
+                <textarea className='mypage-description' placeholder="내 소개"></textarea>
               </div>
               <div className='linkbox'>
-                <input type='text' className='link' placeholder="내 소개" />
+                <button className='profile-image-change' placeholder="깃허브, 노션, 블로그 링크">이미지 변경</button>
                 <input type='submit' className='confirm' value='저장' />
               </div>
             </form>
@@ -70,21 +57,20 @@ function Mypage(props) {
           {content}
         </div>
         <div className='mypage-menu'>
+          <button className='menu-home' onClick={() => {
+            if (mode !== 'default') { setMode('default'); }
+          }}>홈</button>
           <button className='menu-profile' onClick={() => {
             if (mode !== 'profile') { setMode('profile'); }
-            else { setMode('default'); }
           }}>프로필</button>
           <button className='menu-notice' onClick={() => {
             if (mode !== 'notice') { setMode('notice'); }
-            else { setMode('default'); }
           }}>게시판</button>
           <button className='menu-guest' onClick={() => {
             if (mode !== 'guest') { setMode('guest'); }
-            else { setMode('default'); }
           }}>방명록</button>
           <button className='menu-friends' onClick={() => {
             if (mode !== 'friend') { setMode('friend'); }
-            else { setMode('default'); }
           }}>친구</button>
         </div>
       </div>
@@ -95,7 +81,18 @@ function Mypage(props) {
 function Default() {
   return (
     <div className='default-component'>
-      <h1>Welcome!</h1>
+      <div className='default-bookmark-hidden'></div>
+      <div className='default-page'>
+        <div className='default-page-image'></div>
+        <div className='default-page-info'>
+          <div className='default-page-name'></div>
+          <div className='default-page-nickname'></div>
+          <div className='default-page-pagename'></div>
+        </div>
+        <iframe className='default-page-embedvideo' src="https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div className='default-page-introduction'></div>
+        <div className='default-page-recent-post'></div>
+      </div>
     </div>
   )
 }
@@ -103,15 +100,16 @@ function Default() {
 function Profile() {
   return (
     <div className='profile-component'>
-      <div className='profile-bookmark-hidden'></div>
+      <div className='profile-bookmark-hidden'></div> 
       <div className='profile-page'>
         <div className='profile-settings'>
           <form className='profile-settings-form'>
             <div className='profile-page-image'></div>
             <textarea type='text' className='profile-introduction' placeholder="내 소개" rows="14"></textarea>
+            <input type='text' className='profile-embedlink' placeholder="유튜브 링크"></input>
             <input type='text' className='profile-nickname' placeholder="별명"></input>
             <input type='text' className='profile-pagename' placeholder="미니왑피 이름"></input>
-            <input type='button' className='profile-image-change' value='이미지 변경'></input>
+            <input type='button' className='profile-page-image-change' value='이미지 변경'></input>
             <input type='submit' className='profile-submit' value='저장'></input>
           </form>
         </div>
