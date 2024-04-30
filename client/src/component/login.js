@@ -13,8 +13,6 @@ function Login(props) {
   const saveId = event => { setId(event.target.value); };
   const savePassword = event => { setPassword(event.target.value); };
 
-  console.log(userData.userInfo.id);
-
   return (
     <div className='login-component'>
       <div className='login-page'>
