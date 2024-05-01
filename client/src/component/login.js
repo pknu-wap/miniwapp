@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './login.css';
-import userData from '../json/userData.json';
+// import userData from '../json/userData.json';
+import API from './utils/API'
+import axios from "axios";
 
 function Login(props) {
   const { setUsername } = props;
@@ -22,15 +24,42 @@ function Login(props) {
         </div>
 
         <div className='login-form'>
-          <form name='login-form' onSubmit={e => {
+          <form action='http://15.165.164.135:8080/user/login' method='post' name='login-form' onSubmit={e => {
             e.preventDefault();
-            if (id === userData.userInfo.id && password === userData.userInfo.password) {
-              alert('login success!');
-              setUsername(userData.userInfo.id);
-              navigate('../main');
-            } else {
-              alert('login failed');
-            }
+            const userLoginData = {
+              id: id,
+              password: password
+            };
+            console.log(userLoginData);
+            API.post("user/login", JSON.stringify(userLoginData))
+            // { withCredentials: true  }) // 쿠키 cors 통신 설정
+            .then(function (response) {
+              if (response.data === "로그인에 실패했습니다") {
+                alert(response.data);
+              } else {
+                console.log("SUCCESS");
+                console.log(response);
+                API.get("userhome")
+                .then(function (response) {
+                  if (response.data == null) {
+                    console.log('THIS IS NULL');
+                  }
+                  console.log("PLZZZZZZZ");
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  alert('ERROR');
+                  console.log("ERROR");
+                  console.log(error.response);
+                })
+                navigate('../main');
+              }
+            })
+            .catch(function (error) {
+              alert('ERROR');
+              console.log("ERROR");
+              console.log(error.response);
+            })
           }}>
             <input id="id" name="id" type="text" placeholder="아이디" value={id} onChange={saveId} />
             <input id="password" name="password" type="password" placeholder="비밀번호" value={password} onChange={savePassword} />

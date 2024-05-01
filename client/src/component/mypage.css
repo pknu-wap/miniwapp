@@ -121,10 +121,24 @@
   width: 330px;
   height: 35px;
   left: 50%;
-  top: 0%;
-  transform: translate(-50%, 0%);
+  top: 57.3%;
+  transform: translate(-50%, -57.3%);
   border: 2px solid;
   border-radius: 20px;
+
+  font-size: 25px;
+  text-align: center;
+}
+
+.name-and-nickname {
+  height: 25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  text-align: center;
+  padding: 2px;
 }
 
 .feeling-select {
@@ -349,7 +363,7 @@
 
 .default-page {
   width: 800px;
-  height: 700px;
+  height: 800px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -384,23 +398,23 @@
 }
 
 .default-page-name {
-  width: 400px;
+  width: 350px;
   height: 40px;
   position: absolute;
-  top: 10%;
+  top: 0%;
   left: 0%;
-  transform: translate(0%, -10%);
+  transform: translate(0%, 0%);
   border: 2px solid;
   border-radius: 20px;
 }
 
 .default-page-nickname {
-  width: 400px;
+  width: 350px;
   height: 40px;
   position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(0%, -50%);
+  top: 0%;
+  right: 0%;
+  transform: translate(0%, 0%);
   border: 2px solid;
   border-radius: 20px;
 }
@@ -416,13 +430,24 @@
   border-radius: 20px;
 }
 
-.default-page-embedvideo {
-  width: 450px;
-  height: 250px;
+.default-page-recent-post {
+  width: 800px;
+  height: 280px;
   position: absolute;
-  top: 61%;
+  top: 0%;
   left: 0%;
-  transform: translate(0%, -61%);
+  transform: translate(0%, 0%);
+  border: 2px solid;
+  border-radius: 20px;
+}
+
+.default-page-embedvideo {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
   border: 2px solid;
   border-radius: 20px;
 }
@@ -434,17 +459,6 @@
   top: 61%;
   right: 0%;
   transform: translate(0%, -61%);
-  border: 2px solid;
-  border-radius: 20px;
-}
-
-.default-page-recent-post {
-  width: 800px;
-  height: 150px;
-  position: absolute;
-  bottom: 0%;
-  left: 0%;
-  transform: translate(0%, 0%);
   border: 2px solid;
   border-radius: 20px;
 }

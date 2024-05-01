@@ -5,50 +5,49 @@ import { useNavigate } from "react-router-dom";
 import userData from '../json/userData.json';
 import commonData from '../json/commonData.json';
 import axios from "axios";
+import API from './utils/API'
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 import './signup.css';
 
 function Signup() {
 
-  const fetchData=()=>{
-    console.log("success");
-    fetch('http://15.165.164.135:8080/user/create')
-    .then((res)=>res.json())
-    .then((data)=>setTodoList(data));
-  }
+  // const fetchData=()=>{
+  //   fetch('http://15.165.164.135:8080/user/create')
+  //   .then((res)=>res.json())
+  //   .then((data)=>setTodoList(data));
+  // }
 
-  useEffect(() => {
-    fetchData();
-  }, [])
-
+  // useEffect(() => {
+  //   fetchData();
+  // }, [])
 
 
-  const onSubmitHandler=(e)=>{
-    e.preventDefault();
-    console.log(e.target);
-    const id = e.target.id.value;
-    const pw = e.target.password.value;
-    const name = e.target.name.value;
-    const nickname = e.target.nickname.value;
-    const birthday = e.target.dob.value;
-    fetch('http://15.165.164.135:8080/user/create', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id,
-        pw,
-        name,
-        nickname,
-        birthday,
-      })
-    })
-    .then(fetchData());
+
+  // const onSubmitHandler=(e)=>{
+  //   e.preventDefault();
+  //   console.log(e.target);
+  //   const id = e.target.id.value;
+  //   const pw = e.target.password.value;
+  //   const name = e.target.name.value;
+  //   const nickname = e.target.nickname.value;
+  //   const birthday = e.target.dob.value;
+  //   fetch('http://15.165.164.135:8080/user/create', {
+  //     method: 'POST',
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id,
+  //       pw,
+  //       name,
+  //       nickname,
+  //       birthday,
+  //     })
+  //   })
     
-  }
+  // }
 
   const navigate = useNavigate();
 
@@ -81,18 +80,26 @@ function Signup() {
             e.preventDefault();
             if (code === commonData.commonInfo.code && password === passwordcheck) {
               alert('signup success!');
-              // axios.post("http://15.165.164.135:8080/user/create", 
-              // {
-              //   withCredentials: true // 쿠키 cors 통신 설정
-              // },{
-              //   id: "id",
-              //   pw: "password",
-              //   name: "name",
-              //   nickname: "nickname",
-              //   birthday: "dob"
-              // })
+              const userData = {
+                id: id,
+                password: password,
+                name: name,
+                nickname: nickname,
+                birthday: dob
+              };
+              console.log(userData);
+              API.post("/user/create", JSON.stringify(userData),
+              { withCredentials: true  }) // 쿠키 cors 통신 설정
+              .then(function (response) {
+                console.log("SUCCESS?");
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log("ERROR");
+                console.log(error.response);
+              })
 
-              // navigate('../login');
+              navigate('../login');
             } else {
               alert('signup failed');
             }

@@ -12,7 +12,7 @@ function Mypage(props) {
   }
 
   if (mode === 'profile') {
-    content = <Profile></Profile>;
+    content = <Profile id={username}></Profile>;
   }
 
   if (mode === 'notice') {
@@ -34,9 +34,12 @@ function Mypage(props) {
           <h1 className='mypage-title'>{username}의 미니왑피</h1>
           <div className='mypage-viewcountbox'></div>
           <div className='profile-image'></div>
+          <div className='feeling'>
+            asdf (asdf)
+            {/* <div className='name-and-nickname'>asdf (asdf)</div> */}
+          </div>
           <div className='profile-edits'>
             <form className='profile-edits-form'>
-              <div className='feeling'></div>
               <div className='mypage-descriptionbox'>
                 <textarea className='mypage-description' placeholder="내 소개"></textarea>
               </div>
@@ -83,26 +86,20 @@ function Default() {
     <div className='default-component'>
       <div className='default-bookmark-hidden'></div>
       <div className='default-page'>
-        <div className='default-page-image'></div>
-        <div className='default-page-info'>
-          <div className='default-page-name'></div>
-          <div className='default-page-nickname'></div>
-          <div className='default-page-pagename'></div>
-        </div>
-        <iframe className='default-page-embedvideo' src="https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <div className='default-page-introduction'></div>
         <div className='default-page-recent-post'></div>
+        <iframe className='default-page-embedvideo' src="https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
   )
 }
 
-function Profile() {
+function Profile(props) {
   return (
     <div className='profile-component'>
-      <div className='profile-bookmark-hidden'></div> 
+      <div className='profile-bookmark-hidden'></div>
       <div className='profile-page'>
         <div className='profile-settings'>
+          {/* <h1>{props.id}</h1> */}
           <form className='profile-settings-form'>
             <div className='profile-page-image'></div>
             <textarea type='text' className='profile-introduction' placeholder="내 소개" rows="14"></textarea>
