@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&desc=2024-1%20Web%203%20team&text=miniwapp&animation=fadeIn&fontsize=30&color=gradient&customColorList=1,2,3&height=200&fontColor=ffffff&fontAlign=78.3&fontAlignY=38&descAlign=87.2&descAlignY=15)
+![header](https://capsule-render.vercel.app/api?type=waving&desc=2024-1%20Web%203%20team&text=miniwapp&animation=fadeIn&fontsize=30&color=gradient&customColorList=1,2,3&height=200&fontColor=ffffff&fontAlign=78.3&fontAlignY=38&descAlign=87.2&descAlignY=15) 
 
 >WAP의 마이크로 블로그 서비스, ㅁi니왑ㅍi
 
@@ -21,16 +21,13 @@
 
 <!--사용화면은 어느정도 완성된 이후?-->
 
-<br>
-
-### 프로젝트 구조
-쓸예정
-
-<br>
+<br><br>
  
 🛠️기술스택
 --------
 ![2024_1_project_stack](https://github.com/pknu-wap/2024_1_web3/assets/102894803/3b39a915-0106-4959-9e07-6bd8c97aa03b)  
+
+<br><br>
 
 🤸팀원 소개
 --------
