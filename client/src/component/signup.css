@@ -24,9 +24,9 @@ body {
   width: 200px;
   height: 50px;
   position: absolute;
-  right: 12%;
-  top: 45%;
-  transform: translate(12%, -45%);
+  left: 3%;
+  top: 7%;
+  transform: translate(-3%, -7%);
   font-size: 40px;
   font-weight: 800;
   line-height: 77.45px;
@@ -37,9 +37,9 @@ body {
   width: 200px;
   height: 40px;
   position: absolute;
-  right: 12%;
-  top: 55%;
-  transform: translate(12%, -55%);
+  left: 3%;
+  top: 17%;
+  transform: translate(-3%, -17%);
   font-size: 32px;
   font-weight: 500;
   letter-spacing: -0.05em;
@@ -48,11 +48,11 @@ body {
 
 .signup-form {
   position: absolute;
-  width: 948px;
+  width: 1060px;
   height: 390px;
-  left: 17%;
+  left: 50%;
   top: 50%;
-  transform: translate(-17%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .signup-form > * {
