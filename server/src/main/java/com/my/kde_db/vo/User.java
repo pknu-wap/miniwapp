@@ -8,7 +8,7 @@ import java.sql.Date;
 
 @Data
 public class User {
-	private int user_idx = 0;
+	private int number = 0;
 	private String id = null;
 	private String password = null;
 	private String nickname = null;
