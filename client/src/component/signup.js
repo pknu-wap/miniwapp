@@ -79,7 +79,6 @@ function Signup() {
           <form action='http://15.165.164.135:8080/user/create' method='post' name='signup-form' onSubmit={e => {
             e.preventDefault();
             if (code === commonData.commonInfo.code && password === passwordcheck) {
-              alert('signup success!');
               const userData = {
                 id: id,
                 password: password,
@@ -90,16 +89,17 @@ function Signup() {
               console.log(userData);
               API.post("/user/create", JSON.stringify(userData),
               { withCredentials: true  }) // 쿠키 cors 통신 설정
-              .then(function (response) {
+              .then(function (response) 
+              { if (response.data == 'ok') {
                 console.log("SUCCESS?");
                 console.log(response);
+                navigate('../login');
+              }
               })
               .catch(function (error) {
                 console.log("ERROR");
                 console.log(error.response);
               })
-
-              navigate('../login');
             } else {
               alert('signup failed');
             }
