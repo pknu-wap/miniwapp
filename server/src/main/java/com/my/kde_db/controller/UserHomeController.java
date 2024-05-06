@@ -15,18 +15,21 @@ public class UserHomeController {
 
     @Autowired
     UserHomeService userhomeService;
+    
     @GetMapping("userhome")
     @ResponseBody
-    public UserHome userhome(HttpSession session) {
+    public ResponseEntity<UserHome> userhome(HttpSession session) {
 
         User loginUser =(User)session.getAttribute("me");
 
         if(loginUser != null) {
-            //로그인 된 상태
-            return userhomeService.findUserHomeById(loginUser.getId());
+            //세션 조회 성공시
+            return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeById(loginUser.getId()));
         }else {
-            //로그아웃 상태
-            return null;
+            //세션 조회 실패시
+            UserHome fls=new UserHome();
+            fls.setNumber(-1);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fls);
         }
     }
 }
