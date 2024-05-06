@@ -14,8 +14,6 @@ import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
 
 @Controller
 @RequestMapping(value = "user")
-//쿼리스트링 방식?
-//ex) 로그인 http://localhost:8080/user/login?id=sh&pw=4994
 public class UserController {
 	
 	@Autowired
