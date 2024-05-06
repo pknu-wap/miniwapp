@@ -1,0 +1,31 @@
+.calendar {
+  font-family: Arial, sans-serif;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-row {
+  display: flex;
+}
+
+.calendar-cell {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.calendar-cell:hover {
+  background-color: #f0f0f0;
+}

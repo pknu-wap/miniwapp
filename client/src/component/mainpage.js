@@ -20,7 +20,7 @@ function Mainpage() {
         <div className='hello-user'>안녕하세요 OO님!</div>
         <div className='horizonline'></div>
         <div className='calendar-title'>WAP 캘린더</div>
-        <div className='calendar'>
+        <div className='calendar-frame'>
           <Calendar></Calendar>
         </div>
         <div className='post-update-title'>게시물 업데이트</div>
