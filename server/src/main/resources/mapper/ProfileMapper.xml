@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.kde_db.dao.LeftProfileMapper">
+
+
+
+    <select id="findById" resultType="com.my.kde_db.dto.LeftProfile" parameterType="String">
+        SELECT name, nickname, introduction, pagename, image
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateProfile" parameterType="map">
+        UPDATE user
+        SET name = #{name}, nickname = #{nickname}, introduction = #{introduction},
+            pagename = #{pagename}, image = #{image}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
