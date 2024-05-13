@@ -3,25 +3,23 @@ package com.my.kde_db.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.my.kde_db.service.UserService;
 import com.my.kde_db.vo.User;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
+
+import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
 
 @Controller
 @RequestMapping(value = "user")
 //쿼리스트링 방식?
 //ex) 로그인 http://localhost:8080/user/login?id=sh&pw=4994
 public class UserController {
-
 	
 	@Autowired
 	UserService userService;
-	
 	
 	@GetMapping("status")
 	@ResponseBody
@@ -37,40 +35,21 @@ public class UserController {
 			return "로그인안됨";
 		}
 		
-		
-		
 	}
 	
 	
-	@GetMapping("login")
+	@PostMapping("login")
 	@ResponseBody
-	public String login(
-			@RequestParam(value = "id") String id,
-			@RequestParam(value = "pw") String pw,
-			
-			
-			
-			
-			HttpSession session
-			) {
-		
-		
-		User user = new User();
-		user.setId(id);
-		user.setPw(pw);
-		
+	public String login(@RequestBody User user, HttpSession session) {
+
 		User result = userService.findByIdAndPw(user);
 		
 		if(result != null) {
 			session.setAttribute("me", result);
-			return result.getNickname()+ "님 로그인 성공";
+			return String.valueOf(result.getNumber());
 		}else {
-			return "가입된 계정이 없습니다";
+			return "로그인에 실패했습니다";
 		}
-		
-		
-		
-		
 	}
 	
 	@GetMapping("logout")
@@ -82,50 +61,26 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("create")
+	@PostMapping("create")
 	@ResponseBody //데이터 리턴하는 ....
-	public String create(
-				@RequestParam(value = "id") String id,
-				@RequestParam(value = "pw") String pw,
-				@RequestParam(value = "nick") String nickname,
-				@RequestParam(value = "address") String address,
-				@RequestParam(value = "g") String gender
-				
-			) {
-		
-
-		
-		User user = new User();
-		user.setId(id);
-		user.setPw(pw);
-		user.setNickname(nickname);
-		user.setAddress(address);
-		user.setGender(gender);
+	public String create(@RequestBody User user) {
+        String result = "ok";
 		
 		//아이디 검증
-		User u1 = userService.findById(id);
+		User u1 = userService.findById(user.getId());
 		if(u1 != null) {
 			//이미 가입된 아이디가 존재
-			return "이미 가입된 아이디가 존재";
-			
-		}
-		
-		User u2 = userService.findByNickname(nickname);
-		if(u2 != null) {
-			return "이미 가입된 닉네임이 존재";
-		
-		}
-		
-		
-		userService.save(user);
-		
-		return "ok";
-	}
-	
-	
-	
+            result = "이미 가입된 아이디가 존재";
+        } else {
+            User u2 = userService.findByNickname(user.getNickname());
+            if(u2 != null) {
+                result = "이미 가입된 닉네임이 존재";
+            } else {
+                userService.save(user);
+            }
+        }
 
-	
-	
+        return result;
+    }
 
 }

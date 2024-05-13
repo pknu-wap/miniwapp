@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './mainpage.css';
-//import Calendar from './calendar.js';
-import Calendar from './calender.js';
+import Calendar from './calendar.js';
 
 function Mainpage() {
 
