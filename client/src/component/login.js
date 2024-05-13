@@ -24,22 +24,23 @@ function Login(props) {
         </div>
 
         <div className='login-form'>
-          <form action='http://15.165.164.135:8080/user/login' method='post' name='login-form' onSubmit={e => {
+          <form method='post' name='login-form' onSubmit={e => {
             e.preventDefault();
             const userLoginData = {
               id: id,
               password: password
             };
             console.log(userLoginData);
-            API.post("user/login", JSON.stringify(userLoginData))
-            // { withCredentials: true  }) // 쿠키 cors 통신 설정
+            API.post("/user/login", JSON.stringify(userLoginData), { withCredentials: true })
             .then(function (response) {
               if (response.data === "로그인에 실패했습니다") {
                 alert(response.data);
               } else {
                 console.log("SUCCESS");
                 console.log(response);
-                API.get("userhome")
+                navigate('../main');
+                console.log("실행?");
+                API.get("userhome", { withCredentials: true })
                 .then(function (response) {
                   if (response.data == null) {
                     console.log('THIS IS NULL');
@@ -52,7 +53,6 @@ function Login(props) {
                   console.log("ERROR");
                   console.log(error.response);
                 })
-                navigate('../main');
               }
             })
             .catch(function (error) {
