@@ -72,7 +72,6 @@ body {
   top: 5%;
   left: 70%;
   text-align: right;
-  border: 2px solid; /*테투리는 보기편하려고 만들어놓음(중간 발표전에 삭제)*/
 }
 
 .horizonline { /*프로필사진과 입장버튼 위치에 놏인 가로선*/
@@ -83,7 +82,7 @@ body {
   border : 1px solid;
 }
 
-.calendar { /*캘린더*/
+.calendar-frame { /*캘린더*/
   width: 650px;
   height: 340px;
   position: absolute;
@@ -99,26 +98,24 @@ body {
   position: absolute;
   top: 38%;
   left: 7%;
-  border: 2px solid;
   font-size : 35px;
 }
 
 .post-update { /*게시물 업데이트*/
   width: 650px;
   height: 340px;
-  position: absolute;
+  position: absolute; 
   top: 48%;
   left: 50%;
-  border: 2px solid; /*보기 편하려고 테두리(중간 발표전에 삭제)*/
+  border: 2px solid;
   border-radius: 20px;
 }
 
 .post-update-title { /*"게시물 업데이트" 텍스트*/
   width: 270px;
   height: 50px;
-  position: absolute;
-  top: 38%;
-  left: 52%;
-  border: 2px solid; /*보기 편하려고 테두리(중간 발표전에 삭제)*/
+  position: absolute; /*absolute -> relative로 변경할 것*/
+  top: 38%; /*position 중앙값으로 변경할 것*/
+  left: 52%;    
   font-size : 35px;
 }

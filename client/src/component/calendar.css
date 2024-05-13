@@ -1,0 +1,46 @@
+.calendar {
+  font-family: Arial, sans-serif;
+  border-radius: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-evenly; /*아이템들과 양끝 사이에 간격 생성 [끝(간격)아이템(간격)아이템(간격)끝] 이런식으로*/
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+.calendar-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-row {
+  display: flex;
+}
+
+.calendar-cell {
+  width: 100px;
+  height: 43px;
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 12px;
+  cursor: pointer;            /*셀에 마우스를 갖다대면 마우스를 포인터 모양으로 변경*/
+}
+
+.calendar-cell:hover {
+  background-color: #f0f0f0;
+}
+
+.calendar-cell-day {
+  text-align: right;
+  line-height: 2px;
+}
+
+.calendar-days-cell { /*요일 셀*/
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+}
