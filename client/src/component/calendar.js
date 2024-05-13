@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './calendar.css';
+import Modal from './modalCalendar.js';
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 표시 여부를 관리하는 상태
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const renderCalendar = () => {
     const year = currentDate.getFullYear();               //현재 연도 가져오기
@@ -13,6 +16,17 @@ function Calendar() {
 
     const calendarArray = []; //캘린더를 저장할 배열 생성 및 초기화
     let currentRow = [];     //현재 행을 저장할 배열 생성 및 초기화
+
+    // 요일 추가 : 일요일부터 토요일까지 요일을 반복문을 돌려 추가했습니다.
+    for (let i = 1; i <= 7; i++) { 
+      currentRow.push(
+        <div key={`days-${i}`} className="calendar-days-cell"> 
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i - 1]}
+        </div>
+      );
+    }
+    calendarArray.push(<div key={`row-${calendarArray.length}`} className="calendar-row">{currentRow}</div>);
+    currentRow = [];
 
     // 첫째날 이전의 빈 셀 추가 : 요일을 숫자로 반환하기 때문에 반복문을 이용해 첫째날의 요일보다 작은 값을 가진 요일들을 빈 셀로 만들었습니다.
     for (let i = 0; i < startingDay; i++) {
@@ -26,7 +40,9 @@ function Calendar() {
     for (let i = 1; i <= totalDays; i++) {
       currentRow.push(
         <div key={`day-${i}`} className="calendar-cell" onClick={() => handleDateClick(i)}>
-          {i}
+          <div className="calendar-cell-day">
+            {i}
+          </div>
         </div>
         //handleDateClick으로 클릭한 날짜에 대해 작업을 추가할 수 있도록 만들었습니다.
       );
@@ -53,8 +69,13 @@ function Calendar() {
   };
 
   const handleDateClick = (day) => {
-    console.log(`Clicked on day ${day}`);
-    // 클릭한 날짜에 대한 작업을 추가할 수 있도록 만들어 놓았습니다.
+    setSelectedDate(day); // 클릭한 날짜를 상태에 저장합니다.
+    setIsModalOpen(true); // 모달을 표시합니다.
+  };
+
+  // 모달을 닫는 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const goToPreviousMonth = () => {
@@ -69,10 +90,13 @@ function Calendar() {
 
   return (
     <div className="calendar">
+      {isModalOpen && (
+        <Modal selectedDate={selectedDate} closeModal={closeModal} />
+      )}
       <div className="calendar-header">
-        <button onClick={goToPreviousMonth}>Previous</button>                                       {/*이전 달로 이동하는 버튼*/}
+        <button onClick={goToPreviousMonth}>이전 달</button>                                       {/*이전 달로 이동하는 버튼*/}
         <div>{currentDate.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</div>  {/*현재 연도와 월 표시*/}
-        <button onClick={goToNextMonth}>Next</button>                                               {/*다음 달로 이동하는 버튼*/}
+        <button onClick={goToNextMonth}>다음 달</button>                                               {/*다음 달로 이동하는 버튼*/}
       </div>
       <div className="calendar-grid">{renderCalendar()}</div> {/*열들을 수직으로 배열하기*/}
     </div>

@@ -11,10 +11,10 @@ function Mainpage() {
         <div className='profileImageFrame'>
           <img className='profileImage' alt="profileImage" src="profile_image_test.jpeg" width="150px" height="150px"/>
         </div>
-        <Link to="/mypage">
+        <Link to="../mypage">
           <button className='entrace-button'>내 미니왑피 입장하기</button>
         </Link>
-        <Link to="/login">
+        <Link to="../login">
           <button className='logout-button'>로그아웃</button>
         </Link>
         <div className='hello-user'>안녕하세요 OO님!</div>

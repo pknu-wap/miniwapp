@@ -76,7 +76,7 @@ function Signup() {
         </div>
 
         <div className='signup-form'>
-          <form action='http://15.165.164.135:8080/user/create' method='post' name='signup-form' onSubmit={e => {
+          <form method='post' name='signup-form' onSubmit={e => {
             e.preventDefault();
             if (code === commonData.commonInfo.code && password === passwordcheck) {
               const userData = {
