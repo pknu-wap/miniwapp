@@ -10,11 +10,13 @@
         WHERE id = #{id}
     </select>
 
-    <update id="updateProfile" parameterType="map">
+    <update id="updateProfile" parameterType="com.my.kde_db.dto.LeftProfile">
         UPDATE user
         SET name = #{name}, nickname = #{nickname}, introduction = #{introduction},
             pagename = #{pagename}, image = #{image}
         WHERE id = #{id}
     </update>
 
-</mapper>
+
+
+
