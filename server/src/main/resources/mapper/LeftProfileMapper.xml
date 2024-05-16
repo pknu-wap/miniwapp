@@ -18,5 +18,14 @@
     </update>
 
 
+    <select id="selectUserDetails" parameterType="String" resultType="YourResultType">
+        SELECT u.youtubelink, u.nickname, u.pagename, p.image, p.contents
+        FROM user u
+                 JOIN profile p ON u.number = p.user_number
+        WHERE u.number = #{number}
+    </select>
 
 
+
+
+</mapper>

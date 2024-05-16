@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class LeftProfile {
-    private String name;
-    private String nickname;
-    private String introduction;
-    private String pagename;
-    private String image;  // Base64로 인코딩된 이미지 데이터
+    private String name = null;
+    private String nickname = null;
+    private String introduction = null;
+    private String pagename = null;
+    private String image = null;
 }
