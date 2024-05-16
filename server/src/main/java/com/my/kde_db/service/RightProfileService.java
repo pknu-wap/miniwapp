@@ -13,20 +13,17 @@ public class RightProfileService {
 
     public RightProfile getProfileById(String id) {
         RightProfile profile = rightProfileMapper.findById(id);
-        if (profile.getImage() != null && !profile.getImage().isEmpty()) {
-
-            byte[] imageBytes = Base64Utils.decode(profile.getImage());
-            profile.setImage(Base64Utils.encode(imageBytes));
+        if (profile != null && profile.getImage() != null) {
+            String base64Image = Base64Utils.encode(profile.getImage());
+            profile.setBase64Image(base64Image);
         }
         return profile;
     }
 
-    public boolean updateProfile(String id, RightProfile profile) {
-        if (profile.getImage() != null && !profile.getImage().isEmpty()) {
-
-            byte[] imageBytes = Base64Utils.decode(profile.getImage());
-            profile.setImage(Base64Utils.encode(imageBytes));
-        }
+    public boolean updateProfile(String id, String base64Image) {
+        RightProfile profile = new RightProfile();
+        byte[] imageBytes = Base64Utils.decode(base64Image);
+        profile.setImage(imageBytes);
         return rightProfileMapper.updateProfile(id, profile);
     }
 }

@@ -19,12 +19,12 @@ public class RightProfileController {
 
     @GetMapping("/info")
     @ResponseBody
-    public ResponseEntity<RightProfile> getProfile(HttpSession session) {
+    public ResponseEntity<String> getProfile(HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
             RightProfile profile = rightProfileService.getProfileById(loginUser.getId());
             if (profile != null) {
-                return ResponseEntity.ok(profile);
+                return ResponseEntity.ok(profile.getBase64Image());
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -35,10 +35,10 @@ public class RightProfileController {
 
     @PostMapping("/upload")
     @ResponseBody
-    public ResponseEntity<Void> updateProfile(@RequestBody RightProfile updatedProfile, HttpSession session) {
+    public ResponseEntity<Void> updateProfile(@RequestBody String base64Image, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean updateSuccess = rightProfileService.updateProfile(loginUser.getId(), updatedProfile);
+            boolean updateSuccess = rightProfileService.updateProfile(loginUser.getId(), base64Image);
             if (updateSuccess) {
                 return ResponseEntity.ok().build();
             } else {

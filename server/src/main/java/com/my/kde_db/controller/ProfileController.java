@@ -27,25 +27,26 @@ public class ProfileController {
             LeftProfile profile = leftProfileService.getProfileById(loginUser.getId());
             return ResponseEntity.ok(profile);
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/upload")
     @ResponseBody
-    public ResponseEntity<Void> updateProfile(@RequestBody LeftProfile updatedProfile, HttpSession session) {
+    public ResponseEntity<Void> updateProfile(@RequestBody String base64Image, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), updatedProfile);
+            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), base64Image);
             if (updateSuccess) {
-                return ResponseEntity.ok().build();  // 성공 응답, 메시지 없음
+                return ResponseEntity.ok().build();
             } else {
-                return ResponseEntity.internalServerError().build();  // 내부 서버 오류 응답
+                return ResponseEntity.internalServerError().build();
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();  // 권한 없음 응답
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
 }
 
 
