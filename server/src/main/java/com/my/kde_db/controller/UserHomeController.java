@@ -26,13 +26,12 @@ public class UserHomeController {
 
         if(loginUser != null) {
             //세션 조회 성공시
-            return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeById(loginUser.getId()));
+            return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeByNumber(loginUser.getNumber()));
         }else {
             //세션 조회 실패시
             UserHome fls=new UserHome();
-            fls.setNumber(-1);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fls);
-
+            fls.setYoutubelink("-1");
+            return ResponseEntity.status(401).body(fls);
         }
     }
 }
