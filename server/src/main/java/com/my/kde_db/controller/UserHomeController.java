@@ -29,9 +29,7 @@ public class UserHomeController {
             return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeByNumber(loginUser.getNumber()));
         }else {
             //세션 조회 실패시
-            UserHome fls=new UserHome();
-            fls.setYoutubelink("-1");
-            return ResponseEntity.status(401).body(fls);
+            return ResponseEntity.status(401).build();
         }
     }
 }

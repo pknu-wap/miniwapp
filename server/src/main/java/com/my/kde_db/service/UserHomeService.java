@@ -13,6 +13,14 @@ public class UserHomeService {
     public UserHome findUserHomeByNumber(int number) {
         UserHome userhome=new UserHome();
         userhome=userhomeMapper.findByNumber(number);
+
+        if (userhome==null){
+            UserHome youtubeNullUserhome=new UserHome();
+            youtubeNullUserhome.setYoutubelink("null");
+            youtubeNullUserhome.setPosts(userhomeMapper.findLatestPost(number));
+            return youtubeNullUserhome;
+        }
+
         userhome.setPosts(userhomeMapper.findLatestPost(number));
         return userhome;
     }
