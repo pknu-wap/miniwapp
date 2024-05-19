@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface LeftProfileMapper {
     LeftProfile findById(String id);
     boolean updateProfile(String id, LeftProfile profile);
+
 }

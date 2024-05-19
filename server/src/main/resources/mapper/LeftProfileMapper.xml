@@ -12,18 +12,12 @@
 
     <update id="updateProfile" parameterType="com.my.kde_db.dto.LeftProfile">
         UPDATE user
-        SET name = #{name}, nickname = #{nickname}, introduction = #{introduction},
-            pagename = #{pagename}, image = #{image}
+        SET name = #{profile.name}, nickname = #{profile.nickname}, introduction = #{profile.introduction},
+            pagename = #{profile.pagename}, image = #{profile.image}
         WHERE id = #{id}
     </update>
 
 
-    <select id="selectUserDetails" parameterType="String" resultType="YourResultType">
-        SELECT u.youtubelink, u.nickname, u.pagename, p.image, p.contents
-        FROM user u
-                 JOIN profile p ON u.number = p.user_number
-        WHERE u.number = #{number}
-    </select>
 
 
 

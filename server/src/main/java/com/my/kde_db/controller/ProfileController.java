@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.my.kde_db.service.UserService;
 import com.my.kde_db.vo.User;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 
-@Controller
+@RestController
 @RequestMapping("/leftprofile")
 public class ProfileController {
     @Autowired
@@ -31,22 +33,23 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/upload")
-    @ResponseBody
-    public ResponseEntity<Void> updateProfile(@RequestBody String base64Image, HttpSession session) {
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<String> updateProfile(@RequestParam("imageFile") MultipartFile imageFile,
+                                                @ModelAttribute LeftProfile profile, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), base64Image);
+            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), imageFile, profile);
             if (updateSuccess) {
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok("Profile updated successfully");
             } else {
-                return ResponseEntity.internalServerError().build();
+                return ResponseEntity.badRequest().body("Failed to update profile");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
         }
     }
-
 }
+
+
 
 

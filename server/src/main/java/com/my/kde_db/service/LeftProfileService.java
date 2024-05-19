@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.IOException;
 import java.util.Base64;
 
 @Service
@@ -23,11 +25,13 @@ public class LeftProfileService {
         }
         return profile;
     }
-
-    public boolean updateProfile(String id, String base64Image) {
-        LeftProfile profile = new LeftProfile();
-        byte[] imageBytes = Base64Utils.decode(base64Image); // 클라이언트로부터 받은 Base64 문자열을 디코딩
-        profile.setImage(imageBytes); // byte[] 데이터를 DTO에 설정
-        return leftProfileMapper.updateProfile(id, profile);
-    }
-}
+    public boolean updateProfile(String id, MultipartFile imageFile, LeftProfile profile) {
+        try {
+            byte[] imageBytes = imageFile.getBytes();
+            profile.setImage(imageBytes); // byte[] 데이터를 설정
+            return leftProfileMapper.updateProfile(id, profile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+}}
