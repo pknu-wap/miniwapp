@@ -16,6 +16,10 @@ public class MainPageService {
 
     public MainUser getUser(int number){
     MainUser mainuser=mainPageMapper.findUserByNumber(number);
+    if (mainuser != null && mainuser.getImage() != null){
+        String base64Image = Base64Utils.encode(mainuser.getImage());
+        mainuser.setBase64Image(base64Image);
+    }
     return mainuser;
     }
 

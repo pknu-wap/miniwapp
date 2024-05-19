@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.my.kde_db.service.UserService;
 import com.my.kde_db.vo.User;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 
-@Controller
+@RestController
 @RequestMapping("/leftprofile")
 public class ProfileController {
     @Autowired
@@ -27,25 +29,26 @@ public class ProfileController {
             LeftProfile profile = leftProfileService.getProfileById(loginUser.getId());
             return ResponseEntity.ok(profile);
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-    @PostMapping("/upload")
-    @ResponseBody
-    public ResponseEntity<Void> updateProfile(@RequestBody LeftProfile updatedProfile, HttpSession session) {
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<String> updateProfile(@RequestParam("imageFile") MultipartFile imageFile,
+                                                @ModelAttribute LeftProfile profile, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), updatedProfile);
+            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), imageFile, profile);
             if (updateSuccess) {
-                return ResponseEntity.ok().build();  // 성공 응답, 메시지 없음
+                return ResponseEntity.ok("Profile updated successfully");
             } else {
-                return ResponseEntity.internalServerError().build();  // 내부 서버 오류 응답
+                return ResponseEntity.badRequest().body("Failed to update profile");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();  // 권한 없음 응답
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
         }
     }
 }
+
 
 
