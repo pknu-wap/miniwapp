@@ -3,6 +3,8 @@ import com.my.kde_db.service.UserHomeService;
 import com.my.kde_db.vo.User;
 import com.my.kde_db.dto.UserHome;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,18 +17,19 @@ public class UserHomeController {
 
     @Autowired
     UserHomeService userhomeService;
+    
     @GetMapping("userhome")
     @ResponseBody
-    public UserHome userhome(HttpSession session) {
+    public ResponseEntity<UserHome> userhome(HttpSession session) {
 
         User loginUser =(User)session.getAttribute("me");
 
         if(loginUser != null) {
-            //로그인 된 상태
-            return userhomeService.findUserHomeById(loginUser.getId());
+            //세션 조회 성공시
+            return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeByNumber(loginUser.getNumber()));
         }else {
-            //로그아웃 상태
-            return null;
+            //세션 조회 실패시
+            return ResponseEntity.status(401).build();
         }
     }
 }

@@ -2,6 +2,8 @@ package com.my.kde_db.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.my.kde_db.service.UserService;
@@ -14,8 +16,6 @@ import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
 
 @Controller
 @RequestMapping(value = "user")
-//쿼리스트링 방식?
-//ex) 로그인 http://localhost:8080/user/login?id=sh&pw=4994
 public class UserController {
 	
 	@Autowired
@@ -23,16 +23,16 @@ public class UserController {
 	
 	@GetMapping("status")
 	@ResponseBody
-	public String Status(HttpSession session) {
+	public ResponseEntity<String> Status(HttpSession session) {
 		
 		User loginUser =(User)session.getAttribute("me");
 		
 		if(loginUser != null) {
 			//로그인 된 상태
-			return "로그인됨";
+			return ResponseEntity.status(HttpStatus.OK).body("세션 조회 성공");
 		}else {
 			//로그아웃 상태
-			return "로그인안됨";
+			return ResponseEntity.status(401).body("세션 조회 실패"); //404코드 반환
 		}
 		
 	}
@@ -40,47 +40,45 @@ public class UserController {
 	
 	@PostMapping("login")
 	@ResponseBody
-	public String login(@RequestBody User user, HttpSession session) {
+	public ResponseEntity<Void> login(@RequestBody User user, HttpSession session) {
 
 		User result = userService.findByIdAndPw(user);
 		
 		if(result != null) {
 			session.setAttribute("me", result);
-			return String.valueOf(result.getNumber());
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}else {
-			return "로그인에 실패했습니다";
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401코드 반환
 		}
 	}
 	
 	@GetMapping("logout")
 	@ResponseBody
-	public String logout(HttpSession session) {
+	public ResponseEntity<String> logout(HttpSession session) {
 		
 		session.invalidate(); //세션 파기, 반환 타입이 없다
-		return "로그아웃 되었습니다";
+		return ResponseEntity.status(HttpStatus.OK).body("로그아웃 성공");
 	}
 	
 	
 	@PostMapping("create")
 	@ResponseBody //데이터 리턴하는 ....
-	public String create(@RequestBody User user) {
-        String result = "ok";
+	public ResponseEntity<String> create(@RequestBody User user) {
 		
 		//아이디 검증
 		User u1 = userService.findById(user.getId());
 		if(u1 != null) {
 			//이미 가입된 아이디가 존재
-            result = "이미 가입된 아이디가 존재";
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 가입된 아이디가 존재합니다"); //409코드반환
         } else {
             User u2 = userService.findByNickname(user.getNickname());
             if(u2 != null) {
-                result = "이미 가입된 닉네임이 존재";
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 가입된 닉네임이 존재합니다");
             } else {
                 userService.save(user);
+				return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
             }
         }
-
-        return result;
     }
 
 }

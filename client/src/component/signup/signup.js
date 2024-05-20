@@ -2,52 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import userData from '../json/userData.json';
-import commonData from '../json/commonData.json';
+import userData from '../../json/userData.json';
+import commonData from '../../json/commonData.json';
 import axios from "axios";
-import API from './utils/API'
+import API from '../utils/API'
 
 axios.defaults.withCredentials = true;
 
-import './signup.css';
+// import './style.css';
 
 function Signup() {
-
-  // const fetchData=()=>{
-  //   fetch('http://15.165.164.135:8080/user/create')
-  //   .then((res)=>res.json())
-  //   .then((data)=>setTodoList(data));
-  // }
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [])
-
-
-
-  // const onSubmitHandler=(e)=>{
-  //   e.preventDefault();
-  //   console.log(e.target);
-  //   const id = e.target.id.value;
-  //   const pw = e.target.password.value;
-  //   const name = e.target.name.value;
-  //   const nickname = e.target.nickname.value;
-  //   const birthday = e.target.dob.value;
-  //   fetch('http://15.165.164.135:8080/user/create', {
-  //     method: 'POST',
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       id,
-  //       pw,
-  //       name,
-  //       nickname,
-  //       birthday,
-  //     })
-  //   })
-    
-  // }
 
   const navigate = useNavigate();
 
@@ -87,19 +51,16 @@ function Signup() {
                 birthday: dob
               };
               console.log(userData);
-              API.post("/user/create", JSON.stringify(userData),
-              { withCredentials: true  }) // 쿠키 cors 통신 설정
-              .then(function (response) {
-                if (response.data === '이미 가입된 아이디가 존재') {
-                  alert(response.data);
-                } else {
+              API.post("/user/create", JSON.stringify(userData), { withCredentials: true  }) // 쿠키 cors 통신 설정
+              .then(function (response) { 
+                if (response.data == 'ok') {
                   console.log("SUCCESS?");
-                  alert('signup success!');
-                  navigate('../login');
                   console.log(response);
+                  navigate('../login');
                 }
               })
               .catch(function (error) {
+                alert(error.response.data);
                 console.log("ERROR");
                 console.log(error.response);
               })
