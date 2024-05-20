@@ -11,7 +11,14 @@
   align-items: center;
 }
 
-.modal-content {
+@media (min-width: 768px) {
+  .modal {
+    max-width: 1600px;
+    max-height: 800px;
+  }
+}
+
+.modal-content { /*모달창의 내용*/
   width: 50%;
   height: 50%;
   background-color: #fefefe;
@@ -34,3 +41,47 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.selected-date {
+  font-size: 28px;
+}
+
+.add-button {
+  align-items:center;
+  display: inline-flex;
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  height: 2.25rem;
+  margin-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  background: #228be6;
+}
+.add-Button:hover {
+  background: #50a3eb;
+}
+.add-Button:active {
+  background: #1671bf;
+} 
+
+.to-do-list-body {
+  width: 99.5%;
+  height: 65.5%;
+  position: relative;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: rgb(200, 200, 200);
+}
+
+/* .previous-button {
+  
+}
+
+.schedule-title {
+  
+} */
