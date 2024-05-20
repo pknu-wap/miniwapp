@@ -1,6 +1,7 @@
 .calendar {
   font-family: Arial, sans-serif;
   border-radius: 20px;
+  z-index: 1;
 }
 
 .calendar-header {
@@ -43,4 +44,18 @@
   padding: 8px;
   text-align: center;
   cursor: pointer;
+}
+
+.move-month-button {
+  color: #aaa;
+  float: left;
+  border: none;
+  background-color: white;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.calendar-header-date {
+  font-size: 20px;
 }
