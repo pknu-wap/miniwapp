@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from 'react';
-import './mypage.css';
+import './minihome.css';
 
-function Mypage(props) {
+function Minihome(props) {
   const { username } = props
   const [mode, setMode] = useState('default');
   let content = null;
@@ -148,4 +148,4 @@ function Friend() {
   )
 }
 
-export default Mypage;
+export default Minihome;

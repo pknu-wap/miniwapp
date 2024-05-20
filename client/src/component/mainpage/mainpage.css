@@ -86,10 +86,12 @@ body {
   width: 650px;
   height: 340px;
   position: absolute;
+  z-index: 2;
   top: 48%;
   left: 5%;
   border: 2px solid;
   border-radius: 20px;
+  background-color: 0,0,0,0;
 }
 
 .calendar-title { /*"캘린더" 텍스트*/
