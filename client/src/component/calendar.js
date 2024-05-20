@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './calendar.css';
 import Modal from './modalCalendar.js';
+
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달의 표시 여부를 관리하는 상태
@@ -69,8 +70,11 @@ function Calendar() {
   };
 
   const handleDateClick = (day) => {
-    setSelectedDate(day); // 클릭한 날짜를 상태에 저장합니다.
-    setIsModalOpen(true); // 모달을 표시합니다.
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const date = new Date(year, month, day); // 선택한 날짜를 Date 객체로 생성
+    setSelectedDate(date); // 선택한 날짜를 상태에 저장
+    setIsModalOpen(true); // 모달을 표시
   };
 
   // 모달을 닫는 함수

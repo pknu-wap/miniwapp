@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import userData from '../json/userData.json';
-import commonData from '../json/commonData.json';
+import userData from '../../json/userData.json';
+import commonData from '../../json/commonData.json';
 import axios from "axios";
-import API from './utils/API'
+import API from '../utils/API'
 
 axios.defaults.withCredentials = true;
 
-import './signup.css';
+// import './style.css';
 
 function Signup() {
 
@@ -60,6 +60,7 @@ function Signup() {
                 }
               })
               .catch(function (error) {
+                alert(error.response.data);
                 console.log("ERROR");
                 console.log(error.response);
               })
