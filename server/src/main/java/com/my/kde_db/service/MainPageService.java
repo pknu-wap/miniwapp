@@ -15,12 +15,7 @@ public class MainPageService {
     MainPageMapper mainPageMapper;
 
     public MainUser getUser(int number){
-    MainUser mainuser=mainPageMapper.findUserByNumber(number);
-    if (mainuser != null && mainuser.getImage() != null){
-        String base64Image = Base64Utils.encode(mainuser.getImage());
-        mainuser.setBase64Image(base64Image);
-    }
-    return mainuser;
+    return mainPageMapper.findUserByNumber(number);
     }
 
     public List<MainPost> getHotPost(){
