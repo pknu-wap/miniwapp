@@ -1,6 +1,7 @@
-![header](https://capsule-render.vercel.app/api?type=waving&desc=2024-1%20Web%203%20team&text=miniwapp&animation=fadeIn&fontsize=30&color=gradient&customColorList=1,2,3&height=200&fontColor=ffffff&fontAlign=78.3&fontAlignY=38&descAlign=87.2&descAlignY=15) 
 
+![KakaoTalk_20240521_161727062](https://github.com/pknu-wap/miniwapp/assets/102894803/aafa4a4a-5c65-4029-a879-10f365f66e7f)
 >WAP의 마이크로 블로그 서비스, ㅁi니왑ㅍi
+
 
 🤷소개
 ------------
