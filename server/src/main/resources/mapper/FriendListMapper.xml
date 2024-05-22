@@ -4,6 +4,7 @@
     <select id="findAllUsersExceptUserId" parameterType="String" resultType="com.my.kde_db.dto.FriendInfo">
         SELECT * FROM user
         WHERE id != #{id}
+        ORDER BY name
     </select>
 
     <select id="getUserCountExcludingCurrentUser" parameterType="String" resultType="int">

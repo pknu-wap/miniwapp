@@ -47,7 +47,7 @@ public class FriendListController {
             // 로그인 세션을 찾을 수 없는 경우
             FriendList fls = new FriendList();
             fls.setUsercount(-1);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fls);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(fls);
         }
     }
 }
