@@ -8,44 +8,39 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-
-@Controller
+@RestController
 @RequestMapping("/rightprofile")
 public class RightProfileController {
     @Autowired
     private RightProfileService rightProfileService;
 
-    @GetMapping("/info")
-    @ResponseBody
-    public ResponseEntity<String> getProfile(HttpSession session) {
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            RightProfile profile = rightProfileService.getProfileById(loginUser.getId());
-            if (profile != null) {
-                return ResponseEntity.ok(profile.getBase64Image());
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+    @GetMapping("/info/{w_number}")
+    public ResponseEntity<RightProfile> getProfile(@PathVariable int w_number) {
+        RightProfile profile = rightProfileService.getProfileByNumber(w_number);
+        if (profile != null) {
+            return ResponseEntity.ok(profile);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/upload")
-    @ResponseBody
-    public ResponseEntity<Void> updateProfile(@RequestBody String base64Image, HttpSession session) {
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<String> updateProfile(@RequestParam("imageFile") MultipartFile imageFile,
+                                                @ModelAttribute RightProfile profile, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean updateSuccess = rightProfileService.updateProfile(loginUser.getId(), base64Image);
+            profile.setUserNumber(loginUser.getNumber());  // User의 number를 Profile의 userNumber에 설정
+            boolean updateSuccess = rightProfileService.updateProfile(profile, imageFile);
             if (updateSuccess) {
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok("Profile updated successfully");
             } else {
-                return ResponseEntity.internalServerError().build();
+                return ResponseEntity.badRequest().body("Failed to update profile");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
         }
     }
 }

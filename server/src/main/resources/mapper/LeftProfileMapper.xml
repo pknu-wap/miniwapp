@@ -4,10 +4,10 @@
 
 
 
-    <select id="findById" resultType="com.my.kde_db.dto.LeftProfile" parameterType="String">
+    <select id="findByWnumber" resultType="com.my.kde_db.dto.LeftProfile" parameterType="int">
         SELECT name, nickname, introduction, pagename, image
         FROM user
-        WHERE id = #{id}
+        WHERE number = #{w_number}
     </select>
 
     <update id="updateProfile" parameterType="com.my.kde_db.dto.LeftProfile">

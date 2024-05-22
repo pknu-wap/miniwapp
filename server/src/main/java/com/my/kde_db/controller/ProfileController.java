@@ -21,15 +21,18 @@ public class ProfileController {
     @Autowired
     private LeftProfileService leftProfileService;
 
-    @GetMapping("/info")
-    @ResponseBody
-    public ResponseEntity<LeftProfile> getProfile(HttpSession session) {
+    @GetMapping("/info/{w_number}")
+    public ResponseEntity<LeftProfile> getProfile(@PathVariable int w_number, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            LeftProfile profile = leftProfileService.getProfileById(loginUser.getId());
+        if (loginUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        LeftProfile profile = leftProfileService.getProfileByWnumber(w_number);
+        if (profile != null) {
             return ResponseEntity.ok(profile);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.notFound().build();
         }
     }
 

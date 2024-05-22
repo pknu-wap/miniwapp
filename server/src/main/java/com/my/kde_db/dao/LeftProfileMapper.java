@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface LeftProfileMapper {
-    LeftProfile findById(String id);
+    LeftProfile findByWnumber(int w_number);
     boolean updateProfile(String id, LeftProfile profile);
 
 }

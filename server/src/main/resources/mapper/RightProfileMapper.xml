@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.kde_db.dao.RightProfileMapper">
-    <select id="findById" resultType="com.my.kde_db.dto.RightProfile" parameterType="String">
+    <select id="findByWnumber" resultType="com.my.kde_db.dto.RightProfile" parameterType="int">
         SELECT u.youtubelink, u.nickname, u.pagename, p.image, p.contents as context
         FROM user u
                  JOIN profile p ON u.number = p.user_number
-        WHERE u.number = #{number}
+        WHERE u.number = #{w_number}
     </select>
 
-    <update id="updateProfile" parameterType="com.my.kde_db.dto.RightProfile">
-        UPDATE user u, profile p
-        SET u.youtubelink = #{youtubelink}, u.nickname = #{nickname}, u.pagename = #{pagename},
-            p.image = #{image}, p.contents = #{context}
-        WHERE u.number = #{number} AND u.number = p.user_number
+    <update id="updateUser" parameterType="com.my.kde_db.dto.RightProfile">
+        UPDATE user
+        SET youtubelink = #{youtubelink}, nickname = #{nickname}, pagename = #{pagename}
+        WHERE number = #{userNumber};
     </update>
+
+    <insert id="upsertProfile" parameterType="com.my.kde_db.dto.RightProfile">
+        INSERT INTO profile (user_number, image, contents)
+        VALUES (#{userNumber}, #{image}, #{contents})
+        ON DUPLICATE KEY UPDATE
+                             image = VALUES(image), contents = VALUES(contents);
+    </insert>
+
 </mapper>

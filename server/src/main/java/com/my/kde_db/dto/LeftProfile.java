@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class LeftProfile {
+    private String number;
     private String name;
     private String nickname;
     private String introduction;
@@ -19,13 +20,7 @@ public class LeftProfile {
     public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
     }
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
-    }
 
-    public MultipartFile getImageFile() {
-        return imageFile;
-    }
 
     public byte[] getImage() {
         return image;

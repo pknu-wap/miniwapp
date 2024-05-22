@@ -7,8 +7,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface RightProfileMapper {
 
 
-        RightProfile findById(String id);
-        boolean updateProfile(String id, RightProfile profile);
+     RightProfile findByWnumber(int w_number);
+
+     boolean updateUser(RightProfile profile);
+
+    boolean upsertProfile(RightProfile profile);
     }
 
 
