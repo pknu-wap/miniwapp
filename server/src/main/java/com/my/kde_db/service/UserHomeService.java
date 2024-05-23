@@ -8,15 +8,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserHomeService {
 
-
-
     @Autowired
     UserHomeMapper userhomeMapper;
-    public UserHome findUserHomeById(String  id) {
+    public UserHome findUserHomeByNumber(int number) {
         UserHome userhome=new UserHome();
-        userhome=userhomeMapper.findById(id);
-        if (userhome.getPagename()==null) userhome.setPagename(userhome.getName()+"의 미니홈피");
-        userhome.setPosts(userhomeMapper.findLatestPost(userhome.getNumber()));
+        userhome=userhomeMapper.findByNumber(number);
+
+        if (userhome==null){
+            UserHome youtubeNullUserhome=new UserHome();
+            youtubeNullUserhome.setYoutubelink("null");
+            youtubeNullUserhome.setPosts(userhomeMapper.findLatestPost(number));
+            return youtubeNullUserhome;
+        }
+
+        userhome.setPosts(userhomeMapper.findLatestPost(number));
         return userhome;
     }
 

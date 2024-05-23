@@ -32,7 +32,11 @@ public class ProfileController {
         if (profile != null) {
             return ResponseEntity.ok(profile);
         } else {
-            return ResponseEntity.notFound().build();
+
+
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
         }
     }
 
@@ -52,7 +56,6 @@ public class ProfileController {
         }
     }
 }
-
 
 
 

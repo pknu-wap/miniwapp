@@ -21,6 +21,13 @@ public class LeftProfile {
         this.base64Image = base64Image;
     }
 
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
 
     public byte[] getImage() {
         return image;
@@ -28,5 +35,4 @@ public class LeftProfile {
 
     public void setImage(byte[] image) {
         this.image = image;
-}
-}
+    }}

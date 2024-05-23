@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.kde_db.dao.CalendarMapper">
+    <select id = "findByYearMonth" parameterType ="Int" resultType="com.my.kde_db.vo.Calendar">
+        SELECT * FROM calendar
+        WHERE YEAR(date)=#{year}
+        AND MONTH(date)=#{month}
+    </select>
+
+    <select id = "findBirthday" parameterType ="Int" resultType="com.my.kde_db.vo.Birthday">
+        SELECT name, birthday FROM user
+        WHERE MONTH(birthday)=#{month}
+    </select>
+
+    <insert id="createCalendar" parameterType="Calendar">
+        INSERT INTO calendar
+        (
+            title,
+            date
+        )
+        VALUES
+        (
+            #{title},
+            #{date}
+        )
+    </insert>
+
+    <update id="updateCalendar" parameterType="Calendar">
+        UPDATE calendar
+        SET date=#{date}, title=#{title}
+        WHERE number=#{number}
+    </update>
+
+    <delete id="deleteByNumber" parameterType="Int">
+            DELETE FROM calendar WHERE number = #{number}
+    </delete>
+
+
+</mapper>

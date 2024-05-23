@@ -32,7 +32,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body("세션 조회 성공");
 		}else {
 			//로그아웃 상태
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("세션 조회 실패"); //404코드 반환
+			return ResponseEntity.status(401).body("세션 조회 실패"); //404코드 반환
 		}
 		
 	}
@@ -40,15 +40,15 @@ public class UserController {
 	
 	@PostMapping("login")
 	@ResponseBody
-	public ResponseEntity<String> login(@RequestBody User user, HttpSession session) {
+	public ResponseEntity<Void> login(@RequestBody User user, HttpSession session) {
 
 		User result = userService.findByIdAndPw(user);
 		
 		if(result != null) {
 			session.setAttribute("me", result);
-			return ResponseEntity.status(HttpStatus.OK).body(String.valueOf(result.getNumber()));
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다"); //401코드 반환
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401코드 반환
 		}
 	}
 	

@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface UserHomeMapper {
-    UserHome findById(String id);
+    UserHome findByNumber(int number);
     List<PostInfo> findLatestPost(int number);
 }

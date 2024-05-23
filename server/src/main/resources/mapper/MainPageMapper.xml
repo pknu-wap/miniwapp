@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.kde_db.dao.MainPageMapper">
+
+    <select id="findUserByNumber" parameterType="Int" resultType="com.my.kde_db.dto.MainUser">
+        SELECT * FROM user
+        WHERE number=#{number}
+    </select>
+
+    <select id = "findNewPost" resultType="com.my.kde_db.dto.MainPost">
+        SELECT p.title,p.number,p.view_count,u.name
+        FROM post p
+        INNER JOIN user u ON p.user_number = u.number
+        ORDER BY p.date DESC
+            LIMIT 5
+    </select>
+
+    <select id = "findHotPost" resultType="com.my.kde_db.dto.MainPost">
+        SELECT p.title,p.number,p.view_count,u.name
+        FROM post p
+        INNER JOIN user u ON p.user_number = u.number
+        ORDER BY p.view_count DESC
+            LIMIT 5
+    </select>
+
+</mapper>

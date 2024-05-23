@@ -1,11 +1,12 @@
-![header](https://capsule-render.vercel.app/api?type=waving&desc=2024-1%20Web%203%20team&text=miniwapp&animation=fadeIn&fontsize=30&color=gradient&customColorList=1,2,3&height=200&fontColor=ffffff&fontAlign=78.3&fontAlignY=38&descAlign=87.2&descAlignY=15) 
 
+![KakaoTalk_20240521_161727062](https://github.com/pknu-wap/miniwapp/assets/102894803/aafa4a4a-5c65-4029-a879-10f365f66e7f)
 >WAP의 마이크로 블로그 서비스, ㅁi니왑ㅍi
+
 
 🤷소개
 ------------
-ㅁi니왑ㅍi는 WAP + 미니홈피로 WAP회원들이 각자 개인 홈피를 소유하여
-회원들끼리 소통하고 글을 게시할 수 있으며, WAP의 소통을 마이크로 블로그 서비스를 제공합니다.
+ㅁi니왑ㅍi는 WAP + 미니홈피로, WAP회원들이 각자 개인 홈피를 소유하여
+회원들끼리 소통하고 글을 게시할 수 있는 마이크로 블로그 서비스를 제공합니다.
 
 ### 핵심기능
 * **미니홈피**

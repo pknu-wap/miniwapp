@@ -16,11 +16,13 @@ public class LeftProfileService {
     @Autowired
     private LeftProfileMapper leftProfileMapper;
 
+
     public LeftProfile getProfileByWnumber(int w_number) {
         LeftProfile profile = leftProfileMapper.findByWnumber(w_number);
         if (profile != null && profile.getImage() != null) {
             String base64Image = Base64Utils.encode(profile.getImage());
             profile.setBase64Image(base64Image); // Base64 문자열을 DTO에 설정
+
         }
         return profile;
     }
@@ -33,4 +35,4 @@ public class LeftProfileService {
             e.printStackTrace();
             return false;
         }
-}}
+    }}

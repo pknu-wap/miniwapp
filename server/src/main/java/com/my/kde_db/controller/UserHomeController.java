@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,21 +19,18 @@ public class UserHomeController {
     @Autowired
     UserHomeService userhomeService;
     
-    @GetMapping("userhome")
+    @GetMapping("userhome/{number}")
     @ResponseBody
-    public ResponseEntity<UserHome> userhome(HttpSession session) {
+    public ResponseEntity<UserHome> userhome(@PathVariable int number,HttpSession session) {
 
         User loginUser =(User)session.getAttribute("me");
 
         if(loginUser != null) {
             //세션 조회 성공시
-            return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeById(loginUser.getId()));
+            return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeByNumber(number));
         }else {
             //세션 조회 실패시
-            UserHome fls=new UserHome();
-            fls.setNumber(-1);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fls);
-
+            return ResponseEntity.status(401).build();
         }
     }
 }

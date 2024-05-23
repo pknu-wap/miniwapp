@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 body {
   width: 100%;
   min-height: 100vh;
-}
+} */
 
 .mainpage-body {
   width: 1505px;
@@ -87,10 +87,12 @@ body {
   width: 650px;
   height: 340px;
   position: absolute;
+  z-index: 2;
   top: 48%;
   left: 5%;
   border: 2px solid;
   border-radius: 20px;
+  background-color: 0,0,0,0;
 }
 
 .calendar-title { /*"캘린더" 텍스트*/
