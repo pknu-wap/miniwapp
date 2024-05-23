@@ -14,12 +14,8 @@ public class RightProfile {
     private String nickname;
     private String pagename;
     private MultipartFile imageFile;
-    @Setter
-    private String base64Image; // 클라이언트에게 전달될 Base64 인코딩된 이미지
 
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
-    }
+
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
     }

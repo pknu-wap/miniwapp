@@ -18,8 +18,7 @@ public class RightProfileService {
     public RightProfile getProfileByNumber(int w_number) {
         RightProfile profile = rightProfileMapper.findByWnumber(w_number);
         if (profile != null && profile.getImage() != null) {
-            String base64Image = Base64Utils.encode(profile.getImage());
-            profile.setBase64Image(base64Image);
+
         }
         return profile;
     }

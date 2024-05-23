@@ -14,11 +14,14 @@
         WHERE number = #{userNumber};
     </update>
 
+
+
     <insert id="upsertProfile" parameterType="com.my.kde_db.dto.RightProfile">
         INSERT INTO profile (user_number, image, contents)
         VALUES (#{userNumber}, #{image}, #{contents})
         ON DUPLICATE KEY UPDATE
-                             image = VALUES(image), contents = VALUES(contents);
+                             image = CASE WHEN VALUES(image) IS NOT NULL THEN VALUES(image) ELSE image END,
+                             contents = VALUES(contents);
     </insert>
 
 </mapper>
