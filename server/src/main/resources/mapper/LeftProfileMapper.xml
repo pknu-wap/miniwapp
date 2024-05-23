@@ -14,8 +14,8 @@
         UPDATE user
         SET name = #{profile.name}, nickname = #{profile.nickname}, introduction = #{profile.introduction},
             pagename = #{profile.pagename}, image = #{profile.image}
-        <if test="image != null">
-        , image = #{image}
+        <if test="profile.image != null">
+        , image = #{profile.image}
         </if>
         WHERE id = #{id}
     </update>
