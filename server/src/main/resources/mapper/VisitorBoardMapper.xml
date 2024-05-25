@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.kde_db.dao.VisitorBoardMapper">
+        <resultMap id="VisitorPostResult" type="com.my.kde_db.dto.VisitorPost">
+            <id property="visitorNumber" column="visitor_number"/>
+            <id property="number" column="number"/>
+            <result property="name" column="post_name"/>
+            <result property="nickname" column="post_nickname"/>
+            <result property="image" column="post_image"/>
+            <result property="contents" column="post_contents"/>
+            <result property="date" column="post_date"/>
+            <association property="comment" javaType="com.my.kde_db.dto.VisitorComment">
+                <id property="comment" column="comment"/>
+                <result property="name" column="comment_name"/>
+                <result property="nickname" column="comment_nickname"/>
+                <result property="date" column="comment_date"/>
+            </association>
+        </resultMap>
+
+    <select id = "findByUNumPNum" parameterType ="Int" resultMap="VisitorPostResult">
+        SELECT
+            vb.number,
+            uv.name AS post_name,
+            uv.nickname AS post_nickname,
+            uv.image AS post_image,
+            vb.visitor_number,
+            vb.contents AS post_contents,
+            vb.date AS post_date,
+            uo.name AS comment_name,
+            uo.nickname AS comment_nickname,
+            vc.comment,
+            vc.date AS comment_date
+        FROM
+            visitor_board vb
+        LEFT JOIN
+            visitor_comment vc ON vb.number = vc.vboard_number
+        LEFT JOIN
+            user uv ON vb.visitor_number = uv.number
+        LEFT JOIN
+            user uo ON vb.owner_number = uo.number
+        WHERE
+            vb.owner_number = #{owner_number}
+        ORDER BY
+            vb.number DESC
+            LIMIT 5 OFFSET #{offset}
+    </select>
+
+    <insert id="createVisitorPost" parameterType="map">
+        INSERT INTO visitor_board
+        (
+            owner_number,
+            visitor_number,
+            contents,
+            date
+        )
+        VALUES
+            (
+                #{owner_number},
+                #{visitorPost.visitorNumber},
+                #{visitorPost.contents},
+                SYSDATE()
+            )
+    </insert>
+
+    <update id="updatePost" parameterType="com.my.kde_db.dto.VisitorPost">
+        UPDATE visitor_board
+        SET contents=#{contents}
+        WHERE number=#{number}
+    </update>
+
+    <delete id="deletePost" parameterType="Int">
+        DELETE FROM visitor_board WHERE number = #{number}
+    </delete>
+
+    <insert id="createComment" parameterType="map">
+        INSERT INTO visitor_comment
+        (
+            vboard_number,
+            owner_number,
+            comment,
+            date
+        )
+        VALUES
+            (
+                #{number},
+                #{owner_number},
+                #{visitorComment.comment},
+                SYSDATE()
+            )
+    </insert>
+
+    <update id="updateComment" parameterType="map">
+        UPDATE visitor_comment
+        SET comment=#{visitorComment.comment}
+        WHERE vboard_number=#{number}
+    </update>
+
+    <delete id="deleteComment" parameterType="Int">
+        DELETE FROM visitor_comment WHERE vboard_number = #{number}
+    </delete>
+
+</mapper>
