@@ -1,6 +1,7 @@
 package com.my.kde_db.controller;
 
 import com.my.kde_db.dto.LeftProfile;
+import com.my.kde_db.dto.ProfileInfo;
 import com.my.kde_db.service.LeftProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/leftprofile")
@@ -22,21 +25,23 @@ public class ProfileController {
     private LeftProfileService leftProfileService;
 
     @GetMapping("/info/{w_number}")
-    public ResponseEntity<LeftProfile> getProfile(@PathVariable int w_number, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> getProfile(@PathVariable int w_number, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
+
         if (loginUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         LeftProfile profile = leftProfileService.getProfileByWnumber(w_number);
         if (profile != null) {
-            return ResponseEntity.ok(profile);
+            Map<String, Object> result = new HashMap<>();
+            ProfileInfo profileInfo = new ProfileInfo(loginUser.getNumber(), w_number);
+            result.put("profile", profile);
+            result.put("profileInfo", profileInfo);
+
+            return ResponseEntity.ok(result);
         } else {
-
-
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
