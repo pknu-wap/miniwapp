@@ -19,7 +19,7 @@ public class CalendarController {
     @Autowired
     CalendarService calendarService;
 
-    @GetMapping("view/{year}/{month}")
+    @GetMapping("{year}/{month}")
     @ResponseBody
     public ResponseEntity<CalAndBirth> getCalendar(@PathVariable int year, @PathVariable int month, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
@@ -31,7 +31,7 @@ public class CalendarController {
         }
     }
 
-    @PostMapping("create")
+    @PostMapping()
     public ResponseEntity<Calendar> createCalendar(@RequestBody Calendar calendar, HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
@@ -42,7 +42,7 @@ public class CalendarController {
         }
     }
 
-    @PutMapping("update")
+    @PutMapping()
     public ResponseEntity<Calendar> updateCalendar(@RequestBody Calendar calendar, HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
@@ -53,7 +53,7 @@ public class CalendarController {
         }
     }
 
-    @DeleteMapping("delete/{number}")
+    @DeleteMapping("{number}")
     public ResponseEntity<Void> deleteCalender(@PathVariable int number,HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
