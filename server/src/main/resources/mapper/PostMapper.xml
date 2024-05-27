@@ -4,7 +4,7 @@
 
     <insert id="writePost" parameterType="com.my.kde_db.dto.Post">
         INSERT INTO post (title, contents, date, user_number)
-        VALUES ( #{titel}, #{contents}, SYSDATE(), #{user_number} )
+        VALUES ( #{title}, #{contents}, SYSDATE(), #{number} )
     </insert>
 
 
@@ -34,5 +34,14 @@
     </select>
 
 
+    <select id="findPostById" resultType="com.my.kde_db.dto.Post">
+        SELECT number, title, contents, user_number
+        FROM post
+        WHERE number = #{postNumber}
+    </select>
+
+    <delete id="deletePost">
+        DELETE FROM post WHERE number = #{postNumber}
+    </delete>
 
 </mapper>

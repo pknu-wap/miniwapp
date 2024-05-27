@@ -22,8 +22,15 @@ public class PostService {
         return postMapper.findPostsByUserAndPage(userNumber, offset);
     }
     public PostDetails getPostDetails(int postNumber) {
+
         return postMapper.findPostDetailsByNumber(postNumber);
     }
+    public boolean deletePost(int postNumber, int userId) {
+        Post post = postMapper.findPostById(postNumber);
+        if (post != null && post.getNumber() == userId) {
+            return postMapper.deletePost(postNumber);
+        }
+        return false;
 
 
 

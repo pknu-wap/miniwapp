@@ -11,4 +11,8 @@ public interface PostMapper {
     boolean writePost (Post post);
     List<Post> findPostsByUserAndPage(int userNumber, int offset);
     PostDetails findPostDetailsByNumber(int postNumber);
+
+    Post findPostById(int postNumber);
+
+    boolean deletePost(int postNumber);
 }
