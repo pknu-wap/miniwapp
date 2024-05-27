@@ -20,7 +20,7 @@ public class VisitorBoardController {
     @Autowired
     VisitorBoardService visitorBoardService;
 
-    @GetMapping("view/{owner_number}/{page_number}")
+    @GetMapping("{owner_number}/{page_number}")
     @ResponseBody
     public ResponseEntity<List<VisitorPost>> getVboard(@PathVariable int owner_number, @PathVariable int page_number, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
@@ -31,7 +31,7 @@ public class VisitorBoardController {
         }
     }
 
-    @PostMapping("create_post/{owner_number}")
+    @PostMapping("post/{owner_number}")
     @ResponseBody
     public ResponseEntity<Void> createPost(@PathVariable int owner_number, @RequestBody VisitorPost visitorPost, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
@@ -44,7 +44,7 @@ public class VisitorBoardController {
         }
     }
 
-    @PutMapping("update_post")
+    @PutMapping("post")
     public ResponseEntity<Calendar> updatePost(@RequestBody VisitorPost visitorPost, HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
@@ -55,7 +55,7 @@ public class VisitorBoardController {
         }
     }
 
-    @DeleteMapping("delete_post/{number}")
+    @DeleteMapping("post/{number}")
     public ResponseEntity<Void> deletePost(@PathVariable int number,HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
@@ -66,7 +66,7 @@ public class VisitorBoardController {
         }
     }
 
-    @PostMapping("create_comment/{number}")
+    @PostMapping("comment/{number}")
     @ResponseBody
     public ResponseEntity<Void> creatComment(@RequestBody VisitorComment visitorComment,@PathVariable int number, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
@@ -78,7 +78,7 @@ public class VisitorBoardController {
         }
     }
 
-    @PutMapping("update_comment/{number}")
+    @PutMapping("comment/{number}")
     public ResponseEntity<Calendar> updateComment(@RequestBody VisitorComment visitorComment,@PathVariable int number, HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
@@ -89,7 +89,7 @@ public class VisitorBoardController {
         }
     }
 
-    @DeleteMapping("delete_comment/{number}")
+    @DeleteMapping("comment/{number}")
     public ResponseEntity<Void> deleteComment(@PathVariable int number,HttpSession session){
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
