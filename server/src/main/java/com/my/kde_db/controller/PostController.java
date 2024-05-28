@@ -58,7 +58,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 }
     }
-    @DeleteMapping("/delete/{p_number}")
+    @DeleteMapping("/delete/{p_number}") // p_number는 게시글번호
     public ResponseEntity<String> deletePost(@PathVariable("p_number") int postNumber, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
@@ -70,4 +70,5 @@ public class PostController {
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-}
+        }
+    }}

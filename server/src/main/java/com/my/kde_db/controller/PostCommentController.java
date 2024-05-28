@@ -17,9 +17,8 @@ public class PostCommentController {
     @Autowired
     private PostCommentService postCommentService;
 
-    @PostMapping("/write/{postOwnerUserId},{postId}")
-    public ResponseEntity<String> writeComment(@PathVariable("postOwnerUserId") int postOwnerUserId,
-                                               @PathVariable("postId") int postId,
+    @PostMapping("/write/{postId}")
+    public ResponseEntity<String> writeComment(@PathVariable("postId") int postId,
                                                @RequestBody PostComment comment,
                                                HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
