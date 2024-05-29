@@ -1,40 +1,126 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './modalCalendar.css';
-import API from '../utils/API'
-import axios from "axios";
+import axios from 'axios';
 
-function Modal({ selectedDate, closeModal, addEvent }) {
-  const formattedDate = selectedDate ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+function Modal({ selectedDate, closeModal, addSchedule }) {
+  const formattedDate = selectedDate ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
+  const formattedDateISO = selectedDate ? selectedDate.toISOString() : '-';
   const [mode, setMode] = useState('default');
-  const [eventText, setEventText] = useState('');
+  const [scheduleText, setScheduleText] = useState('');
+  const [schedules, setSchedules] = useState([]);
+  const [scheduleNumber, setScheduleNumber] = useState(null);
 
-  let [date, setDate] = useState('');
-  let [title, setTitle] = useState('');
-
-  const saveDate = event => { setDate(event.target.value); };
-  const saveTitle = event => { setTitle(event.target.value); };
-
-  const handleAddEvent = (e) => {
-    e.preventDefault();
-    addEvent(eventText);
-    setEventText('');
+  const fetchEvents = async () => {
+    try {
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const response = await axios.get(`https://wwappi.shop/calendar/${year}/${month}`);
+      if (response.status === 200) {
+        const events = Array.isArray(response.data.calendars) ? response.data.calendars : [];
+        const eventsForSelectedDate = events.filter(event => {
+          const eventDate = new Date(event.date).toISOString().split('T')[0];
+          return eventDate === formattedDateISO.split('T')[0];
+        });
+        const eventsWithId = eventsForSelectedDate.map(event => ({ ...event, id: event.number }));
+        setSchedules(eventsWithId);
+      } else {
+        console.error('Failed to fetch events');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
+  const handleAddEvent = async (event) => {
+    event.preventDefault();
+    if (scheduleNumber !== null) {
+      await handleEditEvent();
+      return;
+    }
+
+    const newEvent = {
+      date: formattedDateISO,
+      title: scheduleText,
+    };
+
+    try {
+      const response = await axios.post('https://wwappi.shop/calendar', newEvent);
+      if (response.status === 200) {
+        setSchedules([...schedules, { ...newEvent, id: response.data.number }]);
+        addSchedule(scheduleText);
+        setScheduleText('');
+        setMode('default');
+        await fetchEvents();  // 일정 추가 후 일정 다시 불러오기
+      } else {
+        console.error('Failed to save event');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleEditEvent = async () => {
+    const editEvent = {
+      date: formattedDateISO,
+      title: scheduleText,
+      number: scheduleNumber,
+    };
+
+    try {
+      const response = await axios.put('https://wwappi.shop/calendar', editEvent);
+      if (response.status === 200) {
+        setSchedules(schedules.map((evt) => (evt.id === scheduleNumber ? { ...editEvent, id: scheduleNumber } : evt)));
+        setScheduleText('');
+        setScheduleNumber(null);
+        setMode('default');
+        await fetchEvents();  // 일정 수정 후 일정 다시 불러오기
+      } else {
+        console.error('Failed to update event');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleDeleteEvent = async (id) => {
+    try {
+      const response = await axios.delete(`https://wwappi.shop/calendar/${id}`);
+      if (response.status === 200) {
+        setSchedules(schedules.filter((event) => event.id !== id));
+      } else {
+        console.error('Failed to delete event');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchEvents();
+    }
+  }, [selectedDate, formattedDateISO]);
 
   return (
     <div className="modal">
-      {mode ==='default' && (
+      {mode === 'default' && (
         <>
           <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span> {/*닫기 버튼*/}
-            <p className="selected-date">{formattedDate}</p> {/*클릭한 날짜*/}
-            <div>
-              {/*일정 추가 버튼*/}
-              <button className="schedule-add-button" onClick={() => { 
-                if (mode !== 'schedule') { setMode('schedule'); }
-              }}>일정 추가</button>
+            <span className="close" onClick={closeModal}>&times;</span>
+            <p className="selected-date">{formattedDate}</p>
+            <div className="schedule-bar">
+              <button className="add-schedule" onClick={() => setMode('schedule')}>일정 추가</button>
             </div>
             <div className="to-do-list-body">
-              
+              <ul className="to-do-list">
+                {schedules.map((event) => (
+                  <li key={event.id} className="to-do">
+                    {event.title}
+                    <button className="delete-schedule" onClick={() => handleDeleteEvent(event.id)}>삭제</button>
+                    <button className="edit-schedule" onClick={() => { setMode('schedule'); setScheduleNumber(event.id); setScheduleText(event.title); }}>수정</button>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </>
@@ -42,41 +128,29 @@ function Modal({ selectedDate, closeModal, addEvent }) {
 
       {mode === 'schedule' && (
         <>
-          <div className="modal-content">
-            <form method="post" name="add-schedule" className="" onSubmit={e => {
-              handleAddEvent(e);
-              const calendarAddSchedule = {
-                date: date,
-                title: title
-              };
-              console.log(calendarAddSchedule);
-              API.post("calendar/create", JSON.stringify(calendarAddSchedule), { withCredentials: true  });
-            }}>
-              <div className="modal-header"> {/*header : 이전 버튼, 선택한 날짜, 닫기버튼*/}
-                <button className="previous-button" onClick={() => {
-                  if (mode !== 'default') { setMode('default'); }
-                }}>&lt;</button>
+          <div className="modal-content-schedule">
+            <form method="post" className="" onSubmit={handleAddEvent}>
+              <div className="modal-header">
+                <button className="previous-button" onClick={() => { setMode('default'); setScheduleNumber(null); setScheduleText(''); }}>&lt;</button>
                 <div className="schedule-selected-date">{formattedDate}</div>
                 <span className="close" onClick={closeModal}>&times;</span>
               </div>
-              <div>
-                <input 
-                  type="text" 
-                  value={eventText} 
-                  onChange={(e) => setEventText(e.target.value)} 
+              <div className="schedule-header">
+                <input
+                  type="text"
+                  value={scheduleText}
+                  onChange={(e) => setScheduleText(e.target.value)}
                   placeholder="일정을 입력하세요"
-                  className="schedule-title" 
-                /> 
-                <input type="submit" value="저장" className="schedule-save-button" onSubmit={handleAddEvent}></input>
+                  className="schedule-title"
+                />
+                <input type="submit" value="저장" className="schedule-save-button" />
               </div>
-              <div className="schedule-body"> {/*일정 내용*/}
-                <input className="schedule-content"></input>
+              <div className="schedule-body">
               </div>
             </form>
           </div>
         </>
-        )
-      }
+      )}
     </div>
   );
 }

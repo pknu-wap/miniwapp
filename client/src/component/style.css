@@ -116,17 +116,6 @@ body {
   text-indent: 0;
 }
 
-input {
-  width: 444px;
-  height: 66px;
-  margin: 7px;
-  border: 3px solid;
-  border-radius: 20px;
-  font-size: 20px;
-  font-weight: 400;
-  text-indent: 55px;
-}
-
 #id {
   background-image: url(../../public/id.png);
   background-repeat: no-repeat;
@@ -137,12 +126,6 @@ input {
   background-image: url(../../public/password.png);
   background-repeat: no-repeat;
   background-position: 20px center;
-}
-
-input::placeholder {
-  font-size: 20px;
-  text-indent: 55px;
-  text-align: left center;
 }
 
 #submit {
@@ -297,12 +280,6 @@ input::placeholder {
   background-image: url(../../public/dob.png);
   background-repeat: no-repeat;
   background-position: 20px center;
-}
-
-input::placeholder {
-  font-size: 20px;
-  text-indent: 55px;
-  text-align: left center;
 }
 
 #submit {
