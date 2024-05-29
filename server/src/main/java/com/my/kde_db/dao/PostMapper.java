@@ -10,7 +10,7 @@ import java.util.List;
 public interface PostMapper {
     boolean writePost (Post post);
     List<Post> findPostsByUserAndPage(int userNumber, int offset);
-    PostDetails findPostDetailsByNumber(int postNumber);
+    PostDetails findPostDetailsByNumber(int postNumber, int ownerNumber);
 
     Post findPostById(int postNumber);
 

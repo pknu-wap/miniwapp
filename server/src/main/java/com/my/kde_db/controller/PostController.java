@@ -49,9 +49,10 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-    @GetMapping("/info/{number}") //게시글 내용 조회
-    public ResponseEntity<PostDetails> getPostDetails(@PathVariable("number") int postNumber) {
-        PostDetails postDetails = postService.getPostDetails(postNumber);
+    @GetMapping("/info/{number}/{owner_number}")
+    public ResponseEntity<PostDetails> getPostDetails(@PathVariable("number") int postNumber,
+                                                      @PathVariable("owner_number") int ownerNumber) {
+        PostDetails postDetails = postService.getPostDetails(postNumber, ownerNumber);
         if (postDetails != null) {
             return ResponseEntity.ok(postDetails);
         } else {

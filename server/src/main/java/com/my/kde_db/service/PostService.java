@@ -21,9 +21,8 @@ public class PostService {
         int offset = (pageNumber - 1) * 10;
         return postMapper.findPostsByUserAndPage(userNumber, offset);
     }
-    public PostDetails getPostDetails(int postNumber) {
-
-        return postMapper.findPostDetailsByNumber(postNumber);
+    public PostDetails getPostDetails(int postNumber, int ownerNumber) {
+        return postMapper.findPostDetailsByNumber(postNumber, ownerNumber);
     }
     public boolean deletePost(int postNumber, int userId) {
         Post post = postMapper.findPostById(postNumber);

@@ -17,7 +17,7 @@
         LIMIT 10 OFFSET #{offset}
     </select>
 
-    <select id="findPostDetailsByNumber" resultType="com.my.kde_db.dto.PostDetails" parameterType="int">
+    <select id="findPostDetailsByNumber" resultType="com.my.kde_db.dto.PostDetails">
         SELECT
             p.title,
             p.contents,
@@ -26,11 +26,13 @@
             u.nickname,
             c.comment,
             c.date as comment_date
-        FROM post p
+        FROM
+            post p
                 JOIN user u ON p.user_number = u.number
                 LEFT JOIN post_comment c ON p.number = c.post_number
         WHERE
             p.number = #{postNumber}
+          AND p.user_number = #{ownerNumber}
     </select>
 
 
