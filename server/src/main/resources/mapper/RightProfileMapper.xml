@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.kde_db.dao.RightProfileMapper">
+    
+
     <select id="findByWnumber" resultType="com.my.kde_db.dto.RightProfile" parameterType="int">
         SELECT u.youtubelink, u.nickname, u.pagename, p.image, p.contents as context
         FROM user u
-                 JOIN profile p ON u.number = p.user_number
+                 LEFT JOIN profile p ON u.number = p.user_number
         WHERE u.number = #{w_number}
     </select>
 

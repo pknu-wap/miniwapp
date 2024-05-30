@@ -24,6 +24,7 @@
             p.view_count,
             u.name,
             u.nickname,
+            c.number as comment_number,
             c.comment,
             c.date as comment_date
         FROM
