@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class RightProfile {
-    private int userNumber = 0;
+    private int userNumber ;
     private String youtubelink;
     private byte[] image ;
     private String contents;
