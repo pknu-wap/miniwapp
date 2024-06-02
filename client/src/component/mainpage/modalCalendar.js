@@ -106,7 +106,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
       {mode === 'default' && (
         <>
           <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
+            <span className="close" onClick={() => { closeModal(); }}>×</span>
             <p className="selected-date">{formattedDate}</p>
             <div className="schedule-bar">
               <button className="add-schedule" onClick={() => setMode('schedule')}>일정 추가</button>
@@ -133,7 +133,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
               <div className="modal-header">
                 <button className="previous-button" onClick={() => { setMode('default'); setScheduleNumber(null); setScheduleText(''); }}>&lt;</button>
                 <div className="schedule-selected-date">{formattedDate}</div>
-                <span className="close" onClick={closeModal}>&times;</span>
+                <span className="close" onClick={() => { closeModal(); }}>&time;</span>
               </div>
               <div className="schedule-header">
                 <input

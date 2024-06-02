@@ -49,7 +49,7 @@
 .close {
   color: gray;
   float: right;
-  font-size: 28px;
+  font-size: 40px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -62,7 +62,7 @@
 }
 
 .selected-date {
-  font-size: 32px;
+  font-size: 50px; /*뭐지 왜 적용이 안되는지 모르겠는데 적용이 안됨*/
 }
 
 .schedule-bar {
@@ -95,7 +95,7 @@
 
 .to-do-list-body {
   width: 99.5%;
-  height: 70%;
+  height: 80%;
   position: relative;
   overflow-y: auto;
   border-radius: 10px;

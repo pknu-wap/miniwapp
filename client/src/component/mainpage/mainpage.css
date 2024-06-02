@@ -10,9 +10,10 @@ body {
 } */
 
 .mainpage-body {
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  margin: 10px;
+  width: 99%;
+  height: 98%;
+  min-height: 90vh;
   position: absolute;
   border: 2px solid;
   border-radius: 20px;
@@ -42,7 +43,7 @@ body {
   height: 80px;
   position: absolute;
   z-index: 2;
-  top: 23%;
+  top: 18%;
   left: 70%;
   text-align: center;
   font-size: 25px;
@@ -90,11 +91,11 @@ body {
 }
 
 .calendar-content { /*캘린더*/
-  width: 650px;
-  height: 340px;
+  width: 900px;
+  height: 600px;
   position: absolute;
   z-index: 2;
-  top: 48%;
+  top: 35%;
   left: 5%;
   border: 2px solid;
   border-radius: 20px;
@@ -105,7 +106,7 @@ body {
   width: 200px;
   height: 50px;
   position: absolute;
-  top: 38%;
+  top: 30%;
   left: 7%;
   font-size : 35px;
 }
@@ -115,10 +116,10 @@ body {
 }
 
 .post-update-content { /*게시물 업데이트*/
-  width: 650px;
-  height: 340px;
+  width: 900px;
+  height: 600px;
   position: absolute;
-  top: 48%;
+  top: 35%;
   left: 50%;
   border-radius: 20px;
   border: 2px solid;
@@ -128,7 +129,7 @@ body {
   width: 270px;
   height: 50px;
   position: absolute;
-  top: 38%;
+  top: 30%;
   left: 52%;
   font-size : 35px;
 }
