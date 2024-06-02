@@ -1,5 +1,6 @@
 package com.my.kde_db.service;
 
+import com.my.kde_db.dto.PostComment;
 import com.my.kde_db.dto.PostDetails;
 import com.my.kde_db.vo.User;
 import com.my.kde_db.dao.PostMapper;
@@ -22,7 +23,10 @@ public class PostService {
         return postMapper.findPostsByUserAndPage(userNumber, offset);
     }
     public PostDetails getPostDetails(int postNumber, int ownerNumber) {
-        return postMapper.findPostDetailsByNumber(postNumber, ownerNumber);
+        PostDetails postDetails = postMapper.findPostDetailsByNumber(postNumber, ownerNumber);
+        List<PostComment> comments = postMapper.findCommentsByPostNumber(postNumber);
+        postDetails.setComments(comments);
+        return postDetails;
     }
     public boolean deletePost(int postNumber, int userId) {
         Post post = postMapper.findPostById(postNumber);

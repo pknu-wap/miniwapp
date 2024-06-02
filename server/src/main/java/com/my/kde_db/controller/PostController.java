@@ -57,7 +57,7 @@ public class PostController {
             return ResponseEntity.ok(postDetails);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-}
+        }
     }
     @DeleteMapping("/delete/{p_number}") // p_number는 게시글번호
     public ResponseEntity<String> deletePost(@PathVariable("p_number") int postNumber, HttpSession session) {

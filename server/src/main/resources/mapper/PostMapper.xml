@@ -23,17 +23,27 @@
             p.contents,
             p.view_count,
             u.name,
-            u.nickname,
-            c.number as comment_number,
-            c.comment,
-            c.date as comment_date
+            u.nickname
         FROM
             post p
                 JOIN user u ON p.user_number = u.number
-                LEFT JOIN post_comment c ON p.number = c.post_number
         WHERE
             p.number = #{postNumber}
           AND p.user_number = #{ownerNumber}
+    </select>
+
+    <select id="findCommentsByPostNumber" resultType="com.my.kde_db.dto.PostComment">
+        SELECT
+            c.number as c_number,
+            c.comment,
+            c.date,
+            u.name,
+            u.nickname
+        FROM
+            post_comment c
+                JOIN user u ON c.user_number = u.number
+        WHERE
+            c.post_number = #{postNumber}
     </select>
 
 
@@ -43,7 +53,7 @@
         WHERE number = #{postNumber}
     </select>
 
-    <delete id="deletePost">
+    <delete id="deletePost" parameterType="int">
         DELETE FROM post WHERE number = #{postNumber}
     </delete>
 
