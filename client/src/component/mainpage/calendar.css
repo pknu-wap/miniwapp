@@ -23,7 +23,7 @@
 
 .calendar-cell {
   width: 100px;
-  height: 43px;
+  height: 80px;
   flex: 1;
   border: 1px solid #ccc;
   padding: 12px;
@@ -39,11 +39,12 @@
   line-height: 2px;
 }
 
-.calendar-days-cell { /*요일 셀*/
+.calendar-day-header {
   flex: 1;
-  padding: 8px;
   text-align: center;
-  cursor: pointer;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
 }
 
 .move-month-button {

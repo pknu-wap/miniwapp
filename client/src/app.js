@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from './component/login/login.js';
 import Signup from "./component/signup/signup.js";
-import Mainpage from './component/mainpage.js';
+import Mainpage from './component/mainpage/mainpage.js';
 import Minihome from './component/minihome/minihome.js';
 import Loginexception from './component/loginException/loginException.js';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
