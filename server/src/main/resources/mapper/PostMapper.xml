@@ -10,7 +10,7 @@
 
 
     <select id="findPostsByUserAndPage" resultType="com.my.kde_db.dto.Post" parameterType="int">
-        SELECT title, date, post.number, view_count
+        SELECT title, date, post.number as p_number , view_count
         FROM post
         WHERE user_number = #{userNumber}
         ORDER BY date DESC
@@ -48,13 +48,18 @@
 
 
     <select id="findPostById" resultType="com.my.kde_db.dto.Post">
-        SELECT number, title, contents, user_number
+        SELECT number as p_number , title, contents, user_number
         FROM post
         WHERE number = #{postNumber}
     </select>
 
+
     <delete id="deletePost" parameterType="int">
         DELETE FROM post WHERE number = #{postNumber}
     </delete>
+
+    <update id="incrementViewCount" parameterType="int">
+    UPDATE post SET view_count = view_count + 1 WHERE number = #{postNumber}
+    </update>
 
 </mapper>

@@ -18,4 +18,6 @@ public interface PostMapper {
     Post findPostById(int postNumber);
 
     boolean deletePost(int postNumber);
+
+    void incrementViewCount(int postNumber);
 }

@@ -23,18 +23,16 @@ public class PostService {
         return postMapper.findPostsByUserAndPage(userNumber, offset);
     }
     public PostDetails getPostDetails(int postNumber, int ownerNumber) {
+        postMapper.incrementViewCount(postNumber);
         PostDetails postDetails = postMapper.findPostDetailsByNumber(postNumber, ownerNumber);
         List<PostComment> comments = postMapper.findCommentsByPostNumber(postNumber);
         postDetails.setComments(comments);
         return postDetails;
     }
-    public boolean deletePost(int postNumber, int userId) {
-        Post post = postMapper.findPostById(postNumber);
-        if (post != null && post.getNumber() == userId) {
-            return postMapper.deletePost(postNumber);
-        }
-        return false;
+    public boolean deletePost(int postNumber) {
+        return postMapper.deletePost(postNumber);
+    }
 
 
 
-}}
+}

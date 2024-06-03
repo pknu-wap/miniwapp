@@ -37,10 +37,10 @@ public class PostController {
         }
     }
 
-    @GetMapping("/list/{user_number}") // 게시글 목록
+    @GetMapping("/list/{user_number}/{page}") // 게시글 목록
     public ResponseEntity<List<Post>> getPosts(
             @PathVariable("user_number") int userNumber,
-            @RequestParam(value = "page", defaultValue = "1") int page, HttpSession session) {
+            @PathVariable("page") int page, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
             List<Post> posts = postService.getPostsByUserAndPage(userNumber, page);
@@ -63,13 +63,14 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable("p_number") int postNumber, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean isDeleted = postService.deletePost(postNumber, loginUser.getNumber());
+            boolean isDeleted = postService.deletePost(postNumber);
             if (isDeleted) {
                 return ResponseEntity.ok("Post deleted successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this post");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete post");
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
         }
-    }}
+    }
+}
