@@ -1,27 +1,40 @@
-import React from "react";
-import { useState, useEffect } from 'react';
-import './minihome.css';
-import API from '../utils/API'
-import styled from "styled-components";
+import React, { useState } from "react";
+import Board from './board.js';
+import NewPost from './newPost.js';
+import Post from './post.js';
+import styled, { createGlobalStyle } from "styled-components";
 
-const NewPostBack = styled.button`
-  width: 100px;
-  height: 50px;
+const GlobalStyle = createGlobalStyle`
+	*, *::before, *::after {
+		box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    z-index: 0;
+	}
 `;
 
-const NewPostContent = styled.textarea`
-  width: 800px;
-  height: 600px;
+const Component = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 60fr 1fr;
+  grid-template-columns: 1fr 6fr 1fr;
+  z-index: 1;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
 `;
 
-const NewPostSave = styled.input`
-  width: 100px;
-  height: 50px;
-`;
+const Page = styled.div`
+  grid-row: 2;
+  grid-column: 2;
 
+  width: 100%;
+  height: 100%;
+`;
 
 function Notice() {
-  const [postCount, setPostCount] = useState(null);
   const [mode, setMode] = useState('Board');
 
   let content = null;
@@ -37,117 +50,10 @@ function Notice() {
   }
 
   return (
-    <div className="notice-component">
-      <div className='notice-bookmark-hidden'></div>
-      <div className='notice-page'>
-        {content}
-      </div>
-    </div>
-  )
-}
-
-function Board(props) {
-  let columns = ['제목', '작성일', '조회수'];
-  let data = [{ title: 'D', date: 'DD', viewcount: 'DDD' }, { title: 'E', date: 'EE', viewcount: 'EEE' }, { title: 'F', date: 'FF', viewcount: 'FFF' }];
-
-  console.log('DONE?');
-
-  useEffect(() => {
-    API.get("userhome", { withCredentials: true })
-      .then(function (response) {
-        if (response.data == null) {
-          console.log('THIS IS NULL');
-        }
-        console.log(response);
-      })
-      .catch(function (error) {
-        alert('ERROR');
-        console.log("ERROR");
-        console.log(error.response);
-      })
-  }, []);
-
-  return (
-    <div className='board-component'>
-      <table className='table'>
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th key={column}>{column}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(({ title, date, viewcount }) => (
-            <tr key={title + date + viewcount}>
-              <td onClick={() => {
-                props.changeMode('Post');
-              }}>{title}</td>
-              <td>{date}</td>
-              <td>{viewcount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className='notice-bottom-bar'>
-        <button className='notice-new-post' onClick={() => { props.changeMode('NewPost') }}>글쓰기</button>
-      </div>
-    </div>
-  );
-}
-
-function NewPost(props) {
-
-  useEffect(() => {
-    API.get("userhome", { withCredentials: true })
-      .then(function (response) {
-        if (response.data == null) {
-          console.log('THIS IS NULL');
-        }
-        console.log(response);
-      })
-      .catch(function (error) {
-        alert('ERROR');
-        console.log("ERROR");
-        console.log(error.response);
-      })
-  }, []);
-
-  return (
-    <div className='newpost-component'>
-      <form method="post" onSubmit={e => {
-        e.preventDefault();
-        const newPostData = {
-          
-        };
-        API.post("userhome", JSON.stringify(newPostData), { withCredentials: true })
-          .then(function (response) {
-            if (response.data == null) {
-              console.log('THIS IS NULL');
-            }
-            console.log(response);
-          })
-          .catch(function (error) {
-            alert('ERROR');
-            console.log("ERROR");
-            console.log(error.response);
-          })
-        props.changeMode('Board')
-      }}>
-        <div className='newpost-title'>
-          <input className="newpost-title-input"></input>
-        </div>
-        <NewPostBack onClick={() => { props.changeMode('Board') }}>이전</NewPostBack>
-        <NewPostSave type="submit" value="저장" />
-        <NewPostContent />
-      </form>
-    </div>
-  )
-}
-
-function Post(props) {
-  return (
-    <div>THIS IS POST</div>
+    <Component>
+      <GlobalStyle />
+      <Page>{content}</Page>
+    </Component>
   )
 }
 

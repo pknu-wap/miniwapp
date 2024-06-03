@@ -1,191 +1,258 @@
-import React from "react";
-import { useState, useEffect } from 'react';
-import API from '../utils/API.js'
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Home from './home.js';
+import MinihomeLeft from './minihomeLeft.js';
 import Profile from './profile.js';
 import Notice from './notice.js';
 import Guest from './guest.js';
 import Friend from './friend.js';
+import styled, { createGlobalStyle } from "styled-components";
 
-import './minihome.css';
-import { resolvePath } from "react-router-dom";
+const GlobalStyle = createGlobalStyle`
+	*, *::before, *::after {
+		box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+    z-index: 0;
+	}
+`;
+
+const Component = styled.div`
+  width: 100vw;
+  height: 100vh;
+  padding: 28px;
+`;
+
+const Page = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 28px;
+  // align-items: stretch;
+  border: 2px solid;
+  border-radius: 20px;
+`;
+
+const Springs = styled.div`
+  display: flex;
+  flex: 0.07;
+  justify-content: center;
+  z-index: 2;
+`;
+
+const Spring = styled.div`
+  position: absolute;
+  width: 80px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 20px;
+  background-color: #D9D9D9;
+`;
+
+const Spring1 = styled(Spring)`
+  top: 15%;
+  transform: translate(0, -15%);
+`;
+
+const Spring2 = styled(Spring)`
+  top: 20%;
+  transform: translate(0, -20%);
+`;
+
+const Spring3 = styled(Spring)`
+  bottom: 20%;
+  transform: translate(0, 20%);
+`;
+
+const Spring4 = styled(Spring)`
+  bottom: 15%;
+  transform: translate(0, 15%);
+`;
+
+const Body = styled.div`
+  flex: 2.75;
+  border: 2px solid;
+  border-radius: 20px;
+  z-index: 1;
+  align-self: stretch;
+
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+`;
+
+const Menu = styled.div`
+  display: flex;
+  flex: 0.25;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  z-index: 0;
+`;
+
+const ToHome = styled.button`
+  display: flex;
+  align-self: flex-end;
+  width: 120%;
+  height: 20%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 2px solid;
+  border-radius: 20px;
+  // box-shadow: 10px 10px black;
+  background-color: ${props => props.color ? props.color: "white"};
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+
+  font-size: 20px;
+  text-indent: 15px;
+`;
+
+const ToProfile = styled.button`
+  display: flex;
+  align-self: flex-end;
+  width: 120%;
+  height: 20%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 2px solid;
+  border-radius: 20px;
+  // box-shadow: 10px 10px black;
+  background-color: ${props => props.color ? props.color: "white"};
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+
+  font-size: 20px;
+  text-indent: 15px;
+`;
+
+const ToNotice = styled.button`
+  display: flex;
+  align-self: flex-end;
+  width: 120%;
+  height: 20%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 2px solid;
+  border-radius: 20px;
+  // box-shadow: 10px 10px black;
+  background-color: ${props => props.color ? props.color: "white"};
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+
+  font-size: 20px;
+  text-indent: 15px;
+`;
+
+const ToGuest = styled.button`
+  display: flex;
+  align-self: flex-end;
+  width: 120%;
+  height: 20%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 2px solid;
+  border-radius: 20px;
+  // box-shadow: 10px 10px black;
+  background-color: ${props => props.color ? props.color: "white"};
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+
+  font-size: 20px;
+  text-indent: 15px;
+`;
+
+const ToFriend = styled.button`
+  display: flex;
+  align-self: flex-end;
+  width: 120%;
+  height: 20%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 2px solid;
+  border-radius: 20px;
+  // box-shadow: 10px 10px black;
+  background-color: ${props => props.color ? props.color: "white"};
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+
+  font-size: 20px;
+  text-indent: 15px;
+`;
 
 function Minihome() {
-  const [mode, setMode] = useState('default');
-  let content = null;
-  let variable = null;
+  const params = useParams();
+  const [minihomeNumber, setMinihomeNumber] = useState(null);
+  const [mode, setMode] = useState(null);
+  const [color, setColor] = useState([]);
+  const [content, setContent] = useState(null);
+  const navigate = useNavigate();
 
-  if (mode === 'default') {
-    content = <Home></Home>;
+  const initMinihomeData = () => {
+    setMinihomeNumber(params.minihomeNumber);
+    setMode(params.mode);
   }
 
-  if (mode === 'profile') {
-    content = <Profile></Profile>;
+  const changeMinihomeData = () => {
+    if (mode === 'default') {
+      setContent(<Home></Home>);
+      setColor(["#D9D9D9", "white", "white", "white", "white"])
+    }
+    if (mode === 'profile') {
+      setContent(<Profile></Profile>);
+      setColor(["white", "#D9D9D9", "white", "white", "white"])
+    }
+    if (mode === 'notice') {
+      setContent(<Notice></Notice>);
+      setColor(["white", "white", "#D9D9D9", "white", "white"])
+    }
+    if (mode === 'guest') {
+      setContent(<Guest></Guest>);
+      setColor(["white", "white", "white", "#D9D9D9", "white"])
+    }
+    if (mode === 'friend') {
+      setContent(<Friend></Friend>);
+      setColor(["white", "white", "white", "white", "#D9D9D9"])
+    }
+    navigate(`../mypage/${minihomeNumber}/${mode}`);
   }
-
-  if (mode === 'notice') {
-    content = <Notice></Notice>;
-  }
-
-  if (mode === 'guest') {
-    content = <Guest></Guest>;
-  }
-
-  if (mode === 'friend') {
-    content = <Friend></Friend>;
-  }
-
-  return (
-    <div className='mypage-component'>
-      <div className='mypage-page'>
-        <div className='mypage-profile'>
-          <MypageLeft />
-        </div>
-        <div className='mypage-spring'>
-          <div className='spring1'></div>
-          <div className='spring2'></div>
-          <div className='spring3'></div>
-          <div className='spring4'></div>
-        </div>
-        <div className='mypage-body'>
-          {content}
-        </div>
-        <div className='mypage-menu'>
-          <button className='menu-home' onClick={() => {
-            if (mode !== 'default') { setMode('default'); }
-          }}>홈</button>
-          <button className='menu-profile' onClick={() => {
-            if (mode !== 'profile') { setMode('profile'); }
-          }}>프로필</button>
-          <button className='menu-notice' onClick={() => {
-            if (mode !== 'notice') { setMode('notice'); }
-          }}>게시판</button>
-          <button className='menu-guest' onClick={() => {
-            if (mode !== 'guest') { setMode('guest'); }
-          }}>방명록</button>
-          <button className='menu-friends' onClick={() => {
-            if (mode !== 'friend') { setMode('friend'); }
-          }}>친구</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MypageLeft() {
-  const [name, setName] = useState(null);
-  const [nickname, setNickname] = useState(null);
-  const [pagename, setPagename] = useState('나의 미니왑피');
-  const [userimage, setUserimage] = useState(null);
 
   useEffect(() => {
-    API.get("userhome", { withCredentials: true })
-      .then(function (response) {
-        if (response.data == null) {
-          console.log('THIS IS NULL');
-        }
-        console.log(response);
-        setName(response.data.name);
-        setNickname(response.data.nickname);
-        setPagename(response.data.nickname + "의 미니왑피");
-        console.log(name);
-        console.log(nickname);
-      })
-      .catch(function (error) {
-        alert('ERROR');
-        console.log("ERROR");
-        console.log(error.response);
-      })
+    initMinihomeData();
   }, []);
 
+  useEffect(() => {
+    changeMinihomeData();
+  }, [mode]);
+
   return (
-    <div className="mypageleft-component">
-      <h1 className='mypage-title'>{pagename}</h1>
-      <div className='mypage-viewcountbox'></div>
-      <div className='profile-image'></div>
-      <div className='feeling'>
-        <div className='name-and-nickname'>{name} ({nickname})</div>
-      </div>
-      <div className='profile-edits'>
-        <form className='profile-edits-form'>
-          <div className='mypage-descriptionbox'>
-            <textarea className='mypage-description' placeholder="내 소개"></textarea>
-          </div>
-          <div className='linkbox'>
-            <button className='profile-image-change' placeholder="깃허브, 노션, 블로그 링크">이미지 변경</button>
-            <input type='submit' className='confirm' value='저장' />
-          </div>
-        </form>
-      </div>
-    </div>
-  )
+    <Component>
+      <GlobalStyle />
+      <Page>
+        <MinihomeLeft />
+        <Springs>
+          <Spring1 />
+          <Spring2 />
+          <Spring3 />
+          <Spring4 />
+        </Springs>
+        <Body>{content}</Body>
+        <Menu>
+          <ToHome onClick={() => { setMode('default'); }} color={color[0]}>홈</ToHome>
+          <ToProfile onClick={() => { setMode('profile'); }} color={color[1]}>프로필</ToProfile>
+          <ToNotice onClick={() => { setMode('notice'); }} color={color[2]}>게시판</ToNotice>
+          <ToGuest onClick={() => { setMode('guest'); }} color={color[3]}>방명록</ToGuest>
+          <ToFriend onClick={() => { setMode('friend'); }} color={color[4]}>친구</ToFriend>
+        </Menu>
+      </Page>
+    </Component>
+  );
 }
-
-// function Default() {
-//   return (
-//     <div className='default-component'>
-//       <div className='default-bookmark-hidden'></div>
-//       <div className='default-page'>
-//         <div className='default-page-recent-post'></div>
-//         <iframe className='default-page-embedvideo' src="https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-//       </div>
-//     </div>
-//   )
-// }
-
-// function Profile(props) {
-//   return (
-//     <div className='profile-component'>
-//       <div className='profile-bookmark-hidden'></div>
-//       <div className='profile-page'>
-//         <div className='profile-settings'>
-//           {/* <h1>{props.id}</h1> */}
-//           <form className='profile-settings-form'>
-//             <div className='profile-page-image'></div>
-//             <textarea type='text' className='profile-introduction' placeholder="내 소개" rows="14"></textarea>
-//             <input type='text' className='profile-embedlink' placeholder="유튜브 링크"></input>
-//             <input type='text' className='profile-nickname' placeholder="별명"></input>
-//             <input type='text' className='profile-pagename' placeholder="미니왑피 이름"></input>
-//             <input type='button' className='profile-page-image-change' value='이미지 변경'></input>
-//             <input type='submit' className='profile-submit' value='저장'></input>
-//           </form>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-// function Notice() {
-//   return (
-//     <div className="notice-component">
-//       <div className='notice-bookmark-hidden'></div>
-//       <div className='notice-page'>
-//         <h1>HELLO</h1>
-//       </div>
-//     </div>
-//   )
-// }
-
-// function Guest() {
-//   return (
-//     <div className="guest-component">
-//       <div className='guest-bookmark-hidden'></div>
-//       <div className='guest-page'>
-//         <h1>HELLO</h1>
-//       </div>
-//     </div>
-//   )
-// }
-
-// function Friend() {
-//   return (
-//     <div className="friend-component">
-//       <div className='friend-bookmark-hidden'></div>
-//       <div className='friend-page'>
-//         <h1>HELLO</h1>
-//       </div>
-//     </div>
-//   )
-// }
 
 export default Minihome;
