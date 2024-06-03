@@ -104,10 +104,10 @@ function Calendar() {
     };
   }
 
-    API.get("calendar/view/{year}/{month}", { withCredentials: true  })
-    .then( function (response) {
-      console.log(response);
-    })
+    // API.get("calendar/view/{year}/{month}", { withCredentials: true  })
+    // .then( function (response) {
+    //   console.log(response);
+    // })
 
   const goToPreviousMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));

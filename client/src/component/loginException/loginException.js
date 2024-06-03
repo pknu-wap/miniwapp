@@ -1,9 +1,8 @@
 import React from "react";
-import './loginException.css';
 
 function Loginexception() {
   return (
-    <div className='loginexception'>
+    <div>
       <p>login exception</p>
     </div>
   );
