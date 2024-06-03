@@ -1,13 +1,9 @@
 package com.my.kde_db.dto;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
 public class MainUser {
     private String name=null;
-    @JsonIgnore
-    private byte[] image=null; //조회용 이미지
-    private String base64Image=null; //반환용 base64 인코딩한 이미지
+    private byte[] image=null; //응답할때 자동으로 base64인코딩되어 보내짐
     private int number=0;
 }

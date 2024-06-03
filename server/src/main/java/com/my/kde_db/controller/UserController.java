@@ -23,16 +23,16 @@ public class UserController {
 	
 	@GetMapping("status")
 	@ResponseBody
-	public ResponseEntity<String> Status(HttpSession session) {
+	public ResponseEntity<Integer> Status(HttpSession session) {
 		
 		User loginUser =(User)session.getAttribute("me");
 		
 		if(loginUser != null) {
 			//로그인 된 상태
-			return ResponseEntity.status(HttpStatus.OK).body("세션 조회 성공");
+			return ResponseEntity.ok(loginUser.getNumber());
 		}else {
 			//로그아웃 상태
-			return ResponseEntity.status(401).body("세션 조회 실패"); //404코드 반환
+			return ResponseEntity.status(401).build();
 		}
 		
 	}

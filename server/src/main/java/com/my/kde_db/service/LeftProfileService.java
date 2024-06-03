@@ -16,22 +16,27 @@ public class LeftProfileService {
     @Autowired
     private LeftProfileMapper leftProfileMapper;
 
-    public LeftProfile getProfileById(String id) {
-        LeftProfile profile = leftProfileMapper.findById(id);
+
+    public LeftProfile getProfileByWnumber(int w_number) {
+        LeftProfile profile = leftProfileMapper.findByWnumber(w_number);
         if (profile != null && profile.getImage() != null) {
-            // 바이트 배열 데이터를 Base64 문자열로 인코딩하여 클라이언트에 제공
-            String base64Image = Base64Utils.encode(profile.getImage());
-            profile.setBase64Image(base64Image); // Base64 문자열을 별도의 메서드를 통해 설정 (이 부분은 DTO 수정 필요)
+
         }
         return profile;
     }
     public boolean updateProfile(String id, MultipartFile imageFile, LeftProfile profile) {
         try {
-            byte[] imageBytes = imageFile.getBytes();
-            profile.setImage(imageBytes); // byte[] 데이터를 설정
+            // 이미지 파일이 제공되었는지 확인하고, 제공된 경우에만 이미지 데이터 업데이트
+            if (imageFile != null && !imageFile.isEmpty()) {
+                byte[] imageBytes = imageFile.getBytes();
+                profile.setImage(imageBytes); // byte[] 데이터를 설정
+            } else {
+                // 이미지 파일이 제공되지 않은 경우 이미지 데이터는 업데이트하지 않음
+                profile.setImage(null);
+            }
             return leftProfileMapper.updateProfile(id, profile);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error processing image file: " + e.getMessage());
             return false;
         }
     }}

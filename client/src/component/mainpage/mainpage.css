@@ -10,11 +10,11 @@ body {
 } */
 
 .mainpage-body {
-  width: 1505px;
-  height: 700px;
+  margin: 10px;
+  width: 99%;
+  height: 98%;
+  min-height: 90vh;
   position: absolute;
-  top: 2%;
-  left: 1%;
   border: 2px solid;
   border-radius: 20px;
 }
@@ -43,19 +43,21 @@ body {
   height: 80px;
   position: absolute;
   z-index: 2;
-  top: 23%;
+  top: 18%;
   left: 70%;
   text-align: center;
   font-size: 25px;
   border: 2px solid;
   border-radius: 20px;
   background-color: rgb(67, 67, 255);
+  cursor: pointer;
 }
 
 
 .logout-button { /*로그아웃 버튼*/
   width: 110px;
   height: 30px;
+  display: inline-block;
   position: absolute;
   top: 5%;
   left: 85%;
@@ -63,19 +65,20 @@ body {
   border: 2px solid;
   border-radius: 14px;
   background-color: rgb(255, 109, 109);
+  cursor: pointer;
 }
 
 .hello-user { /*"안녕하세요 OO님!" 텍스트*/
   width: 200px;
   height: 30px;
+  display: inline-block;
   position: absolute;
   top: 5%;
   left: 70%;
   text-align: right;
-  border: 2px solid; /*테투리는 보기편하려고 만들어놓음(중간 발표전에 삭제)*/
 }
 
-.horizonline { /*프로필사진과 입장버튼 위치에 놏인 가로선*/
+.horizonline { /*프로필사진과 입장버튼 위치에 놓인 가로선*/
   width:100%;
   height: 1px;
   position:relative;
@@ -83,12 +86,16 @@ body {
   border : 1px solid;
 }
 
-.calendar { /*캘린더*/
-  width: 650px;
-  height: 340px;
+.calendar {
+  display: block;
+}
+
+.calendar-content { /*캘린더*/
+  width: 900px;
+  height: 600px;
   position: absolute;
   z-index: 2;
-  top: 48%;
+  top: 35%;
   left: 5%;
   border: 2px solid;
   border-radius: 20px;
@@ -99,28 +106,30 @@ body {
   width: 200px;
   height: 50px;
   position: absolute;
-  top: 38%;
+  top: 30%;
   left: 7%;
-  border: 2px solid;
   font-size : 35px;
 }
 
-.post-update { /*게시물 업데이트*/
-  width: 650px;
-  height: 340px;
+.post-update {
+  display: inline-block;
+}
+
+.post-update-content { /*게시물 업데이트*/
+  width: 900px;
+  height: 600px;
   position: absolute;
-  top: 48%;
+  top: 35%;
   left: 50%;
-  border: 2px solid; /*보기 편하려고 테두리(중간 발표전에 삭제)*/
   border-radius: 20px;
+  border: 2px solid;
 }
 
 .post-update-title { /*"게시물 업데이트" 텍스트*/
   width: 270px;
   height: 50px;
   position: absolute;
-  top: 38%;
+  top: 30%;
   left: 52%;
-  border: 2px solid; /*보기 편하려고 테두리(중간 발표전에 삭제)*/
   font-size : 35px;
 }

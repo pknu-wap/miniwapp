@@ -11,13 +11,6 @@
   align-items: center;
 }
 
-@media (min-width: 768px) {
-  .modal {
-    max-width: 1600px;
-    max-height: 800px;
-  }
-}
-
 .modal-header {
   width: 100%;
   height: 10%;
@@ -26,7 +19,7 @@
 .modal-schedule {
   display: flex;
   position: fixed;
-  z-index: 2;
+  z-index: 3;
   left: 0;
   top: 0;
   width: 100%;
@@ -35,9 +28,18 @@
   align-items: center;
 }
 
-.modal-content { /*모달창의 내용*/
+.modal-content {
   width: 50%;
   height: 50%;
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.modal-content-schedule {
+  width: 50%;
+  height: 20%;
   background-color: #fefefe;
   padding: 20px;
   border-radius: 5px;
@@ -47,7 +49,7 @@
 .close {
   color: gray;
   float: right;
-  font-size: 28px;
+  font-size: 40px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -60,10 +62,16 @@
 }
 
 .selected-date {
-  font-size: 32px;
+  font-size: 50px; /*뭐지 왜 적용이 안되는지 모르겠는데 적용이 안됨*/
 }
 
-.schedule-add-button {
+.schedule-bar {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.add-schedule {
   align-items:center;
   display: inline-flex;
   color: white;
@@ -73,26 +81,93 @@
   border: none;
   cursor: pointer;
   height: 2.25rem;
-  margin-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
   font-size: 1rem;
   background: #228be6;
 }
-.schedule-add-button:hover {
+.add-schedule:hover {
   background: #50a3eb;
 }
-.schedule-add-button:active {
+.add-schedule:active {
   background: #1671bf;
 } 
 
 .to-do-list-body {
   width: 99.5%;
-  height: 65.5%;
+  height: 80%;
   position: relative;
+  overflow-y: auto;
   border-radius: 10px;
-  margin-top: 20px;
   background-color: rgb(200, 200, 200);
+}
+
+.to-do-list {
+  padding: 10px;
+  width: 99.5%;
+  height: 100%;
+  display: block;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+  border-radius: 15px;
+  list-style-type: none;
+  text-indent: 40px;
+}
+
+.to-do {
+  margin: 0 auto;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 98%;
+  height: 30%;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: gray 2px 2px 2px;
+  background-color: white;
+}
+
+.edit-schedule {
+  padding: 10px;
+  align-items:center;
+  display: inline-flex;
+  float: right;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  height: 2.25rem;
+  font-size: 1rem;
+  background-color: white;
+}
+.edit-schedule:hover {
+  color: #50a3eb;
+}
+.edit-schedule:active {
+  color: #1671bf;
+} 
+
+.delete-schedule {
+  padding: 10px;
+  align-items:center;
+  display: inline-flex;
+  float: right;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  height: 2.25rem;
+  font-size: 1rem;
+  background-color: white;
+}
+.delete-schedule:hover {
+  color: #eb5050;
+}
+.delete-schedule:active {
+  color: #bf1616;
 }
 
 .previous-button {
@@ -112,12 +187,25 @@
   cursor: pointer;
 }
 
+.schedule-header {
+  margin-top: 10px;
+}
+
 .schedule-title {
   width: 70%;
+  height: 100%;
   display: inline-block;
-  margin-left: 1rem;
   font-size: 28px;
   font-weight: bold;
+  text-indent: 10px;
+  outline: none;
+  border: none;
+}
+
+input.schedule-title::placeholder {
+  font-size: 28px;
+  text-indent: 10px;
+  text-align: left;
 }
 
 .schedule-save-button {
@@ -130,6 +218,7 @@
   border-radius: 4px;
   border: none;
   cursor: pointer;
+  width: 6rem;
   height: 2.25rem;
   margin-right: 1rem;
   padding-left: 1rem;
@@ -163,13 +252,4 @@
 .schedule-body {
   height: 100%;
   margin-top: 20px;
-}
-
-.schedule-content {
-  width: 97%;
-  height: 100%;
-  display: block;
-  margin: 8px;
-  background-color: rgb(215, 215, 215);
-  border: none;
 }
