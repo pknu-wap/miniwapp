@@ -1,4 +1,4 @@
-/* * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 body {
   width: 100%;
   min-height: 100vh;
-} */
+}
 
 .mainpage-body {
   margin: 10px;
@@ -52,7 +52,6 @@ body {
   background-color: rgb(67, 67, 255);
   cursor: pointer;
 }
-
 
 .logout-button { /*로그아웃 버튼*/
   width: 110px;
