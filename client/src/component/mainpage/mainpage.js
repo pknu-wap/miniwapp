@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './mainpage.css';
 import Calendar from './calendar.js';
+import PostUpdate from './postUpdate.js';
 import styled from 'styled-components'
 
 function Mainpage() {
@@ -28,6 +29,7 @@ function Mainpage() {
       <div className="post-update">
         <div className='post-update-title'>게시물 업데이트</div>
         <div className='post-update-content'>
+          <PostUpdate></PostUpdate>
         </div>
       </div>
     </div>

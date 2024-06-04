@@ -133,7 +133,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
               <div className="modal-header">
                 <button className="previous-button" onClick={() => { setMode('default'); setScheduleNumber(null); setScheduleText(''); }}>&lt;</button>
                 <div className="schedule-selected-date">{formattedDate}</div>
-                <span className="close" onClick={() => { closeModal(); }}>&time;</span>
+                <span className="close" onClick={() => { closeModal(); }}>&times;</span>
               </div>
               <div className="schedule-header">
                 <input
