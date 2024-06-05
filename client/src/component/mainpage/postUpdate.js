@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../utils/API'
 import styled from 'styled-components';
 
 const PostUpdateContainer = styled.div`
@@ -51,7 +51,7 @@ function PostUpdate() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`mainpage/${sortOrder === 'new' ? 'new_post' : 'hot_post'}`);
+        const response = await API.get(`mainpage/${sortOrder === 'new' ? 'new_post' : 'hot_post'}`, {withCredentials: true});
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);

@@ -1,6 +1,245 @@
 import React, { useState, useEffect } from 'react';
-import './modalCalendar.css';
-import axios from 'axios';
+import styled from 'styled-components';
+import API from '../utils/API';
+
+const ModalWrapper = styled.div`
+  display: flex;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalHeader = styled.div`
+  width: 100%;
+  height: 10%;
+`;
+
+const ModalContent = styled.div`
+  width: 50%;
+  height: 50%;
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+`;
+
+const ModalContentSchedule = styled(ModalContent)`
+  height: 20%;
+`;
+
+const CloseButton = styled.span`
+  color: gray;
+  float: right;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: black;
+    text-decoration: none;
+  }
+`;
+
+const SelectedDate = styled.p`
+  font-size: 20px; /* adjust this if needed */
+`;
+
+const ScheduleBar = styled.div`
+  display: block;
+  margin-bottom: 1rem;
+`;
+
+const AddScheduleButton = styled.button`
+  align-items: center;
+  display: inline-flex;
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  height: 2.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  background: #228be6;
+
+  &:hover {
+    background: #50a3eb;
+  }
+
+  &:active {
+    background: #1671bf;
+  }
+`;
+
+const ToDoListBody = styled.div`
+  width: 99.5%;
+  height: 80%;
+  position: relative;
+  overflow-y: auto;
+  border-radius: 10px;
+  background-color: rgb(200, 200, 200);
+`;
+
+const ToDoList = styled.ul`
+  padding: 10px;
+  width: 99.5%;
+  height: 100%;
+  display: block;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+  border-radius: 15px;
+  list-style-type: none;
+  text-indent: 40px;
+`;
+
+const ToDoItem = styled.li`
+  margin: 0 auto;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 98%;
+  height: 30%;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: gray 2px 2px 2px;
+  background-color: white;
+`;
+
+const EditScheduleButton = styled.button`
+  padding: 10px;
+  align-items: center;
+  display: inline-flex;
+  float: right;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  height: 2.25rem;
+  font-size: 1rem;
+  background-color: white;
+
+  &:hover {
+    color: #50a3eb;
+  }
+
+  &:active {
+    color: #1671bf;
+  }
+`;
+
+const DeleteScheduleButton = styled.button`
+  padding: 10px;
+  align-items: center;
+  display: inline-flex;
+  float: right;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  height: 2.25rem;
+  font-size: 1rem;
+  background-color: white;
+
+  &:hover {
+    color: #eb5050;
+  }
+
+  &:active {
+    color: #bf1616;
+  }
+`;
+
+const PreviousButton = styled.button`
+  color: gray;
+  float: left;
+  border: none;
+  background-color: white;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: black;
+    text-decoration: none;
+  }
+`;
+
+const ScheduleHeader = styled.div`
+  margin-top: 10px;
+`;
+
+const ScheduleTitleInput = styled.input`
+  width: 70%;
+  height: 100%;
+  display: inline-block;
+  font-size: 28px;
+  font-weight: bold;
+  text-indent: 10px;
+  outline: none;
+  border: none;
+
+  &::placeholder {
+    font-size: 28px;
+    text-indent: 10px;
+    text-align: left;
+  }
+`;
+
+const ScheduleSaveButton = styled.input`
+  align-items: center;
+  display: inline-block;
+  float: right;
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  width: 6rem;
+  height: 2.25rem;
+  margin-right: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  background: #228be6;
+
+  &:hover {
+    background: #50a3eb;
+  }
+
+  &:active {
+    background: #1671bf;
+  }
+`;
+
+const ScheduleSelectedDate = styled.div`
+  display: inline;
+  margin-left: 10px;
+  margin-right: 8px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+  line-height: 30px;
+  color: gray;
+  font-size: 15px;
+`;
+
+const ScheduleBody = styled.div`
+  height: 100%;
+  margin-top: 20px;
+`;
 
 function Modal({ selectedDate, closeModal, addSchedule }) {
   const formattedDate = selectedDate ? selectedDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
@@ -14,7 +253,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
     try {
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth() + 1;
-      const response = await axios.get(`https://wwappi.shop/calendar/${year}/${month}`);
+      const response = await API.get(`calendar/${year}/${month}`, {withCredentials: true});
       if (response.status === 200) {
         const events = Array.isArray(response.data.calendars) ? response.data.calendars : [];
         const eventsForSelectedDate = events.filter(event => {
@@ -44,7 +283,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
     };
 
     try {
-      const response = await axios.post('https://wwappi.shop/calendar', newEvent);
+      const response = await API.post('calendar', newEvent, {withCredentials: true});
       if (response.status === 200) {
         setSchedules([...schedules, { ...newEvent, id: response.data.number }]);
         addSchedule(scheduleText);
@@ -67,7 +306,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
     };
 
     try {
-      const response = await axios.put('https://wwappi.shop/calendar', editEvent);
+      const response = await API.put('calendar', editEvent, {withCredentials: true});
       if (response.status === 200) {
         setSchedules(schedules.map((evt) => (evt.id === scheduleNumber ? { ...editEvent, id: scheduleNumber } : evt)));
         setScheduleText('');
@@ -84,7 +323,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
 
   const handleDeleteEvent = async (id) => {
     try {
-      const response = await axios.delete(`https://wwappi.shop/calendar/${id}`);
+      const response = await API.delete(`calendar/${id}`, {withCredentials: true});
       if (response.status === 200) {
         setSchedules(schedules.filter((event) => event.id !== id));
       } else {
@@ -102,56 +341,54 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
   }, [selectedDate, formattedDateISO]);
 
   return (
-    <div className="modal">
+    <ModalWrapper>
       {mode === 'default' && (
         <>
-          <div className="modal-content">
-            <span className="close" onClick={() => { closeModal(); }}>×</span>
-            <p className="selected-date">{formattedDate}</p>
-            <div className="schedule-bar">
-              <button className="add-schedule" onClick={() => setMode('schedule')}>일정 추가</button>
-            </div>
-            <div className="to-do-list-body">
-              <ul className="to-do-list">
+          <ModalContent>
+            <CloseButton onClick={() => { closeModal(); }}>×</CloseButton>
+            <SelectedDate>{formattedDate}</SelectedDate>
+            <ScheduleBar>
+              <AddScheduleButton onClick={() => setMode('schedule')}>일정 추가</AddScheduleButton>
+            </ScheduleBar>
+            <ToDoListBody>
+              <ToDoList>
                 {schedules.map((event) => (
-                  <li key={event.id} className="to-do">
+                  <ToDoItem key={event.id}>
                     {event.title}
-                    <button className="delete-schedule" onClick={() => handleDeleteEvent(event.id)}>삭제</button>
-                    <button className="edit-schedule" onClick={() => { setMode('schedule'); setScheduleNumber(event.id); setScheduleText(event.title); }}>수정</button>
-                  </li>
+                    <DeleteScheduleButton onClick={() => handleDeleteEvent(event.id)}>삭제</DeleteScheduleButton>
+                    <EditScheduleButton onClick={() => { setMode('schedule'); setScheduleNumber(event.id); setScheduleText(event.title); }}>수정</EditScheduleButton>
+                  </ToDoItem>
                 ))}
-              </ul>
-            </div>
-          </div>
+              </ToDoList>
+            </ToDoListBody>
+          </ModalContent>
         </>
       )}
 
       {mode === 'schedule' && (
         <>
-          <div className="modal-content-schedule">
-            <form method="post" className="" onSubmit={handleAddEvent}>
-              <div className="modal-header">
-                <button className="previous-button" onClick={() => { setMode('default'); setScheduleNumber(null); setScheduleText(''); }}>&lt;</button>
-                <div className="schedule-selected-date">{formattedDate}</div>
-                <span className="close" onClick={() => { closeModal(); }}>&times;</span>
-              </div>
-              <div className="schedule-header">
-                <input
+          <ModalContentSchedule>
+            <form method="post" onSubmit={handleAddEvent}>
+              <ModalHeader>
+                <PreviousButton onClick={() => { setMode('default'); setScheduleNumber(null); setScheduleText(''); }}>&lt;</PreviousButton>
+                <ScheduleSelectedDate>{formattedDate}</ScheduleSelectedDate>
+                <CloseButton onClick={() => { closeModal(); }}>&times;</CloseButton>
+              </ModalHeader>
+              <ScheduleHeader>
+                <ScheduleTitleInput
                   type="text"
                   value={scheduleText}
                   onChange={(e) => setScheduleText(e.target.value)}
                   placeholder="일정을 입력하세요"
-                  className="schedule-title"
                 />
-                <input type="submit" value="저장" className="schedule-save-button" />
-              </div>
-              <div className="schedule-body">
-              </div>
+                <ScheduleSaveButton type="submit" value="저장" />
+              </ScheduleHeader>
+              <ScheduleBody></ScheduleBody>
             </form>
-          </div>
+          </ModalContentSchedule>
         </>
       )}
-    </div>
+    </ModalWrapper>
   );
 }
 
