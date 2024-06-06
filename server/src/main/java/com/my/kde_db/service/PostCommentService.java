@@ -14,7 +14,7 @@ public class PostCommentService {
         return postCommentMapper.writeComment(postComment);
     }
 
-    public boolean deleteComment(int commentId, int postId, int userId) {
-        return postCommentMapper.deleteComment(commentId, postId, userId);
+    public boolean deleteComment(int commentId, int postId) {
+        return postCommentMapper.deleteComment(commentId,postId);
     }
 }

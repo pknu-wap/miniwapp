@@ -41,11 +41,11 @@ public class PostCommentController {
                                                 HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
         if (loginUser != null) {
-            boolean isDeleted = postCommentService.deleteComment(commentId, postId, loginUser.getNumber());
+            boolean isDeleted = postCommentService.deleteComment(commentId, postId);
             if (isDeleted) {
                 return ResponseEntity.ok("Comment deleted successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this comment");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete comment");
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");

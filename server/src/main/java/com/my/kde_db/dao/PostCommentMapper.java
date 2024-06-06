@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 public interface PostCommentMapper {
     boolean writeComment(PostComment postComment);
 
-    boolean deleteComment(@Param("commentId") int commentId, @Param("postId") int postId, @Param("userId") int userId);
+    boolean deleteComment(@Param("commentId") int commentId, @Param("postId") int postId);
+
+
 }
 

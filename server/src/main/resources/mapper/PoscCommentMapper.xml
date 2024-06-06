@@ -8,11 +8,10 @@
     </insert>
 
 
-    <delete id="deleteComment">
+    <delete id="deleteComment" parameterType="map">
         DELETE FROM post_comment
         WHERE number = #{commentId}
-          AND (user_number = #{userId} OR post_number IN
-                                          (SELECT p.number FROM post p WHERE p.number = #{postId} AND p.user_number = #{userId}))
+          AND post_number = #{postId}
     </delete>
 
 </mapper>
