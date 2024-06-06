@@ -1,159 +1,202 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import styled from 'styled-components';
+import API from "../utils/API.js";
+import styled, { createGlobalStyle } from 'styled-components';
 import Calendar from './calendar.js';
 import PostUpdate from './postUpdate.js';
+
+const GlobalStyle = createGlobalStyle`
+  *, *::before, *::after {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+  }
+`;
 
 const MainpageBody = styled.div`
   margin: 10px;
   width: 99%;
-  height: 98%;
-  min-height: 90vh;
-  position: absolute;
+  height: 825px;
   border: 2px solid;
   border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid;
+`;
+
+const ProfileSection = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const ProfileImageFrame = styled.div`
-  width: 150px;
-  height: 150px;
-  position: relative;
-  z-index: 2;
-  top: 13%;
-  left: 5%;
+  width: 100px;
+  height: 100px;
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  border-radius: 50%;
 `;
 
 const ProfileImage = styled.img`
-  width: 150px;
-  height: 150px;
-  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`;
+
+const ButtonsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const EntraceButton = styled(Link)`
+  width: 200px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: rgb(0, 123, 255);
+  color: white;
+  text-decoration: none;
+  margin-right: 10px;
   z-index: 1;
-  border: 2px solid;
-  border-radius: 16px;
 `;
 
-const EntraceButton = styled.button`
-  width: 340px;
-  height: 80px;
-  position: absolute;
-  z-index: 2;
-  top: 18%;
-  left: 70%;
-  text-align: center;
-  font-size: 25px;
-  border: 2px solid;
-  border-radius: 20px;
-  background-color: rgb(67, 67, 255);
-  cursor: pointer;
-`;
-
-const LogoutButton = styled.button`
-  width: 110px;
+const LogoutButton = styled(Link)`
+  margin: 20px;
+  width: 80px;
   height: 30px;
-  display: inline-block;
-  position: absolute;
-  top: 5%;
-  left: 85%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 2px solid;
-  border-radius: 14px;
-  background-color: rgb(255, 109, 109);
-  cursor: pointer;
+  border-radius: 10px;
+  background-color: rgb(220, 53, 69);
+  color: white;
+  text-decoration: none;
 `;
 
 const HelloUser = styled.div`
-  width: 200px;
-  height: 30px;
-  display: inline-block;
-  position: absolute;
-  top: 5%;
-  left: 70%;
-  text-align: right;
+  margin-right: 20px;
+  font-size: 18px;
 `;
 
-const Horizonline = styled.div`
-  width: 100%;
-  height: 1px;
-  position: relative;
-  top: 7%;
-  border: 1px solid;
+const ContentSection = styled.div`
+  width: 99%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
 `;
 
 const CalendarWrapper = styled.div`
-  display: block;
+  width: 100%;
 `;
 
 const CalendarContent = styled.div`
-  width: 900px;
+  margin: 10px;
+  width: 100%;
   height: 600px;
-  position: absolute;
-  z-index: 2;
-  top: 35%;
-  left: 5%;
   border: 2px solid;
   border-radius: 20px;
-  background-color: 0,0,0,0;
+  background-color: transparent;
 `;
 
 const CalendarTitle = styled.div`
+  margin-left: 40px;
   width: 200px;
   height: 50px;
-  position: absolute;
-  top: 30%;
-  left: 7%;
   font-size: 35px;
+  margin-bottom: 10px;
 `;
 
 const PostUpdateWrapper = styled.div`
-  display: inline-block;
+  width: 100%;
 `;
 
 const PostUpdateContent = styled.div`
-  width: 900px;
+  margin: 10px;
+  width: 100%;
   height: 600px;
-  position: absolute;
-  top: 35%;
-  left: 50%;
   border-radius: 20px;
   border: 2px solid;
 `;
 
 const PostUpdateTitle = styled.div`
+  margin-left: 40px;
   width: 270px;
   height: 50px;
-  position: absolute;
-  top: 30%;
-  left: 52%;
   font-size: 35px;
+  margin-bottom: 10px;
 `;
 
 function Mainpage() {
+  const [status, setStatus] = useState(null);
+  const [link, setLink] = useState(null);
+
+  const getStatus = async () => {
+    try {
+      const response = await API.get(`user/status`, { withCredentials: true });
+      setStatus(response.data);
+    } catch (error) {
+      alert("실패");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getStatus();
+  }, [])
+
+  useEffect(() => {
+    if (status !== null) { setLink(`../mypage/${status}/default`); }
+  }, [status])
+
   return (
     <MainpageBody>
-      <ProfileImageFrame>
-        <ProfileImage alt="profileImage" src="profile_image_test.jpeg" />
-      </ProfileImageFrame>
-      <Link to="../minihome">
-        <EntraceButton>내 미니왑피 입장하기</EntraceButton>
-      </Link>
-      <Link to="../login">
-        <LogoutButton>로그아웃</LogoutButton>
-      </Link>
-      <HelloUser>안녕하세요 OO님!</HelloUser>
-      <Horizonline />
-      <CalendarWrapper>
-        <CalendarTitle>WAP 캘린더</CalendarTitle>
-        <CalendarContent>
-          <Calendar />
-        </CalendarContent>
-      </CalendarWrapper>
-      <PostUpdateWrapper>
-        <PostUpdateTitle>게시물 업데이트</PostUpdateTitle>
-        <PostUpdateContent>
-          <PostUpdate />
-        </PostUpdateContent>
-      </PostUpdateWrapper>
+      <GlobalStyle />
+      <Header>
+        <ProfileSection>
+          <ProfileImageFrame>
+            <ProfileImage alt="profileImage" src="profile_image_test.jpeg" />
+          </ProfileImageFrame>
+        </ProfileSection>
+        <ButtonsSection>
+          <HelloUser>안녕하세요 OO님!</HelloUser>
+          <EntraceButton to={link}>내 미니왑피 입장하기</EntraceButton>
+        </ButtonsSection>
+        <LogoutButton to="../login">로그아웃</LogoutButton>
+      </Header>
+      <ContentSection>
+        <CalendarWrapper>
+          <CalendarTitle>WAP 캘린더</CalendarTitle>
+          <CalendarContent>
+            <Calendar />
+          </CalendarContent>
+        </CalendarWrapper>
+        <PostUpdateWrapper>
+          <PostUpdateTitle>게시물 업데이트</PostUpdateTitle>
+          <PostUpdateContent>
+            <PostUpdate />
+          </PostUpdateContent>
+        </PostUpdateWrapper>
+      </ContentSection>
     </MainpageBody>
   );
 }

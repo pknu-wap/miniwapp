@@ -5,7 +5,7 @@ import API from '../utils/API';
 const ModalWrapper = styled.div`
   display: flex;
   position: fixed;
-  z-index: 2;
+  z-index: 100; 
   left: 0;
   top: 0;
   width: 100%;

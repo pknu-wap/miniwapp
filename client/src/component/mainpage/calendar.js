@@ -28,7 +28,7 @@ const CalendarRow = styled.div`
 
 const CalendarCell = styled.div`
   width: 100px;
-  height: 50px;
+  height: 82px;
   flex: 1;
   border: 1px solid #ccc;
   padding: 12px;
@@ -37,8 +37,20 @@ const CalendarCell = styled.div`
   &:hover {
     background-color: #f0f0f0;
   }
-`;
 
+  .calendar-events {
+    font-size: 12px; /* 일정 텍스트의 크기 줄이기 */
+  }
+
+  .calendar-event {
+    margin-top: 2px;
+  }
+
+  .calendar-event-more {
+    color: #888;
+    font-size: 10px;
+  }
+`;
 const CalendarCellDay = styled.div`
   text-align: right;
   line-height: 2px;
