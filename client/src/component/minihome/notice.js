@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from './board.js';
 import NewPost from './newPost.js';
 import Post from './post.js';
 import styled, { createGlobalStyle } from "styled-components";
+import { useParams } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 	*, *::before, *::after {
@@ -34,13 +35,15 @@ const Page = styled.div`
   height: 100%;
 `;
 
-function Notice() {
+function Notice(props) {
   const [mode, setMode] = useState('Board');
+  const params = useParams();
+  const [postNumber, setPostNumber] = useState(props.postNumber);
 
   let content = null;
 
   if (mode === 'Board') {
-    content = <Board changeMode={setMode} />;
+    content = <Board changeMode={setMode} postNumber={postNumber}/>;
   }
   if (mode === 'NewPost') {
     content = <NewPost changeMode={setMode} />;

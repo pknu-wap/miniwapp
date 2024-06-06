@@ -198,6 +198,7 @@ function Minihome() {
   const [color, setColor] = useState([]);
   const [content, setContent] = useState(null);
   const navigate = useNavigate();
+  const {postNumber} = useParams();
 
   const getParams = () => {
     setMinihomeNumber(params.minihomeNumber);
@@ -214,7 +215,7 @@ function Minihome() {
       setColor(["white", "#D9D9D9", "white", "white", "white"])
     }
     if (mode === 'notice') {
-      setContent(<Notice></Notice>);
+      setContent(<Notice postNumber={postNumber}></Notice>);
       setColor(["white", "white", "#D9D9D9", "white", "white"])
     }
     if (mode === 'guest') {
@@ -235,6 +236,8 @@ function Minihome() {
   useEffect(() => {
     if (mode !== null && minihomeNumber !== null) { changeMinihomeData(); }
   }, [mode, minihomeNumber]);
+
+  console.log(postNumber);
 
   return (
     <Component>
