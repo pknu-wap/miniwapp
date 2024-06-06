@@ -14,11 +14,11 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/main' element={<Mainpage />} />
-        <Route exact path='/mypage/:minihomeNumber/:mode' element={<Minihome />} />
-        <Route exact path='/mypage/:minihomeNumber/notice/:postNumber' element={<Minihome />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/loginexception' element={<Loginexception />} />
+        <Route path='/mypage/:minihomeNumber/:mode/:postNumber' element={<Minihome />} />
+        <Route path='/mypage/:minihomeNumber/:mode' element={<Minihome />} />
       </Routes>
     </BrowserRouter>
   );

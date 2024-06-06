@@ -222,11 +222,18 @@ function Board(props) {
   const [indices, setIndices] = useState([]);
   const [check, setCheck] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [postNumber1, setPostNumber1] = useState(props.postNumber);
   const myData = useLocation();
   let tempData = [];
 
-  const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
-  const getMode = () => { setMode(userNumber == minihomeNumber); }
+  const getParams = () => { setMinihomeNumber(params.minihomeNumber);  }
+  const getMode = () => { 
+    setMode(userNumber == minihomeNumber);
+    if (postNumber1 !== undefined) {
+      props.changeMode('Post');
+      navigate(`/mypage/${minihomeNumber}/notice/${postNumber1}`);
+    }
+  }
 
   const getStatus = async () => {
     try {
