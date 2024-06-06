@@ -149,24 +149,31 @@ const PostUpdateTitle = styled.div`
 function Mainpage() {
   const [status, setStatus] = useState(null);
   const [link, setLink] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const [userName, setUserName] = useState("OO"); // Default to "OO" if name is not loaded yet
 
-  const getStatus = async () => {
+  const getUserInfo = async () => {
     try {
-      const response = await API.get(`user/status`, { withCredentials: true });
-      setStatus(response.data);
+      const response = await API.get(`mainpage/user`, { withCredentials: true });
+      const { name, image, number } = response.data;
+      setUserName(name);
+      setStatus(number);
+      setProfileImage(image ? `data:image/png;base64,${image}` : "default_profile_image.png");
     } catch (error) {
-      alert("실패");
-      console.log(error);
+      console.error(error);
+      alert("Failed to load user information");
     }
   }
 
   useEffect(() => {
-    getStatus();
-  }, [])
+    getUserInfo();
+  }, []);
 
   useEffect(() => {
-    if (status !== null) { setLink(`../mypage/${status}/default`); }
-  }, [status])
+    if (status !== null) {
+      setLink(`../mypage/${status}/default`);
+    }
+  }, [status]);
 
   return (
     <MainpageBody>
@@ -174,11 +181,11 @@ function Mainpage() {
       <Header>
         <ProfileSection>
           <ProfileImageFrame>
-            <ProfileImage alt="profileImage" src="profile_image_test.jpeg" />
+            <ProfileImage alt="profileImage" src={profileImage} />
           </ProfileImageFrame>
         </ProfileSection>
         <ButtonsSection>
-          <HelloUser>안녕하세요 OO님!</HelloUser>
+          <HelloUser>안녕하세요 {userName}님!</HelloUser>
           <EntraceButton to={link}>내 미니왑피 입장하기</EntraceButton>
         </ButtonsSection>
         <LogoutButton to="../login">로그아웃</LogoutButton>
