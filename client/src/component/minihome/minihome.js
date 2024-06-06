@@ -105,6 +105,7 @@ const ToHome = styled.button`
   justify-content: center;
   align-items: center;
   z-index: 0;
+  cursor: pointer;
 
   font-size: 20px;
   text-indent: 15px;
@@ -124,6 +125,7 @@ const ToProfile = styled.button`
   justify-content: center;
   align-items: center;
   z-index: 0;
+  cursor: pointer;
 
   font-size: 20px;
   text-indent: 15px;
@@ -143,6 +145,7 @@ const ToNotice = styled.button`
   justify-content: center;
   align-items: center;
   z-index: 0;
+  cursor: pointer;
 
   font-size: 20px;
   text-indent: 15px;
@@ -162,6 +165,7 @@ const ToGuest = styled.button`
   justify-content: center;
   align-items: center;
   z-index: 0;
+  cursor: pointer;
 
   font-size: 20px;
   text-indent: 15px;
@@ -181,6 +185,7 @@ const ToFriend = styled.button`
   justify-content: center;
   align-items: center;
   z-index: 0;
+  cursor: pointer;
 
   font-size: 20px;
   text-indent: 15px;
@@ -194,7 +199,7 @@ function Minihome() {
   const [content, setContent] = useState(null);
   const navigate = useNavigate();
 
-  const initMinihomeData = () => {
+  const getParams = () => {
     setMinihomeNumber(params.minihomeNumber);
     setMode(params.mode);
   }
@@ -224,12 +229,12 @@ function Minihome() {
   }
 
   useEffect(() => {
-    initMinihomeData();
+    getParams();
   }, []);
 
   useEffect(() => {
-    changeMinihomeData();
-  }, [mode]);
+    if (mode !== null && minihomeNumber !== null) { changeMinihomeData(); }
+  }, [mode, minihomeNumber]);
 
   return (
     <Component>

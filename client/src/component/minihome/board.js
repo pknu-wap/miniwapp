@@ -104,6 +104,7 @@ const TitleColumn = styled.div`
   grid-row: ${props => props.row};
   grid-column: 2;
   font-size: 20px;
+  cursor: pointer;
 
   display: flex;
   justify-content: center;
@@ -165,6 +166,7 @@ const Delete = styled.input`
   background-color: white;
   border: 2px solid #777777;
   border-radius: 8px;
+  cursor: pointer;
 
   outline: none;
 
@@ -181,6 +183,7 @@ const ToNewPost = styled.input`
   background-color: white;
   border: 2px solid #777777;
   border-radius: 8px;
+  cursor: pointer;
 
   outline: none;
 
@@ -191,35 +194,54 @@ const ToNewPost = styled.input`
 const Move = styled.div`
   grid-row: 2;
   grid-column: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Index = styled.input`
+  font-size: 20px;
+  background-color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: ${props => props.color};
+
+  margin-left: 16px;
+  margin-right: 16px;
 `;
 
 function Board(props) {
   const navigate = useNavigate();
-
-
-  let data = [
-    { checked: 'false', title: '동해물과', date: '2024.01.01', viewcount: '1' },
-    { checked: 'false', title: '백두산이', date: '2024.01.01', viewcount: '2' },
-    { checked: 'false', title: '마르고 닳도록', date: '2024.01.01', viewcount: '3' },
-    { checked: 'false', title: '하나님이', date: '2024.01.01', viewcount: '4' },
-    { checked: 'false', title: '보우하사', date: '2024.01.01', viewcount: '5' },
-    { checked: 'false', title: '우리나라 만세', date: '2024.01.01', viewcount: '6' },
-    { checked: 'false', title: '무궁화', date: '2024.01.01', viewcount: '7' },
-    { checked: 'false', title: '삼천리', date: '2024.01.01', viewcount: '8' },
-    { checked: 'false', title: '화려강산', date: '2024.01.01', viewcount: '9' },
-    { checked: 'false', title: '대한사람 대한으로 길이 보전하세', date: '2024.01.01', viewcount: '10' }
-  ];
-
+  const params = useParams();
+  const [userNumber, setUserNumber] = useState(null);
+  const [minihomeNumber, setMinihomeNumber] = useState(null);
+  const [mode, setMode] = useState(null);
   const [datas, setDatas] = useState([]);
-  const [checked, setChecked] = useState([]);
-  let tempData = [];
-  const { minihomeNumber } = useParams();
+  const [indices, setIndices] = useState([]);
+  const [check, setCheck] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
   const myData = useLocation();
+  let tempData = [];
+
+  const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
+  const getMode = () => { setMode(userNumber == minihomeNumber); }
+
+  const getStatus = async () => {
+    try {
+      const response = await API.get(`user/status`, { withCredentials: true });
+      setUserNumber(response.data);
+    }
+    catch (error) {
+      alert("실패");
+      console.log(error);
+    }
+  }
 
   const getPostData = async () => {
     try {
-      const tempChecked = [];
-      const response = await API.get(`post/list/${minihomeNumber}`, { withCredentials: true });
+      const response = await API.get(`post/list/${minihomeNumber}/${pageNumber}`, { withCredentials: true });
       if (response.data == null) { console.log('THIS IS NULL'); }
       console.log(response);
       for (let postIndex = 0; postIndex < response.data.length; postIndex++) {
@@ -229,7 +251,7 @@ function Board(props) {
           postIndex: response.data[postIndex]["number"],
           title: response.data[postIndex]["title"],
           date: dateString,
-          viewCount: response.data[postIndex]["view_count"]
+          viewCount: response.data[postIndex]["viewCount"]
         });
       }
       const temp = [];
@@ -238,17 +260,12 @@ function Board(props) {
       temp.push(<DateIndex>작성일</DateIndex>);
       temp.push(<ViewCountIndex>조회</ViewCountIndex>);
       for (let i = 0; i < response.data.length; i++) {
-        temp.push(<CheckedColumn type="checkbox" row={i + 2} number={tempData[i]["postIndex"]} onChange={changeChecked}/>);
+        temp.push(<CheckedColumn type="checkbox" row={i + 2} number={tempData[i]["postIndex"]} onClick={changeCheck} />);
         temp.push(<TitleColumn row={i + 2} onClick={toPost} number={tempData[i]["postIndex"]}>{tempData[i]["title"]}</TitleColumn>);
         temp.push(<DateColumn row={i + 2}>{tempData[i]["date"]}</DateColumn>);
         temp.push(<ViewCountColumn row={i + 2}>{tempData[i]["viewCount"]}</ViewCountColumn>);
-        tempChecked.push({
-          postIndex: tempData[i]["postIndex"],
-          checked: false
-        });
       }
       setDatas(temp);
-      setChecked(tempChecked);
     }
     catch (error) {
       alert('ERROR');
@@ -257,11 +274,51 @@ function Board(props) {
     }
   }
 
-  const changeChecked = (event) => {
+  const getIndices = async () => {
+    try {
+      let response;
+      let tempIndices = [];
+      let indexNumber = null;
+      for (let i = 1; i < 101; i++) {
+        response = await API.get(`post/list/${minihomeNumber}/${i}`, { withCredentials: true });
+        if (response.data.length == 0) { indexNumber = i == 1 ? i : i - 1; break; }
+      }
+      for (let i = 1; i < indexNumber + 1; i++) { 
+        console.log(typeof(i));
+        console.log(typeof(pageNumber));
+        if (i === pageNumber) { tempIndices.push(<Index type="button" value={i} color={"#0095FF"} onClick={changePageNumber}></Index>); }
+        else { tempIndices.push(<Index type="button" value={i} color={"black"} onClick={changePageNumber}></Index>); }
+      }
+      setIndices(tempIndices);
+    }
+    catch (error) {
+      alert('실패');
+      console.log(error);
+    }
+  }
+
+  const changePageNumber = (event) => { setPageNumber(parseInt(event.target.value)); }
+
+  const changeCheck = (event) => {
     const postNumber = event.target.getAttribute('number');
-    const isChecked = event.target.checked;
-    console.log(isChecked);
+    const checked = event.target.checked;
+    let tempArr = []
+    if (checked) { setCheck(check.push(postNumber)); }
+    else {
+      check.forEach(element => {
+        console.log(element);
+        console.log(postNumber);
+        if (element !== postNumber) { tempArr.push(element); console.log('AAAAAA'); }
+      })
+      console.log(tempArr);
+      console.log(tempArr == check);
+      setCheck(tempArr);
+      console.log("BBBBBB");
+    }
+    console.log(check);
     console.log(checked);
+    // const isChecked = event.target.checked;
+    // console.log(isChecked);
     // const AAA = document.getElementsByTagName("input");
     // const BBB = AAA.getAttribute("type");
     // console.log(postNumber);
@@ -289,16 +346,34 @@ function Board(props) {
     navigate(`/mypage/${minihomeNumber}/notice/${postNumber}`);
   }
 
+  const toNewPost = () => { if (mode) { props.changeMode('NewPost'); } }
+
   const deletePost = () => {
-    for (let i = 2; i < 11; i++) {
-      console.log(CheckedColumn.checked);
-      console.log(datas[i * 4 + 1]);
+    if (mode) {
+      for (let i = 2; i < 11; i++) {
+        console.log(CheckedColumn.checked);
+        console.log(datas[i * 4 + 1]);
+      }
     }
   }
 
   useEffect(() => {
-    getPostData();
+    getParams();
+    getStatus();
   }, []);
+
+  useEffect(() => {
+    if (userNumber !== null && minihomeNumber !== null) { getMode(); }
+  }, [userNumber, minihomeNumber]);
+
+  useEffect(() => {
+    if (mode !== null) {
+      getPostData();
+      getIndices();
+    }
+  }, [mode, pageNumber]);
+
+  console.log(check);
 
   return (
     <Component>
@@ -309,11 +384,11 @@ function Board(props) {
         </Table>
         <NavBar>
           <DeleteAndNewPost>
-            <Delete type="button" value="삭제" onClick={deletePost}/>
-            <ToNewPost type="button" value="글쓰기" onClick={() => { props.changeMode('NewPost'); }}/>
+            <Delete type="button" value="삭제" onClick={deletePost} />
+            <ToNewPost type="button" value="글쓰기" onClick={toNewPost} />
           </DeleteAndNewPost>
           <Move>
-
+            {indices}
           </Move>
         </NavBar>
       </Page>

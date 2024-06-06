@@ -61,6 +61,7 @@ const HotPost = styled.input`
   grid-row: 1;
   grid-column: 2;
   align-self: end;
+  cursor: pointer;
 
   font-size: 16px;
 
@@ -72,6 +73,7 @@ const NewPost = styled.input`
   grid-row: 1;
   grid-column: 3;
   align-self: end;
+  cursor: pointer;
 
   font-size: 16px;
 
@@ -167,6 +169,8 @@ const Video = styled.iframe`
 `;
 
 function Home() {
+  const params = useParams();
+  const [minihomeNumber, setMinihomeNumber] = useState(null);
   const [link, setLink] = useState("https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA");
   const [mode, setMode] = useState("hot_post");
   const [post, setPost] = useState([]);
@@ -174,7 +178,7 @@ function Home() {
   const toHotPost = () => setMode("hot_post");
   const toNewPost = () => setMode("new_post");
 
-  const {minihomeNumber} = useParams();
+  const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
 
   const getMinihomeData = async () => {
     try {
@@ -215,8 +219,12 @@ function Home() {
   }
 
   useEffect(() => {
-    getMinihomeData();
-  }, []);
+    getParams();
+  })
+
+  useEffect(() => {
+    if (minihomeNumber !== null) { getMinihomeData(); }
+  }, [minihomeNumber]);
 
   useEffect(() => {
     getPostData();

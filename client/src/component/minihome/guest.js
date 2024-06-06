@@ -41,26 +41,27 @@ function Guest() {
   const [minihomeNumber, setMinihomeNumber] = useState(null);
   const [content, setContent] = useState(null);
 
-  const getParams = async () => {
+  const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
+
+  const getStatus = async () => {
     try {
       const response = await API.get(`user/status`, { withCredentials: true });
       setUserNumber(response.data);
-      setUserNumber(2);
-      setMinihomeNumber(params.minihomeNumber);
     }
     catch (error) {
-      alert('실패');
+      alert("실패");
       console.log(error);
     }
   }
 
   const getIsOwner = () => {
-    if (minihomeNumber === userNumber) { setContent(<MyGuestbook />); }
+    if (minihomeNumber == userNumber) { setContent(<MyGuestbook />); }
     else { setContent(<OthersGuestbook />); }
   }
 
   useEffect(() => {
     getParams();
+    getStatus();
   }, []);
 
   useEffect(() => {

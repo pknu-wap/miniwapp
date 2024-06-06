@@ -104,6 +104,7 @@ const ImageChangeLabel = styled.label`
   border-radius: 20px;
   font-size: 15px;
   text-indent: 0;
+  cursor: pointer;
 
   justify-content: center;
   align-items: center;
@@ -126,12 +127,17 @@ const Submit = styled.input`
   border-radius: 20px;
   font-size: 15px;
   text-indent: 0;
+  cursor: pointer;
 
   justify-content: center;
   background-color: #D9D9D9;
 `;
 
 function MinihomeLeft() {
+  const params = useParams();
+  const [userNumber, setUserNumber] = useState(null);
+  const [minihomeNumber, setMinihomeNumber] = useState(null);
+  const [mode, setMode] = useState(null);
   const [name, setName] = useState(null);
   const [nickname, setNickname] = useState(null);
   const [pagename, setPagename] = useState('나의 미니왑피');
@@ -139,9 +145,22 @@ function MinihomeLeft() {
   const [userImage, setUserImage] = useState('');
   const [file, setFile] = useState(null);
 
+  const getFile = event => { setFile(event.target.files[0]); }
   const saveUserIntro = event => { setUserIntro(event.target.value); }
+  const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
+  const getMode = () => { setMode(userNumber == minihomeNumber); }
+  const authCheck = event => { if (!mode) { event.preventDefault(); } }
 
-  const { minihomeNumber } = useParams();
+  const getStatus = async () => {
+    try {
+      const response = await API.get(`user/status`, { withCredentials: true });
+      setUserNumber(response.data);
+    }
+    catch (error) {
+      alert("실패");
+      console.log(error);
+    }
+  }
 
   const getMinihomeData = async () => {
     try {
@@ -180,16 +199,18 @@ function MinihomeLeft() {
   const changeMinihomeData = async (event) => {
     try {
       event.preventDefault();
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append('nickname', nickname);
-      formData.append("introduction", userIntro);
-      formData.append("pagename", pagename);
-      formData.append("imageFile", file);
-      const response = await API2.post('leftprofile/upload', formData, { withCredentials: true });
-      console.log(response.data);
-      alert("성공");
-      window.location.reload();
+      if (mode) {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append('nickname', nickname);
+        formData.append("introduction", userIntro);
+        formData.append("pagename", pagename);
+        formData.append("imageFile", file);
+        const response = await API2.post('leftprofile/upload', formData, { withCredentials: true });
+        console.log(response.data);
+        alert("성공");
+        window.location.reload();
+      }
     }
     catch (error) {
       console.log(error);
@@ -198,8 +219,17 @@ function MinihomeLeft() {
   }
 
   useEffect(() => {
-    getMinihomeData();
+    getParams();
+    getStatus();
   }, []);
+
+  useEffect(() => {
+    if (minihomeNumber !== null && userNumber !== null) { getMode(); }
+  }, [userNumber, minihomeNumber]);
+
+  useEffect(() => {
+    if (mode !== null) { getMinihomeData(); }
+  }, [mode])
 
   return (
     <Component>
@@ -209,10 +239,10 @@ function MinihomeLeft() {
         <Upperbox />
         <Image src={userImage} alt="Loading..." />
         <UserInfo>{name} ({nickname})</UserInfo>
-        <Introduction placeholder="내 소개" value={userIntro} onChange={saveUserIntro} />
+        <Introduction placeholder="내 소개" value={userIntro} onChange={saveUserIntro} readOnly={mode ? false : true}/>
         <ImageChangeAndSubmit>
-          <ImageChangeLabel htmlFor="file">이미지 변경</ImageChangeLabel>
-          <ImageChange type="file" id="file" onChange={(e) => { setFile(e.target.files[0]); }} />
+          <ImageChangeLabel htmlFor="file" onClick={authCheck}>이미지 변경</ImageChangeLabel>
+          <ImageChange type="file" id="file" onChange={getFile} />
           <Space />
           <Submit type='submit' value='저장' />
         </ImageChangeAndSubmit>
