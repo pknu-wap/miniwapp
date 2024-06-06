@@ -185,6 +185,7 @@ const WrittenComments = styled.div`
   align-self: stretch;
 
   display: grid;
+  justify-content: stretch;
   align-items: center;
   grid-auto-flow: row;
   grid-auto-rows: 30%;
@@ -198,7 +199,7 @@ const WrittenComments = styled.div`
 const WrittenComment = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
   justify-content: start;
   align-items: center;
 `;
@@ -215,6 +216,19 @@ const WrittenCommentContent = styled.div`
   grid-column: 1;
 
   font-size: 16px;
+`;
+
+const CommentDelete = styled.input`
+  grid-row: 1;
+  grid-column: 2;
+  margin-right: 40px;
+  font-size: 16px;
+  background-color: white;
+  border: none;
+  outline: none;
+  color: red;
+
+  justify-self: end;
 `;
 
 function Post(props) {
@@ -262,6 +276,7 @@ function Post(props) {
         <WrittenComment>
           <WrittenCommentTitle>{element.name} ({element.nickname})</WrittenCommentTitle>
           <WrittenCommentContent>{element.comment}</WrittenCommentContent>
+          <CommentDelete type="button" value="삭제" index={element.number} onClick={deleteComment}></CommentDelete>
         </WrittenComment>
       );
     })
@@ -281,47 +296,6 @@ function Post(props) {
     }
   }
 
-  const deletePost3 = async () => {
-    try {
-      const response = await axios.delete(`https://wwappi.shop/post/delete/${postNumber}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${localStorage.getItem("token")}`
-        },
-        withCredentials: true // withCredentials 옵션 위치 조정
-      });
-
-      console.log(response);
-      props.changeMode('Board');
-      navigate(`/mypage/${minihomeNumber}/notice`);
-    }
-    catch (error) {
-      console.log(error);
-      alert('실패');
-    }
-  }
-
-  const deletePost2 = () => {
-    axios
-      .delete(`https://wwappi.shop/post/delete/${postNumber}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${localStorage.getItem("token")}`
-        },
-        withCredentials: true // withCredentials 옵션 위치 조정
-      })
-      .then(response => {
-        console.log(response);
-        props.changeMode('Board');
-        navigate(`/mypage/${minihomeNumber}/notice`);
-      })
-      .catch(error => {
-        alert("실패");
-        console.log(error);
-        console.log(`${localStorage.getItem("token")}`);
-      })
-  }
-
   const writeComment = async (event) => {
     try {
       event.preventDefault();
@@ -331,6 +305,19 @@ function Post(props) {
       const response = await API.post(`/postco/write/${postNumber}`, JSON.stringify(newComment), { withCredentials: true });
       console.log(response);
       alert("성공");
+      props.changeMode('Board');
+      navigate(`/mypage/${minihomeNumber}/notice`);
+    }
+    catch (error) {
+      console.log(error);
+      alert('실패');
+    }
+  }
+
+  const deleteComment = async (event) => {
+    try {
+      const response = await API.delete(`/postco/delete/${event.target.getAttribute("index")}/${postNumber}`, { withCredentials: true });
+      console.log(response);
       props.changeMode('Board');
       navigate(`/mypage/${minihomeNumber}/notice`);
     }

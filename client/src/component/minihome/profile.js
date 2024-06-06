@@ -118,6 +118,7 @@ const ImageChangeLabel = styled.label`
   font-size: 20px;
   text-align: center;
   align-self: center;
+  cursor: pointer;
 
   display: flex;
   justify-content: center;
@@ -140,6 +141,7 @@ const Submit = styled.input`
   font-size: 20px;
   text-align: center;
   align-self: center;
+  cursor: pointer;
 
   display: flex;
   justify-content: center;
@@ -150,6 +152,10 @@ const Submit = styled.input`
 `;
 
 function Profile() {
+  const params = useParams();
+  const [userNumber, setUserNumber] = useState(null);
+  const [minihomeNumber, setMinihomeNumber] = useState(null);
+  const [mode, setMode] = useState(null);
   const [userIntro, setUserIntro] = useState('');
   const [link, setLink] = useState("https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA");
   const [nickname, setNickname] = useState('');
@@ -161,8 +167,21 @@ function Profile() {
   const saveLink = event => { setLink(event.target.value); };
   const saveNickname = event => { setNickname(event.target.value); };
   const savePagename = event => { setPagename(event.target.value); };
+  const getFile = event => { setFile(event.target.files[0]); }
+  const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
+  const getMode = () => { setMode(userNumber == minihomeNumber); }
+  const authCheck = event => { if (!mode) { event.preventDefault(); } }
 
-  const {minihomeNumber} = useParams();
+  const getStatus = async () => {
+    try {
+      const response = await API.get(`user/status`, { withCredentials: true });
+      setUserNumber(response.data);
+    }
+    catch (error) {
+      alert("실패");
+      console.log(error);
+    }
+  }
 
   const getMinihomeData = async () => {
     try {
@@ -173,7 +192,7 @@ function Profile() {
       setUserIntro(response.data.contents == null ? "" : response.data.contents);
       if (response.data.youtubelink !== 'null') { setLink(response.data.youtubelink); }
       setNickname(response.data.nickname);
-      setPagename(response.data.pagename);
+      if (response.data.pagename !== 'null') { setPagename(response.data.pagename); }
       if (String(response.data.image) === 'null') {  // 빈 파일 생성해서 formData에 append
         const emptyFile = new Blob([]);
         setFile(emptyFile);
@@ -200,20 +219,19 @@ function Profile() {
   const changeMinihomeData = async (event) => {
     try {
       event.preventDefault();
-      // console.log("youtubelink: " + link);
-      // console.log("nickname:" + nickname);
-      // console.log("pagename: " + pagename);
-      // console.log("contents: " + userIntro);
-      console.log("imageFile: " + file);
-      const formData = new FormData();
-      formData.append("youtubelink", link);
-      formData.append("nickname", nickname);
-      formData.append("pagename", pagename);
-      formData.append("contents", userIntro);
-      formData.append("imageFile", file);
-      const response = await API2.post('/rightprofile/upload', formData, { withCredentials: true });
-      alert("성공");
-      window.location.reload();
+      if (mode) {
+        console.log("imageFile: " + file);
+        const formData = new FormData();
+        formData.append("youtubelink", link);
+        formData.append("nickname", nickname);
+        formData.append("pagename", pagename);
+        formData.append("contents", userIntro);
+        formData.append("imageFile", file);
+        const response = await API2.post('/rightprofile/upload', formData, { withCredentials: true });
+        alert("성공");
+        console.log(response);
+        window.location.reload();
+      }
     }
     catch (error) {
       console.log(error);
@@ -222,20 +240,29 @@ function Profile() {
   }
 
   useEffect(() => {
-    getMinihomeData();
+    getParams();
+    getStatus();
   }, []);
+
+  useEffect(() => {
+    if (minihomeNumber !== null && userNumber !== null) { getMode(); }
+  }, [userNumber, minihomeNumber]);
+
+  useEffect(() => {
+    if (mode !== null) { getMinihomeData(); }
+  }, [mode])
 
   return (
     <Component>
       <GlobalStyle />
       <Page onSubmit={changeMinihomeData}>
         <Image src={userImage} alt="Loading..."/>
-        <Introduction placeholder="내 소개" value={userIntro} onChange={saveUserIntro} />
-        <URL type='text' placeholder="유튜브 링크" value={link} onChange={saveLink} />
-        <Nickname type='text' placeholder="별명" value={nickname} onChange={saveNickname} />
-        <Pagename type='text' placeholder="미니왑피 이름" value={pagename} onChange={savePagename} />
-        <ImageChangeLabel htmlFor="thisFile">이미지 변경</ImageChangeLabel>
-        <ImageChange type="file" id="thisFile" onChange={(e) => { setFile(e.target.files[0]); }} />
+        <Introduction placeholder="내 소개" value={userIntro} onChange={saveUserIntro} readOnly={mode ? false : true} />
+        <URL type='text' placeholder="유튜브 링크" value={link} onChange={saveLink} readOnly={mode ? false : true} />
+        <Nickname type='text' placeholder="별명" value={nickname} onChange={saveNickname} readOnly={mode ? false : true} />
+        <Pagename type='text' placeholder="미니왑피 이름" value={pagename} onChange={savePagename} readOnly={mode ? false : true} />
+        <ImageChangeLabel htmlFor="thisFile" onClick={authCheck}>이미지 변경</ImageChangeLabel>
+        <ImageChange type="file" id="thisFile" onChange={getFile} />
         <Submit type="submit" value='저장' />
       </Page>
     </Component>
