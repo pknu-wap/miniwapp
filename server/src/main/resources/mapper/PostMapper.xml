@@ -64,7 +64,7 @@
                 WHERE number = #{postNumber}
     </update>
 
-    <update id="refactorPost" parametetType = "int">
+    <update id="refactorPost" parameterType = "int">
         SELECT FRO
 
     </update>

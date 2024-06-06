@@ -8,7 +8,7 @@
     </select>
 
     <select id = "findNewPost" resultType="com.my.kde_db.dto.MainPost">
-        SELECT p.title,p.number,p.view_count,u.name
+        SELECT p.title,p.number,p.view_count,p.user_number,u.name
         FROM post p
         INNER JOIN user u ON p.user_number = u.number
         ORDER BY p.date DESC
@@ -16,7 +16,7 @@
     </select>
 
     <select id = "findHotPost" resultType="com.my.kde_db.dto.MainPost">
-        SELECT p.title,p.number,p.view_count,u.name
+        SELECT p.title,p.number,p.view_count,p.user_number,u.name
         FROM post p
         INNER JOIN user u ON p.user_number = u.number
         ORDER BY p.view_count DESC
