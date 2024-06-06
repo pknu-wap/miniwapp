@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import API from '../utils/API'
+import { useNavigate } from 'react-router-dom';
+import API from '../utils/API';
 import styled from 'styled-components';
 
 const PostUpdateContainer = styled.div`
@@ -39,7 +40,6 @@ const TableCellClick = styled.td`
   padding: 8px;
   text-align: left;
   cursor: pointer;
-  margin-top:
 `;
 
 const TableCellNonClick = styled.td`
@@ -58,19 +58,25 @@ const TableRow = styled.tr`
 function PostUpdate() {
   const [posts, setPosts] = useState([]);
   const [sortOrder, setSortOrder] = useState('new');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await API.get(`mainpage/${sortOrder === 'new' ? 'new_post' : 'hot_post'}`, {withCredentials: true});
-        setPosts(response.data);
+        const response = await API.get(`mainpage/${sortOrder === 'new' ? 'new_post' : 'hot_post'}`, { withCredentials: true });
+        const postsData = response.data;
+        setPosts(postsData);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
-    
+
     fetchPosts();
   }, [sortOrder]);
+
+  const handlePostClick = (userNumber, postNumber) => {
+    navigate(`/mypage/${userNumber}/notice/${postNumber}`);
+  };
 
   return (
     <PostUpdateContainer>
@@ -90,8 +96,12 @@ function PostUpdate() {
         <tbody>
           {posts.map((post) => (
             <TableRow key={post.number}>
-              <TableCellClick>{post.title}</TableCellClick>
-              <TableCellClick>{post.name}</TableCellClick>
+              <TableCellClick onClick={() => handlePostClick(post.userNumber, post.number)}>
+                {post.title}
+              </TableCellClick>
+              <TableCellClick onClick={() => handlePostClick(post.userNumber, post.number)}>
+                {post.name}
+              </TableCellClick>
               <TableCellNonClick>{post.viewCount}</TableCellNonClick>
             </TableRow>
           ))}
