@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const PostUpdateContainer = styled.div`
   padding: 20px;
+  z-index: 0;
 `;
 
 const PostUpdateHeader = styled.div`
@@ -32,7 +33,17 @@ const TableHeader = styled.th`
   background-color: #f2f2f2;
 `;
 
-const TableCell = styled.td`
+const TableCellClick = styled.td`
+  height: 90px;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+  margin-top:
+`;
+
+const TableCellNonClick = styled.td`
+  height: 90px;
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -79,9 +90,9 @@ function PostUpdate() {
         <tbody>
           {posts.map((post) => (
             <TableRow key={post.number}>
-              <TableCell>{post.title}</TableCell>
-              <TableCell>{post.name}</TableCell>
-              <TableCell>{post.viewCount}</TableCell>
+              <TableCellClick>{post.title}</TableCellClick>
+              <TableCellClick>{post.name}</TableCellClick>
+              <TableCellNonClick>{post.viewCount}</TableCellNonClick>
             </TableRow>
           ))}
         </tbody>
