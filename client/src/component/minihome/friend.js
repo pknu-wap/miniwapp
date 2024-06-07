@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
-import API from "../utils/API"; 
+import API from "../utils/API";
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -78,17 +78,14 @@ const FriendDetails = styled.div`
 function Friend() {
   const [totalMember, setTotalMember] = useState(null);
   const [friends, setFriends] = useState([]);
-  const [friendImages, setFriendImages] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     API.get('/friendlist', { withCredentials: true })
       .then(response => {
-        console.log('API Response:', response.data);
         const { usercount, data } = response.data;
         setTotalMember(usercount);
         setFriends(data || []);
-        fetchFriendImages(data);
       })
       .catch(error => {
         if (error.response && error.response.status === 401) {
@@ -99,24 +96,10 @@ function Friend() {
       });
   }, []);
 
-  const fetchFriendImages = async (friends) => {
-    const images = {};
-    for (const friend of friends) {
-      try {
-        const response = await API.get(`/user/profile/${friend.number}`, { withCredentials: true });
-        images[friend.number] = 'data:image/png;base64,' + response.data.image;
-      } catch (error) {
-        console.error('Error fetching friend image:', error);
-        images[friend.number] = "default_profile_image.png";
-      }
-    }
-    setFriendImages(images);
-  };
-
   const handleFriendClick = (friendNumber) => {
     console.log('Navigating to mini home of friend number:', friendNumber);
     navigate(`../mypage/${friendNumber}/default`);
-  window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -130,7 +113,10 @@ function Friend() {
           {friends.length > 0 ? (
             friends.map(friend => (
               <FriendCard key={friend.number} onClick={() => handleFriendClick(friend.number)}>
-                <FriendImage src={friendImages[friend.number] || "default_profile_image.png"} alt={friend.name} />
+                <FriendImage 
+                  src={friend.image ? `data:image/png;base64,${friend.image}` : "/default_profile_image.png"} 
+                  alt={friend.name} 
+                />
                 <FriendDetails>
                   <div>{friend.name}</div>
                   <div>({friend.nickname})</div>
