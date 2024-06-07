@@ -116,6 +116,7 @@ function Friend() {
   const handleFriendClick = (friendNumber) => {
     console.log('Navigating to mini home of friend number:', friendNumber);
     navigate(`../mypage/${friendNumber}/default`);
+  window.location.reload();
   };
 
   return (
