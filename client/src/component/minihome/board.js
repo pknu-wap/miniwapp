@@ -267,7 +267,7 @@ function Board(props) {
       temp.push(<DateIndex>작성일</DateIndex>);
       temp.push(<ViewCountIndex>조회</ViewCountIndex>);
       for (let i = 0; i < response.data.length; i++) {
-        temp.push(<CheckedColumn type="checkbox" row={i + 2} number={tempData[i]["postIndex"]} onClick={changeCheck} />);
+        temp.push(<CheckedColumn type="checkbox" row={i + 2} number={tempData[i]["postIndex"]} />);
         temp.push(<TitleColumn row={i + 2} onClick={toPost} number={tempData[i]["postIndex"]}>{tempData[i]["title"]}</TitleColumn>);
         temp.push(<DateColumn row={i + 2}>{tempData[i]["date"]}</DateColumn>);
         temp.push(<ViewCountColumn row={i + 2}>{tempData[i]["viewCount"]}</ViewCountColumn>);
@@ -309,21 +309,25 @@ function Board(props) {
   const changeCheck = (event) => {
     const postNumber = event.target.getAttribute('number');
     const checked = event.target.checked;
-    let tempArr = []
-    if (checked) { setCheck(check.push(postNumber)); }
-    else {
-      check.forEach(element => {
-        console.log(element);
-        console.log(postNumber);
-        if (element !== postNumber) { tempArr.push(element); console.log('AAAAAA'); }
-      })
-      console.log(tempArr);
-      console.log(tempArr == check);
-      setCheck(tempArr);
-      console.log("BBBBBB");
+    for (let i = 1; i < 11; i++) {
+      
     }
-    console.log(check);
-    console.log(checked);
+    console.log(event.target.parentNode.children[4].checked);
+    let tempArr = []
+    // if (checked) { setCheck(check.push(postNumber)); }
+    // else {
+    //   check.forEach(element => {
+    //     console.log(element);
+    //     console.log(postNumber);
+    //     if (element !== postNumber) { tempArr.push(element); console.log('AAAAAA'); }
+    //   })
+    //   console.log(tempArr);
+    //   console.log(tempArr == check);
+    //   setCheck(tempArr);
+    //   console.log("BBBBBB");
+    // }
+    // console.log(check);
+    // console.log(checked);
     // const isChecked = event.target.checked;
     // console.log(isChecked);
     // const AAA = document.getElementsByTagName("input");
@@ -355,12 +359,22 @@ function Board(props) {
 
   const toNewPost = () => { if (mode) { props.changeMode('NewPost'); } }
 
-  const deletePost = () => {
-    if (mode) {
-      for (let i = 2; i < 11; i++) {
-        console.log(CheckedColumn.checked);
-        console.log(datas[i * 4 + 1]);
+  const deletePost = async (event) => {
+    try {
+      if (mode) {
+        const inputs = event.target.parentNode.parentNode.parentNode.children[0];
+        for (let i = 1; i < 11; i++) {
+          if ((inputs.children[i * 4] !== undefined) && inputs.children[i * 4].checked) {
+            const response = await API.delete(`post/delete/${inputs.children[i * 4].getAttribute("number")}`, { withCredentials: true });
+          }
+        }
+        window.location.reload();
       }
+      else { alert("권한 없음"); }
+    }
+    catch (error) {
+      alert('실패');
+      console.log(error);
     }
   }
 
