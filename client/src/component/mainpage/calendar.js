@@ -96,7 +96,11 @@ function Calendar() {
 
           // 생일 추가
           data.birthdays.forEach(birthday => {
-            const dateKey = new Date(birthday.birthday).toISOString().split('T')[0];
+            const date = new Date(birthday.birthday);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+            const day = date.getDate().toString().padStart(2, '0');
+            const dateKey = `${month}-${day}`;
+
             if (!newEvents[dateKey]) newEvents[dateKey] = [];
             newEvents[dateKey].push(`${birthday.name}의 생일`);
           });
@@ -149,8 +153,9 @@ function Calendar() {
 
     // 날짜 셀 만들기
     for (let i = 1; i <= totalDays; i++) {
-      const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-      const dayEvents = events[dateKey] || [];
+      const dateKey = `${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+      const fullDateKey = `${year}-${dateKey}`;
+      const dayEvents = events[fullDateKey] || events[dateKey] || [];
       currentRow.push(
         <CalendarCell key={`day-${i}`} onClick={() => handleDateClick(i)}>
           <CalendarCellDay>{i}</CalendarCellDay>
