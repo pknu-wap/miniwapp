@@ -196,7 +196,7 @@ const WrittenCommentContent = styled.textarea`
   grid-column: 2;
   font-size: 20px;
   justify-self: stretch;
-  align-self: center;
+  align-self: stretch;
   border: none;
   outline: none;
   resize: none;
@@ -221,6 +221,8 @@ const WrittenCommentCommentName = styled.div`
   justify-self: center;
   align-self: center;
   font-size: 20px;
+
+  ${props => props.isNull ? "display: none;" : ""}
 `;
 
 const WrittenCommentCommentContent = styled.div`

@@ -242,6 +242,18 @@ function Post(props) {
   const [comment, setComment] = useState('');
   const [writtenComment, setWrittenComment] = useState(['not_inited']);
   const [data, setData] = useState(null);
+  const [userNumber, setUserNumber] = useState(null);
+
+  const getStatus = async () => {
+    try {
+      const response = await API.get(`user/status`, { withCredentials: true });
+      setUserNumber(response.data);
+    }
+    catch (error) {
+      alert("실패");
+      console.log(error);
+    }
+  }
 
   const saveComment = event => { setComment(event.target.value); }
 
@@ -253,6 +265,7 @@ function Post(props) {
   const getParams = () => {
     setMinihomeNumber(params.minihomeNumber);
     setPostNumber(params.postNumber);
+    if (props.postNumber !== undefined) {}
   }
 
   const getPostData = async () => {
@@ -285,10 +298,15 @@ function Post(props) {
 
   const deletePost = async () => {
     try {
-      const response = await API.delete(`post/delete/${postNumber}`, { withCredentials: true });
-      console.log(response);
-      props.changeMode('Board');
-      navigate(`/mypage/${minihomeNumber}/notice`);
+      if (userNumber == minihomeNumber) {
+        const response = await API.delete(`post/delete/${postNumber}`, { withCredentials: true });
+        console.log(response);
+        props.changeMode('Board');
+        navigate(`/mypage/${minihomeNumber}/notice`);
+      }
+      else {
+        alert('권한 없음');
+      }
     }
     catch (error) {
       console.log(error);
@@ -316,10 +334,15 @@ function Post(props) {
 
   const deleteComment = async (event) => {
     try {
-      const response = await API.delete(`/postco/delete/${event.target.getAttribute("index")}/${postNumber}`, { withCredentials: true });
-      console.log(response);
-      props.changeMode('Board');
-      navigate(`/mypage/${minihomeNumber}/notice`);
+      if (userNumber == minihomeNumber) {
+        const response = await API.delete(`/postco/delete/${event.target.getAttribute("index")}/${postNumber}`, { withCredentials: true });
+        console.log(response);
+        props.changeMode('Board');
+        navigate(`/mypage/${minihomeNumber}/notice`);
+      }
+      else {
+        alert('권한 없음');
+      }
     }
     catch (error) {
       console.log(error);
@@ -329,6 +352,7 @@ function Post(props) {
 
   useEffect(() => {
     getParams();
+    getStatus();
   }, []);
 
   useEffect(() => {
