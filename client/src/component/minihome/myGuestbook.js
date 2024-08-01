@@ -222,11 +222,8 @@ function MyGuestbook() {
   const params = useParams();
   const [userNumber, setUserNumber] = useState(null);
   const [minihomeNumber, setMinihomeNumber] = useState(null);
-  const [userImage, setUserImage] = useState('');
   const [name, setName] = useState('');
-  const [mode, setMode] = useState(null);
   const [data, setData] = useState([]);
-  // const [response, setResponse] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [indices, setIndices] = useState([]);
 
@@ -291,7 +288,6 @@ function MyGuestbook() {
 
   const getGuestbookData = async () => {
     try {
-      let tempData = [];
       const nameResponse = await API.get(`leftprofile/info/${minihomeNumber}`, { withCredentials: true });
       const commentResponse = await API.get(`vboard/${minihomeNumber}/${pageIndex}`, { withCredentials: true });
       setName(nameResponse.data.profile.name);

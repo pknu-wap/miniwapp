@@ -360,38 +360,6 @@ function OthersGuestbook() {
     }
   }
 
-  // const changeData = async () => {
-  //   try {
-  //     const pagePost = response[pageIndex];
-  //     const pagePostData = pagePost.data;
-  //     let tempData = [];
-  //     for (let i = 0; i < pagePostData.length; i++) {
-  //       if (pagePostData[i].length !== 0) {
-  //         tempData.push(
-  //           <WrittenComment mode={mode}>
-  //             <WrittenCommentTitle>{pagePostData[i].nickname}</WrittenCommentTitle>
-  //             <WrittenCommentDate mine={pagePostData[i].visitorNumber == userNumber}>
-  //               {pagePostData[i].date}
-  //             </WrittenCommentDate>
-  //             <WrittenCommentImage src={pagePostData[i].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(pagePostData[i].image)} alt="Loading..." />
-  //             <WrittenCommentContent>{pagePostData[i].contents}</WrittenCommentContent>
-  //             <WrittenCommentComment>
-  //               <WrittenCommentCommentContent>{pagePostData[i].comment.comment}</WrittenCommentCommentContent>
-  //               <WrittenCommentCommentDate>{pagePostData[i].comment.date}</WrittenCommentCommentDate>
-  //             </WrittenCommentComment>
-  //           </WrittenComment>
-  //         );
-  //       }
-  //     }
-  //     console.log(response);
-  //     console.log(pagePostData);
-  //   }
-  //   catch (error) {
-  //     alert('실패');
-  //     console.log(error);
-  //   }
-  // }
-
   const postComment = async (event) => {
     try {
       event.preventDefault();

@@ -65,7 +65,7 @@ const Title = styled.input`
 
 const Back = styled.input`
   grid-row: 1;
-  grid-column: 2;
+  grid-column: 3;
   justify-self: center;
   align-self: end;
   margin-bottom: 40px;
@@ -371,7 +371,7 @@ function Post(props) {
           <TitleBar>
             <Title type="text" placeholder="제목" value={title} />
             <Back type="button" value="이전" onClick={toBoard} />
-            <ChangeOrSave type="button" value="수정" onClick={() => { alert('미구현'); }}/>
+            {/* <ChangeOrSave type="button" value="수정" onClick={() => { alert('미구현'); }}/> */}
             <Delete type="button" value="삭제" onClick={deletePost} />
           </TitleBar>
           <Content placeholder="내용" value={content} />

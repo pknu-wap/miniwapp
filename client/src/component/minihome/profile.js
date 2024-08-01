@@ -42,6 +42,8 @@ const Page = styled.form`
 const Image = styled.img`
   grid-row: 1;
   grid-column: 1;
+  width: 380px;
+  height: 380px;
 
   border: none;
   border-radius: 20px;
@@ -157,7 +159,7 @@ function Profile() {
   const [minihomeNumber, setMinihomeNumber] = useState(null);
   const [mode, setMode] = useState(null);
   const [userIntro, setUserIntro] = useState('');
-  const [link, setLink] = useState("https://www.youtube.com/embed/pkr48S22zH0?si=kBkwVAugjKCg1EzA");
+  const [link, setLink] = useState(null);
   const [nickname, setNickname] = useState('');
   const [pagename, setPagename] = useState('나의 미니왑피');
   const [userImage, setUserImage] = useState('');
@@ -187,12 +189,14 @@ function Profile() {
     try {
       console.log(minihomeNumber);
       const response = await API.get(`/rightprofile/info/${minihomeNumber}`, { withCredentials: true });
+      const response2 = await API.get(`/leftprofile/info/${minihomeNumber}`, { withCredentials: true });
       if (response.data == null) { console.log('THIS IS NULL'); }
       console.log(response);
       setUserIntro(response.data.contents == null ? "" : response.data.contents);
       if (response.data.youtubelink !== 'null') { setLink(response.data.youtubelink); }
       setNickname(response.data.nickname);
-      if (response.data.pagename !== 'null') { setPagename(response.data.pagename); }
+      if (response.data.pagename !== null) { setPagename(response.data.pagename); }
+      else { setPagename(response2.data.profile.name + '의 미니왑피'); }
       if (String(response.data.image) === 'null') {  // 빈 파일 생성해서 formData에 append
         const emptyFile = new Blob([]);
         setFile(emptyFile);
