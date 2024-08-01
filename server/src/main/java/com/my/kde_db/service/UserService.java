@@ -1,6 +1,7 @@
 package com.my.kde_db.service;
 
 import com.my.kde_db.dao.UserMapper;
+import com.my.kde_db.vo.SimpleUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ public class UserService {
 	
 	@Autowired
 	UserMapper userMapper;
+
 	
 	public User findByIdAndPw(User user) {
 		return userMapper.findByIdAndPw(user);
@@ -33,6 +35,10 @@ public class UserService {
 		
 		userMapper.save(user);
 		
+	}
+
+	public void saveSimpleUser(SimpleUser user) {
+		userMapper.saveSimpleUser(user);
 	}
 	
 

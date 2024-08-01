@@ -34,13 +34,17 @@
 		VALUES
 		(
 			#{id},
-			MD5(#{password}),
+			<if test="password != null">MD5(#{password})</if>,
 			#{name},
             #{nickname},
 			#{birthday}
 		)
 	
 
+	</insert>
+
+	<insert id="saveSimpleUser" parameterType="com.my.kde_db.vo.SimpleUser">
+		INSERT INTO USER (id, name) VALUES (#{id}, #{name})
 	</insert>
 
 

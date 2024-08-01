@@ -18,4 +18,5 @@ public class User {
 	private String nickname = null;
 	private String name = null;
 	private Date birthday = null;
+
 }
