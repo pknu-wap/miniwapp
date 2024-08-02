@@ -22,6 +22,8 @@ public class KakaoService {
 
         // 사용자 ID와 닉네임 추출
         String userId = attributes.get("id").toString();
+        //처음에 사용한 코드 -> String userId = (String) attributes.get("id");
+        //kakao API에서 id를 숫자형으로 제공하는데 (String)으로 캐스팅 하려 해서 문제가 생겼다.
         String nickname = (properties != null) ? (String) properties.get("nickname") : null;
 
         // User 객체 생성 및 반환
