@@ -1,14 +1,14 @@
 package com.my.kde_db.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.kde_db.service.KakaoOAuth2Service;
+import com.my.kde_db.service.KakaoService;
 import com.my.kde_db.service.UserService;
 import com.my.kde_db.vo.SimpleUser;
 import com.my.kde_db.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private KakaoOAuth2Service kakaoOAuth2Service;
+	private KakaoService kakaoService;
 
 	@GetMapping("status")
 	@ResponseBody
@@ -61,41 +61,37 @@ public class UserController {
 		if (u1 != null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 가입된 아이디가 존재합니다");
 		} else {
-
-			userService.save(user);
-			return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
-
-		}
-
-	}
-
-	@GetMapping("/oauth/kakao/callback")
-	public ResponseEntity<Void> kakaoCallback(@RequestParam String code, HttpSession session) {
-		try {
-			String accessToken = kakaoOAuth2Service.getAccessToken(code);
-			String userInfo = kakaoOAuth2Service.getUserInfo(accessToken);
-
-			ObjectMapper objectMapper = new ObjectMapper();
-			JsonNode jsonNode = objectMapper.readTree(userInfo);
-			String kakaoId = jsonNode.get("id").asText();
-			String name = jsonNode.get("properties").get("nickname").asText();
-
-			User user = userService.findById(kakaoId);
-			if (user == null) {
-				SimpleUser user1 = new SimpleUser();
-				user1.setId(kakaoId);
-				user1.setName(name);
-				userService.saveSimpleUser(user1);
-				session.setAttribute("me", user1);  // 회원가입 후 로그인 세션 설정
+			User u2 = userService.findByNickname(user.getNickname());
+			if(u2 != null) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 가입된 닉네임이 존재합니다");
 			} else {
-				session.setAttribute("me", user);  // 기존 사용자 로그인 세션 설정
+				userService.save(user);
+				return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
 			}
-			return ResponseEntity.status(HttpStatus.OK).build();
-		} catch (Exception e) {
-			e.printStackTrace(); // 콘솔에 예외 로그 출력
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+		}
+
+	}
+
+	@GetMapping("/kakao")
+	@ResponseBody
+	public ResponseEntity<Void> kakaoCallback(@AuthenticationPrincipal OAuth2User principal, HttpSession session) {
+		SimpleUser user = kakaoService.getUserFromOAuth2User(principal);
+
+		if (user != null) {
+			User existingUser = userService.findById(user.getId());
+			if (existingUser == null) {
+				userService.saveSimpleUser(user);
+				session.setAttribute("me", user);  // 회원가입 후 로그인 세션 설정
+			} else {
+				session.setAttribute("me", existingUser);  // 기존 사용자 로그인 세션 설정
+			}
+				return ResponseEntity.status(HttpStatus.OK).build();
+			} else {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}
+
 
 
 }
