@@ -19,6 +19,15 @@ const Component = styled.div`
   height: 100vh;
 `;
 
+const KakaoLogin = styled.input`
+  grid-row: 1;
+  grid-column: 2;
+  justify-self: center;
+  align-self: center;
+  width: 100px;
+  height: 60px;
+`;
+
 const Page = styled.div`
   grid-row: 2;
   grid-column: 2;
@@ -168,42 +177,52 @@ function Login() {
   const [password, setPassword] = useState('');
   const idImage = `${process.env.PUBLIC_URL}/id.png`;
   const passwordImage = `${process.env.PUBLIC_URL}/password.png`;
+  const REST_API_KEY = 'BACKEND1';
+  const REDIRECT_URI = 'BACKEND2';
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const saveId = event => { setId(event.target.value); };
   const savePassword = event => { setPassword(event.target.value); };
 
+  const loginHandler = async (event) => {
+    try {
+      event.preventDefault();
+      const userLoginData = {
+        id: id,
+        password: password
+      };
+      console.log(userLoginData);
+      const response = await API.post("/user/login", JSON.stringify(userLoginData), { withCredentials: true })
+      if (response.data === "로그인에 실패했습니다") {
+        alert(response.data);
+      } else {
+        console.log("SUCCESS");
+        console.log(response);
+        navigate('../main');
+        console.log("실행?");
+      }
+    }
+    catch (error) {
+      alert(error.response.data);
+      console.log("ERROR");
+      console.log(error.response);
+    }
+  }
+
+  const kakaoLoginHandler = () => {
+    window.location.href = link;
+  };
+
   return (
     <Component>
       <GlobalStyle />
+      <KakaoLogin type="button" value="카카오" onClick={kakaoLoginHandler}/>
       <Page>
         <Title>
           <Miniwappy>ㅁi니왑ㅍi</Miniwappy>
           <Subtitle>로그인</Subtitle>
         </Title>
-        <Form method='post' name='login-form' onSubmit={e => {
-          e.preventDefault();
-          const userLoginData = {
-            id: id,
-            password: password
-          };
-          console.log(userLoginData);
-          API.post("/user/login", JSON.stringify(userLoginData), { withCredentials: true })
-            .then(function (response) {
-              if (response.data === "로그인에 실패했습니다") {
-                alert(response.data);
-              } else {
-                console.log("SUCCESS");
-                console.log(response);
-                navigate('../main');
-                console.log("실행?");
-              }
-            })
-            .catch(function (error) {
-              alert(error.response.data);
-              console.log("ERROR");
-              console.log(error.response);
-            })
-        }}>
+        <Form method='post' name='login-form' onSubmit={loginHandler}>
           <ID name="id" type="text" placeholder="아이디" value={id} image={idImage} onChange={saveId} />
           <Password name="password" type="password" placeholder="비밀번호" value={password} image={passwordImage} onChange={savePassword} />
           <Submit type="submit" value="로그인" />

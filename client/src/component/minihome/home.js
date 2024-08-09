@@ -191,14 +191,14 @@ function Home() {
         <Back to='../main'>메인페이지로 가기</Back>
         <Notice>{post}</Notice>
         <Frame>
-          {(link === null) && 
+          {(link === null) &&
             <Outer>
               <Inner>유튜브 임베드 링크가 설정되어있지 않습니다!</Inner><br></br>
               <Inner>프로필에서 설정해보세요!</Inner>
             </Outer>
           }
           {(link !== null) && 
-            <Video src={link} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+            <YouTube videoId={link} opts={{ width: "560", height: "315", playerVars: { autoplay: 1,  rel: 0,  modestbranding: 1, },}} onEnd={(e)=>{e.target.stopVideo(0);}} />
           }
         </Frame>
       </Page>
