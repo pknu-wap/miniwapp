@@ -1,8 +1,12 @@
 package com.my.kde_db.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -12,6 +16,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and() // CORS 설정 추가
                 .csrf().disable() // CSRF 보호 비활성화
                 .authorizeRequests()
-                .anyRequest().permitAll(); // 모든 경로를 인증 없이 접근 가능하도록 설정
+                .antMatchers("/", "/user/login", "/user/create", "/login**", "/error**","/user/logout").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login()
+                .successHandler((request, response, authentication) -> {
+                    response.sendRedirect("/user/loginSuccess");
+                })
+                .failureHandler((request, response, exception) -> {
+                    response.sendRedirect("/user/loginFailure");
+                });
+
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

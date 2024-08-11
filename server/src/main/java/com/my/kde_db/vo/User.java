@@ -4,7 +4,6 @@ import jdk.jfr.DataAmount;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Date;
 
