@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and() // CORS 설정 추가
                 .csrf().disable() // CSRF 보호 비활성화
                 .authorizeRequests()
-                .antMatchers("/", "/user/login", "/user/create", "/login**", "/error**","/user/logout").permitAll()
+                .antMatchers("/user/login", "/user/create","/user/logout","/user/status","/userhome/**","/error**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

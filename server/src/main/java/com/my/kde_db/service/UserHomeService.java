@@ -11,7 +11,7 @@ public class UserHomeService {
     @Autowired
     UserHomeMapper userhomeMapper;
     public UserHome findUserHomeByNumber(int number) {
-        UserHome userhome=new UserHome();
+        UserHome userhome= new UserHome();
         userhome=userhomeMapper.findByNumber(number);
 
         if (userhome==null){
