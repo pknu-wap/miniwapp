@@ -20,10 +20,6 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	public Optional<User> findByUsername(String username) {
-		return userRepository.findByUsername(username).map(this::convertToDTO);
-	}
-
 	public Optional<User> findById(String id) {
 		return userRepository.findById(id).map(this::convertToDTO);
 	}
@@ -50,7 +46,6 @@ public class UserService {
 		user.setName(userEntity.getName());
 		user.setBirthday(userEntity.getBirthday());
 		user.setPassword(userEntity.getPassword());
-		user.setUsernumber(userEntity.getUsername());
 		return user;
 	}
 
