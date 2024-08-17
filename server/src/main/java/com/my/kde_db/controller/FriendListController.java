@@ -26,29 +26,21 @@ public class FriendListController {
     @ResponseBody
     public ResponseEntity<FriendList> getFriendList(HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
+        String userId = loginUser.getId();
+        List<FriendInfo> friendList = friendListService.findAllUsersExceptUserId(userId);
+        int userCount = friendListService.getUserCountExcludingCurrentUser(userId);
 
-        if (loginUser != null) {
-            String userId = loginUser.getId();
-            List<FriendInfo> friendList = friendListService.findAllUsersExceptUserId(userId);
-            int userCount = friendListService.getUserCountExcludingCurrentUser(userId);
+        if (friendList != null && !friendList.isEmpty()) {
+            FriendList response = new FriendList();
+            response.setData(friendList);
+            response.setUsercount(userCount);
 
-            if (friendList != null && !friendList.isEmpty()) {
-                FriendList response = new FriendList();
-                response.setData(friendList);
-                response.setUsercount(userCount);
-
-                return ResponseEntity.status(HttpStatus.OK).body(response);
-
-            } else {
-                // 사용자 정보를 가져오지 못한 경우
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new FriendList());
-            }
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } else {
-            // 로그인 세션을 찾을 수 없는 경우
-            FriendList fls = new FriendList();
-            fls.setUsercount(-1);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(fls);
+            // 사용자 정보를 가져오지 못한 경우
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new FriendList());
         }
+
     }
 }
 

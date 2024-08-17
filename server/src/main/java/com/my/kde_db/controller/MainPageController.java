@@ -24,31 +24,17 @@ public class MainPageController {
     @GetMapping("user")
     public ResponseEntity<MainUser> getUser(HttpSession session){
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
             return ResponseEntity.ok(mainPageService.getUser(loginUser.getNumber()));
-        } else {
-            return ResponseEntity.status(401).build();
-        }
     }
 
     @GetMapping("new_post")
-    public ResponseEntity<List<MainPost>> getNewPost(HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
+    public ResponseEntity<List<MainPost>> getNewPost(){
             return ResponseEntity.ok(mainPageService.getNewPost());
-        } else {
-            return ResponseEntity.status(401).build();
-        }
     }
 
     @GetMapping("hot_post")
-    public ResponseEntity<List<MainPost>> getHotPost(HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
+    public ResponseEntity<List<MainPost>> getHotPost(){
             return ResponseEntity.ok(mainPageService.getHotPost());
-        } else {
-            return ResponseEntity.status(401).build();
-        }
     }
 
 

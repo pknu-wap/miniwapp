@@ -31,16 +31,12 @@ public class RightProfileController {
     public ResponseEntity<String> updateProfile(@RequestParam("imageFile") MultipartFile imageFile,
                                                 @ModelAttribute RightProfile profile, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            profile.setUserNumber(loginUser.getNumber());  // User의 number를 Profile의 userNumber에 설정
-            boolean updateSuccess = rightProfileService.updateProfile(profile, imageFile);
-            if (updateSuccess) {
-                return ResponseEntity.ok("Profile updated successfully");
-            } else {
-                return ResponseEntity.badRequest().body("Failed to update profile");
-            }
+        profile.setUserNumber(loginUser.getNumber());  // User의 number를 Profile의 userNumber에 설정
+        boolean updateSuccess = rightProfileService.updateProfile(profile, imageFile);
+        if (updateSuccess) {
+            return ResponseEntity.ok("Profile updated successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            return ResponseEntity.badRequest().body("Failed to update profile");
         }
     }
 }
