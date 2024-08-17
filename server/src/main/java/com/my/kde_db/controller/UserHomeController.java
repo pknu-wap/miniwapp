@@ -20,16 +20,8 @@ public class UserHomeController {
     
     @GetMapping("userhome/{number}")
     @ResponseBody
-    public ResponseEntity<UserHome> userhome(@PathVariable int number,HttpSession session) {
-
-        User loginUser =(User)session.getAttribute("me");
-
-        if(loginUser != null) {
+    public ResponseEntity<UserHome> userhome(@PathVariable int number) {
             //세션 조회 성공시
             return ResponseEntity.status(HttpStatus.OK).body(userhomeService.findUserHomeByNumber(number));
-        }else {
-            //세션 조회 실패시
-            return ResponseEntity.status(401).build();
-        }
     }
 }

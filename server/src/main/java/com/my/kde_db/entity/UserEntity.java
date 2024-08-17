@@ -16,6 +16,9 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String id;
 
+    @Column(nullable = false, unique = true)
+    private String username; // id와 동일함. 스프링시큐리티를 위해 생성됨.
+
     @Column(nullable = false)
     private String password;
 
@@ -26,4 +29,6 @@ public class UserEntity {
     private String name;
 
     private Date birthday;
+
+
 }

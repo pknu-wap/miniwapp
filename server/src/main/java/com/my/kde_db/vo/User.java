@@ -13,6 +13,7 @@ import java.sql.Date;
 public class User {
 	private int number = 0;
 	private String id = null;
+	private String usernumber = null;
 	private String password = null;
 	private String nickname = null;
 	private String name = null;

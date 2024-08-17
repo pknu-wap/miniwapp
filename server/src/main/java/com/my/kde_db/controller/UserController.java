@@ -26,39 +26,14 @@ public class UserController {
 	@GetMapping("status")
 	@ResponseBody
 	public ResponseEntity<Integer> Status(HttpSession session) {
-		
 		User loginUser =(User)session.getAttribute("me");
-		
-		if(loginUser != null) {
-			//로그인 된 상태
-			return ResponseEntity.ok(loginUser.getNumber());
-		}else {
-			//로그아웃 상태
-			return ResponseEntity.status(401).build();
-		}
-		
+		return ResponseEntity.ok(loginUser.getNumber());
 	}
-	
-	
-	@PostMapping("login")
-	@ResponseBody
-	public ResponseEntity<Void> login(@RequestBody User user, HttpSession session) {
 
-		Optional<User> result = userService.findByIdAndPw(user);
-		
-		if(result.isPresent()) {
-			session.setAttribute("me", result.get());
-			return ResponseEntity.status(HttpStatus.OK).build();
-		}else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401코드 반환
-		}
-	}
 	
 	@GetMapping("logout")
 	@ResponseBody
-	public ResponseEntity<String> logout(HttpSession session) {
-		
-		session.invalidate(); //세션 파기, 반환 타입이 없다
+	public ResponseEntity<String> logout() {
 		return ResponseEntity.status(HttpStatus.OK).body("로그아웃 성공");
 	}
 	
@@ -85,19 +60,14 @@ public class UserController {
 
 	@GetMapping("/loginSuccess")
 	@ResponseBody
-	public ResponseEntity<User> loginSuccess(@AuthenticationPrincipal OAuth2User oauth2User, HttpSession session) {
-		User user = (User) session.getAttribute("me");
-		if (user != null) {
-			return ResponseEntity.ok(user);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+	public ResponseEntity<Void> loginSuccess() {
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@GetMapping("/loginFailure")
 	@ResponseBody
-	public ResponseEntity<String> loginFailure() {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+	public ResponseEntity<Void> loginFailure() {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
 }
