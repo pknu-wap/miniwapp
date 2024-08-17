@@ -23,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
                         HttpMethod.DELETE.name(),
                         HttpMethod.OPTIONS.name()
                 )
+                .allowedHeaders("*")
                 .allowCredentials(true);
     }
 }
