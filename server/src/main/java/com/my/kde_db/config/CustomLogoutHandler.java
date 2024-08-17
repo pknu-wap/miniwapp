@@ -28,8 +28,6 @@ public class CustomLogoutHandler implements LogoutHandler {
         String accessToken = (String) session.getAttribute("accessToken");
         if (authentication != null && accessToken != null) {
 
-            System.out.println("로그아웃 시 액세스 토큰: " + accessToken); // 디버깅용
-
             // 카카오 로그아웃 API 호출
             try {
                 URL url = new URL(kakaoLogoutUrl);
