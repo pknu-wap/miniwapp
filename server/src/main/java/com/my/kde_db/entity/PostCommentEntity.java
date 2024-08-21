@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "post_comment")
+@IdClass(PostCommentId.class)
 @Data
 public class PostCommentEntity {
 
@@ -15,9 +16,11 @@ public class PostCommentEntity {
     @Column(name = "number")
     private int cNumber;
 
+    @Id
     @Column(name = "post_number")
     private int postNumber;
 
+    @Id
     @Column(name = "user_number")
     private int userNumber;
 
@@ -25,7 +28,4 @@ public class PostCommentEntity {
 
     private Date date;
 
-    // name과 nickname 필드는 적절한 외래키 매핑 필요
-    private String name;
-    private String nickname;
 }

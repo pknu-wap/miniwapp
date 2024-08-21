@@ -14,6 +14,4 @@ public class Post {
     private String contents;
     private LocalDateTime date;
     private int viewCount;
-
-
 }

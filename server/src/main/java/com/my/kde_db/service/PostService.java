@@ -84,8 +84,7 @@ public class PostService {
         comment.setUser_number(commentEntity.getUserNumber());
         comment.setComment(commentEntity.getComment());
         comment.setDate(commentEntity.getDate());
-        comment.setName(commentEntity.getName());
-        comment.setNickname(commentEntity.getNickname());
+
         return comment;
     }
 }

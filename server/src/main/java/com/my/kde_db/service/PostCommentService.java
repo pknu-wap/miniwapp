@@ -18,8 +18,7 @@ public class PostCommentService {
         commentEntity.setUserNumber(postComment.getUser_number());
         commentEntity.setComment(postComment.getComment());
         commentEntity.setDate(postComment.getDate());
-        commentEntity.setName(postComment.getName());
-        commentEntity.setNickname(postComment.getNickname());
+
 
         postCommentRepository.save(commentEntity);
         return true;
