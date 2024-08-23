@@ -36,27 +36,27 @@ public class UserController {
 	public ResponseEntity<String> logout() {
 		return ResponseEntity.status(HttpStatus.OK).body("로그아웃 성공");
 	}
-	
-	
+
+
 	@PostMapping("create")
 	@ResponseBody //데이터 리턴하는 ....
 	public ResponseEntity<String> create(@RequestBody User user) {
-		Optional<User> u1 = userService.findById(user.getId());
+
 		//아이디 검증
-		//isPresent == 는 !=null 랑 같음 Java 8부터 추가된 Optional 클래스의 메서드 중 하나이고, Optional은 null을 안전하게 처리하기 위해 도입된 클래스임
-		if(u1.isPresent()) {
+		User u1 = userService.findById(user.getId());
+		if(u1 != null) {
 			//이미 가입된 아이디가 존재
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 가입된 아이디가 존재합니다"); //409코드반환
-        } else {
-			Optional<User> u2 = userService.findByNickname(user.getNickname());
-            if(u2.isPresent()) {
+		} else {
+			User u2 = userService.findByNickname(user.getNickname());
+			if(u2 != null) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 가입된 닉네임이 존재합니다");
-            } else {
-                userService.save(user);
+			} else {
+				userService.save(user);
 				return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
-            }
-        }
-    }
+			}
+		}
+	}
 
 	@GetMapping("/loginSuccess")
 	@ResponseBody

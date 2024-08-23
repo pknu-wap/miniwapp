@@ -1,7 +1,6 @@
 package com.my.kde_db.service;
 
-import com.my.kde_db.dao.UserRepository;
-import com.my.kde_db.entity.UserEntity;
+import com.my.kde_db.dao.UserMapper;
 import com.my.kde_db.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -12,14 +11,13 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     @Autowired
     private HttpSession session;
@@ -33,9 +31,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
-        String accessToken = userRequest.getAccessToken().getTokenValue();
-        session.setAttribute("accessToken", accessToken);
-
         String id = attributes.get("id").toString();
         String nickname = profile != null && profile.get("nickname") != null ? profile.get("nickname").toString() : "User" + UUID.randomUUID().toString().substring(0, 6);
         String password = UUID.randomUUID().toString(); // 임의의 비밀번호 설정
@@ -43,36 +38,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String birthday = kakaoAccount != null && kakaoAccount.get("birthday") != null ? kakaoAccount.get("birthday").toString() : null;
 
         // 사용자 정보 처리
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
-        UserEntity userEntity;
-
-        if (optionalUserEntity.isPresent()) {
-            userEntity = optionalUserEntity.get();
-        } else {
-            userEntity = new UserEntity();
-            userEntity.setId(id);
-            userEntity.setNickname(nickname);
-            userEntity.setPassword(password);
-            userEntity.setName(name);
-            userRepository.save(userEntity);
+        User user = userMapper.findById(id);
+        if (user == null) {
+            user = new User();
+            user.setId(id);
+            user.setNickname(nickname);
+            user.setPassword(password); // 임의의 비밀번호 설정
+            user.setName(name); // 기본 이름 설정
+            userMapper.save(user);
         }
 
-        // UserEntity를 User VO로 변환
-        User user = convertToUserVO(userEntity);
-
-        // 세션에 사용자 정보 저장
         session.setAttribute("me", user);
 
-
         return oauth2User;
-    }
-
-    private User convertToUserVO(UserEntity userEntity) {
-        User user = new User();
-        user.setNumber(userEntity.getNumber());
-        user.setId(userEntity.getId());
-        user.setNickname(userEntity.getNickname());
-        user.setName(userEntity.getName());
-        return user;
     }
 }
