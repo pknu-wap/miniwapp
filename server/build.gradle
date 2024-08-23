@@ -27,7 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'
 
 	implementation 'javax.servlet:jstl'
 
@@ -36,7 +36,6 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {

@@ -9,22 +9,42 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private CustomLogoutHandler customLogoutHandler;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and() // CORS 설정 추가
-                .csrf().disable() // CSRF 보호 비활성화
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and()
+                .cors().configurationSource(request -> {
+                    var corsConfig = new CorsConfiguration();
+                    corsConfig.setAllowedOrigins(List.of("http://localhost:3000", "https://miniwapp.netlify.app"));
+                    corsConfig.setAllowedMethods(List.of("*"));
+                    corsConfig.setAllowedHeaders(List.of("*"));
+                    corsConfig.setAllowCredentials(true);
+                    return corsConfig;
+                })
+                .and()
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/create","/user/logout","/user/status","/login**","/error**").permitAll()
+                .antMatchers("/user/login", "/user/create", "/user/logout", "/user/status", "/login**", "/error**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
@@ -35,7 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginProcessingUrl("/user/login")
                 .successHandler((request, response, authentication) -> {
-                    // 로그인 성공 시 세션에 사용자 정보 저장
                     CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
                     request.getSession().setAttribute("me", userDetails.getUser());
                     response.sendRedirect("/user/loginSuccess");
@@ -57,14 +76,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .addLogoutHandler(customLogoutHandler)
                 .logoutSuccessUrl("/user/logout")
-                .invalidateHttpSession(true) // 세션 무효화
-                .deleteCookies("JSESSIONID"); // 쿠키 삭제;;
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
