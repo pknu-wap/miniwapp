@@ -13,4 +13,5 @@ public class PostComment {
     private Date date;
     private String name;
     private String nickname;
+    private int number; // 댓글번호 ..?
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.kde_db.dao.PostMapper">
+
+    <insert id="writePost" parameterType="com.my.kde_db.dto.Post">
+        INSERT INTO post (title, contents, date, user_number, view_count)
+        VALUES ( #{title}, #{contents}, SYSDATE(), #{number}, 1 )
+    </insert>
+
+
+
+    <select id="findPostsByUserAndPage" resultType="com.my.kde_db.dto.Post" parameterType="int">
+        SELECT title, date, post.number , view_count
+        FROM post
+        WHERE user_number = #{userNumber}
+        ORDER BY date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+
+    <select id="findPostDetailsByNumber" resultType="com.my.kde_db.dto.PostDetails">
+        SELECT
+            p.title,
+            p.contents,
+            p.view_count,
+            u.name,
+            u.nickname
+        FROM
+            post p
+                JOIN user u ON p.user_number = u.number
+        WHERE
+            p.number = #{postNumber}
+          AND p.user_number = #{ownerNumber}
+    </select>
+
+    <select id="findCommentsByPostNumber" resultType="com.my.kde_db.dto.PostComment">
+        SELECT
+            c.number,
+            c.comment,
+            c.date,
+            u.name,
+            u.nickname
+        FROM
+            post_comment c
+                JOIN user u ON c.user_number = u.number
+        WHERE
+            c.post_number = #{postNumber}
+    </select>
+
+
+    <select id="findPostById" resultType="com.my.kde_db.dto.Post">
+        SELECT number as p_number , title, contents, user_number
+        FROM post
+        WHERE number = #{postNumber}
+    </select>
+
+
+    <delete id="deletePost" parameterType="int">
+        DELETE FROM post WHERE number = #{postNumber}
+    </delete>
+
+    <update id="incrementViewCount" parameterType="int">
+    UPDATE post SET view_count = view_count + 1
+                WHERE number = #{postNumber}
+    </update>
+
+    <update id="refactorPost" parameterType = "int">
+        SELECT FRO
+
+    </update>
+
+</mapper>

@@ -22,15 +22,14 @@ public class PostCommentController {
                                                @RequestBody PostComment comment,
                                                HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
-        comment.setUser_number(loginUser.getNumber());
-        comment.setPost_number(postId);
+        comment.setUser_number(loginUser.getNumber()); // 세션에서 사용자 번호 설정
+        comment.setPost_number(postId); // 게시글 번호 설정
         if (postCommentService.writeComment(comment)) {
             return ResponseEntity.ok("Comment added successfully");
         } else {
             return ResponseEntity.badRequest().body("Failed to add comment");
         }
     }
-
 
     @DeleteMapping("/delete/{commentId}/{postId}")
     public ResponseEntity<String> deleteComment(@PathVariable("commentId") int commentId,
@@ -42,4 +41,6 @@ public class PostCommentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete comment");
         }
     }
+
+
 }

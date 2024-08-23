@@ -12,4 +12,5 @@ public class PostDetails {
     private String name;
     private String nickname;
     private List<PostComment> comments;
+    private int number; // 댓글번호..??
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.kde_db.dao.UserHomeMapper">
+    <select id = "findByNumber" parameterType ="Int" resultType="com.my.kde_db.dto.UserHome">
+        SELECT * FROM user
+        WHERE number=#{number}
+    </select>
+
+    <select id = "findLatestPost" parameterType ="Int" resultType="com.my.kde_db.dto.PostInfo">
+        SELECT title, number FROM post
+        WHERE user_number=#{number}
+        ORDER BY number DESC
+        LIMIT 5
+    </select>
+
+</mapper>
