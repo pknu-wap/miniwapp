@@ -26,4 +26,5 @@ public class PostEntity {
 
     @Column(name = "view_count")
     private int viewCount;
+
 }

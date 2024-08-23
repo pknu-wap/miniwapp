@@ -28,4 +28,6 @@ public class PostCommentEntity {
 
     private Date date;
 
+
+
 }
