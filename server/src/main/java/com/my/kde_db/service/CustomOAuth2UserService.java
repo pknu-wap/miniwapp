@@ -31,6 +31,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
+        String accessToken = userRequest.getAccessToken().getTokenValue();
+        session.setAttribute("accessToken", accessToken);
+
         String id = attributes.get("id").toString();
         String nickname = profile != null && profile.get("nickname") != null ? profile.get("nickname").toString() : "User" + UUID.randomUUID().toString().substring(0, 6);
         String password = UUID.randomUUID().toString(); // 임의의 비밀번호 설정
