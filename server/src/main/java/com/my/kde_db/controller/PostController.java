@@ -21,33 +21,23 @@ public class PostController {
 
     @PostMapping(value = "/write") // 게시글 쓰기
     public ResponseEntity<String> wirtePost(@RequestBody Post post, HttpSession session) {
-
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            post.setNumber(loginUser.getNumber());
-            if (postService.writePost(post)) {
-                return ResponseEntity.ok("Post write succesfully");
-            } else{
-                return ResponseEntity.badRequest().body("Failed to write post");
-            }
-            }else{
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorizzed");
-
-
+        post.setNumber(loginUser.getNumber());
+        if (postService.writePost(post)) {
+            return ResponseEntity.ok("Post write succesfully");
+        } else{
+            return ResponseEntity.badRequest().body("Failed to write post");
         }
     }
+
 
     @GetMapping("/list/{user_number}/{page}") // 게시글 목록
     public ResponseEntity<List<Post>> getPosts(
             @PathVariable("user_number") int userNumber,
-            @PathVariable("page") int page, HttpSession session) {
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            List<Post> posts = postService.getPostsByUserAndPage(userNumber, page);
-            return ResponseEntity.ok(posts);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
+            @PathVariable("page") int page) {
+        List<Post> posts = postService.getPostsByUserAndPage(userNumber, page);
+        return ResponseEntity.ok(posts);
+
     }
     @GetMapping("/info/{number}/{owner_number}")
     public ResponseEntity<PostDetails> getPostDetails(@PathVariable("number") int postNumber,
@@ -60,17 +50,12 @@ public class PostController {
         }
     }
     @DeleteMapping("/delete/{p_number}") // p_number는 게시글번호
-    public ResponseEntity<String> deletePost(@PathVariable("p_number") int postNumber, HttpSession session) {
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
+    public ResponseEntity<String> deletePost(@PathVariable("p_number") int postNumber) {
             boolean isDeleted = postService.deletePost(postNumber);
             if (isDeleted) {
                 return ResponseEntity.ok("Post deleted successfully");
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete post");
             }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-        }
     }
 }

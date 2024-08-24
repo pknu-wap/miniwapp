@@ -22,82 +22,50 @@ public class VisitorBoardController {
 
     @GetMapping("{owner_number}/{page_number}")
     @ResponseBody
-    public ResponseEntity<List<VisitorPost>> getVboard(@PathVariable int owner_number, @PathVariable int page_number, HttpSession session) {
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            return ResponseEntity.ok(visitorBoardService.findByUNumPNum(owner_number, page_number));
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<List<VisitorPost>> getVboard(@PathVariable int owner_number, @PathVariable int page_number) {
+        return ResponseEntity.ok(visitorBoardService.findByUNumPNum(owner_number, page_number));
     }
 
     @PostMapping("post/{owner_number}")
     @ResponseBody
     public ResponseEntity<Void> createPost(@PathVariable int owner_number, @RequestBody VisitorPost visitorPost, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            visitorPost.setVisitorNumber(loginUser.getNumber());
-            visitorBoardService.createVisitorPost(visitorPost, owner_number);
-            return ResponseEntity.status(200).build();
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+        visitorPost.setVisitorNumber(loginUser.getNumber());
+        visitorBoardService.createVisitorPost(visitorPost, owner_number);
+        return ResponseEntity.status(200).build();
     }
 
     @PutMapping("post")
-    public ResponseEntity<Calendar> updatePost(@RequestBody VisitorPost visitorPost, HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            visitorBoardService.updatePost(visitorPost);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<Calendar> updatePost(@RequestBody VisitorPost visitorPost){
+        visitorBoardService.updatePost(visitorPost);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("post/{number}")
-    public ResponseEntity<Void> deletePost(@PathVariable int number,HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            visitorBoardService.deletePost(number);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<Void> deletePost(@PathVariable int number){
+        visitorBoardService.deletePost(number);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("comment/{number}")
     @ResponseBody
     public ResponseEntity<Void> creatComment(@RequestBody VisitorComment visitorComment,@PathVariable int number, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            visitorBoardService.createComment(visitorComment, loginUser.getNumber(), number);
-            return ResponseEntity.status(200).build();
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+        visitorBoardService.createComment(visitorComment, loginUser.getNumber(), number);
+        return ResponseEntity.status(200).build();
+
     }
 
     @PutMapping("comment/{number}")
-    public ResponseEntity<Calendar> updateComment(@RequestBody VisitorComment visitorComment,@PathVariable int number, HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            visitorBoardService.updateComment(visitorComment,number);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<Calendar> updateComment(@RequestBody VisitorComment visitorComment,@PathVariable int number){
+        visitorBoardService.updateComment(visitorComment,number);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("comment/{number}")
-    public ResponseEntity<Void> deleteComment(@PathVariable int number,HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            visitorBoardService.deleteComment(number);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
-            return ResponseEntity.status(401).build();
-        }
+    public ResponseEntity<Void> deleteComment(@PathVariable int number){
+        visitorBoardService.deleteComment(number);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
