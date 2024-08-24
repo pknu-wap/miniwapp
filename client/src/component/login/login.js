@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 import API from '../utils/API'
+import API2 from '../utils/API2'
 
 const GlobalStyle = createGlobalStyle`
 	*, *::before, *::after {
@@ -177,8 +178,8 @@ function Login() {
   const [password, setPassword] = useState('');
   const idImage = `${process.env.PUBLIC_URL}/id.png`;
   const passwordImage = `${process.env.PUBLIC_URL}/password.png`;
-  const REST_API_KEY = 'BACKEND1';
-  const REDIRECT_URI = 'BACKEND2';
+  const REST_API_KEY = 'b7382d9ab658123d8559ab006e9c2247';
+  const REDIRECT_URI = 'https://miniwappi.shop/login/oauth2/code/kakao';
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const saveId = event => { setId(event.target.value); };
@@ -187,20 +188,21 @@ function Login() {
   const loginHandler = async (event) => {
     try {
       event.preventDefault();
-      const userLoginData = {
-        id: id,
-        password: password
-      };
-      console.log(userLoginData);
-      const response = await API.post("/user/login", JSON.stringify(userLoginData), { withCredentials: true })
-      if (response.data === "로그인에 실패했습니다") {
-        alert(response.data);
+      const formData = new FormData();
+      formData.append("username", id);
+      formData.append("password", password);
+      console.log(typeof(id));
+      console.log(typeof(password));
+      if (formData === undefined) {
+        console.log("formData undefined");
       } else {
-        console.log("SUCCESS");
-        console.log(response);
-        navigate('../main');
-        console.log("실행?");
+        console.log("formData defined");
       }
+      const response = await API2.post('user/login', formData, { withCredentials: true });
+      console.log("SUCCESS");
+      console.log(response);
+      navigate('../main');
+      console.log("실행?");
     }
     catch (error) {
       alert(error.response.data);

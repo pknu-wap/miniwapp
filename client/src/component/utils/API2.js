@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const API2 = axios.create({
-    baseURL: 'https://wwappi.shop/',
+    baseURL: 'https://miniwappi.shop/',
     headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "application/x-www-form-urlencoded",
     }
 });
 
