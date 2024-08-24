@@ -2,6 +2,7 @@ package com.my.kde_db.service;
 
 import com.my.kde_db.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.my.kde_db.vo.User;
@@ -12,6 +13,8 @@ public class UserService {
 
 	@Autowired
 	UserMapper userMapper;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	public User findByIdAndPw(User user) {
 		return userMapper.findByIdAndPw(user);
@@ -30,16 +33,9 @@ public class UserService {
 
 
 	public void save(User user) {
-
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userMapper.save(user);
 
 	}
 
-
-	public User getUser2() {
-
-
-		return userMapper.getUser2();
-
-	}
 }
