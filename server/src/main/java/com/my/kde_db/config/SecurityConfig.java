@@ -57,10 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler((request, response, authentication) -> {
                     CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
                     request.getSession().setAttribute("me", userDetails.getUser());
-                    response.sendRedirect("https://miniwapp.netlify.app/redirection/success");
+                    response.sendRedirect("/user/loginSuccess");
                 })
                 .failureHandler((request, response, exception) -> {
-                    response.sendRedirect("https://miniwapp.netlify.app/redirection/fail");
+                    response.sendRedirect("/user/loginFailure");
                 })
                 .and()
                 .oauth2Login()
