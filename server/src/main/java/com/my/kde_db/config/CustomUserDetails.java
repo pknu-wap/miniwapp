@@ -21,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
         // 모든 사용자에게 동일한 권한 부여
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
-
+    public String getNickname() { return user.getNickname(); }
     @Override
     public String getPassword() {
         return user.getPassword(); // 사용자 비밀번호
