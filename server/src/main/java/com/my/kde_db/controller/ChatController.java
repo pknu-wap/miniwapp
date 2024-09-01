@@ -32,7 +32,7 @@ public class ChatController {
 
     @MessageMapping("/message")
     public ResponseEntity<Void> receiveMessage(@RequestBody ChatMessage chat, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        chat.setName(customUserDetails.getUsername());
+        chat.setName(customUserDetails.getName());
         chat.setNickname(customUserDetails.getNickname());
         System.out.println("Chat Name: " + chat.getName());
         System.out.println("Chat Nickname: " + chat.getNickname());

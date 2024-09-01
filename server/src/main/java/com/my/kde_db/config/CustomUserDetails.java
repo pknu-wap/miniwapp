@@ -12,9 +12,6 @@ public class CustomUserDetails implements UserDetails {
 
     private final User user;
 
-    public CustomUserDetails() {
-        this.user = new User();
-    }
     public CustomUserDetails(User user) {
         this.user = user;
     }
@@ -25,6 +22,8 @@ public class CustomUserDetails implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
     public String getNickname() { return user.getNickname(); }
+
+    public String getName() { return user.getName(); }
     @Override
     public String getPassword() {
         return user.getPassword(); // 사용자 비밀번호
