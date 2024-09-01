@@ -14,7 +14,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*");
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS()
+                .setHeartbeatTime(10000);
     }
 
     @Override
@@ -23,9 +24,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/pub");
     }
 
-    @Bean
-    public MappingJackson2MessageConverter messageConverter() {
-        return new MappingJackson2MessageConverter();
-    }
+
 
 }
