@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.my.kde_db.dao.ChatMapper">
+
+    <insert id="insertMessage" parameterType="com.my.kde_db.dto.ChatMessage">
+        INSERT INTO chat_message (name, message, created_at)
+        VALUES (#{name}, #{message}, NOW())
+    </insert>
+
+    <select id="getMessages" resultType="com.my.kde_db.dto.ChatMessage">
+        SELECT id, name, message, created_at AS createdAt
+        FROM chat_message
+        ORDER BY created_at ASC
+    </select>
+
+</mapper>
