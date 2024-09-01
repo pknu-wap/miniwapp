@@ -1,7 +1,6 @@
 package com.my.kde_db.controller;
 
 import com.my.kde_db.dto.ChatMessage;
-import com.my.kde_db.dto.ChatUser;
 import com.my.kde_db.service.ChatService;
 import com.my.kde_db.vo.User;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +22,6 @@ public class ChatController {
 
     private final SimpMessageSendingOperations template;
     private final ChatService chatService;
-
-    @GetMapping("/user")
-    public ResponseEntity<ChatUser> getChatUser(HttpSession session){
-        User loginUser = (User) session.getAttribute("me");
-        ChatUser chatUser = new ChatUser();
-        chatUser.setName(loginUser.getName());
-        chatUser.setName(loginUser.getNickname());
-        return ResponseEntity.ok().body(chatUser);
-    }
 
     @GetMapping()
     public ResponseEntity<List<ChatMessage>> getChatMessages(){
