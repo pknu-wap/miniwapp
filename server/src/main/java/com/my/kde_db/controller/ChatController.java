@@ -32,8 +32,10 @@ public class ChatController {
 
     @MessageMapping("/message")
     public ResponseEntity<Void> receiveMessage(@RequestBody ChatMessage chat, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        chat.setName(customUserDetails.getName());
-        chat.setNickname(customUserDetails.getNickname());
+        String username = customUserDetails.getName();  // 사용자 이름 가져오기
+        String nickname = customUserDetails.getNickname();
+        chat.setName(username);
+        chat.setNickname(nickname);
         chatService.saveMessage(chat);  // 메시지를 데이터베이스에 저장
         template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
         return ResponseEntity.ok().build();
