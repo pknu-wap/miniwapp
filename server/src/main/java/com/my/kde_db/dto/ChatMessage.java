@@ -7,6 +7,7 @@ import java.util.Date;
 @Data
 public class ChatMessage {
     private Long id;
+    private String nickname;
     private String name;
     private String message;
     private Date createdAt;
