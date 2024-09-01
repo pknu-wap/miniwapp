@@ -12,8 +12,9 @@ public class ChatMessage {
     private String message;
     private Date createdAt;
 
-    public ChatMessage(Long id, String name, String message, Date createdAt) {
+    public ChatMessage(Long id, String name,String nickname, String message, Date createdAt) {
         this.id = id;
+        this.nickname = nickname;
         this.name = name;
         this.message = message;
         this.createdAt = createdAt;
