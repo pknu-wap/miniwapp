@@ -33,6 +33,10 @@ public class PostService {
         return postMapper.deletePost(postNumber);
     }
 
+    public boolean updatePostContents(int postNumber, String contents) {
+        return postMapper.updatePostContents(postNumber, contents);
+    }
+
 
 
 }

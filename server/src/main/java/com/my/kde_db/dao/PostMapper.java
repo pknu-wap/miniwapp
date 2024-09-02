@@ -20,4 +20,6 @@ public interface PostMapper {
     boolean deletePost(int postNumber);
 
     void incrementViewCount(int postNumber);
+
+    boolean updatePostContents(@Param("p_number") int postNumber, @Param("contents") String contents);
 }

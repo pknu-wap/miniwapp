@@ -14,4 +14,11 @@
           AND post_number = #{postId}
     </delete>
 
+    <update id="updateComment" parameterType="map">
+    UPDATE post_comment
+    SET comment = #{comment}, date = SYSDATE()
+    WHERE number = #{commentId}
+    AND post_number = #{postId}
+    </update>
+
 </mapper>
