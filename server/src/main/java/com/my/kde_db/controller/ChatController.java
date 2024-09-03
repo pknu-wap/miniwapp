@@ -36,21 +36,5 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
-    @MessageMapping("/enter")
-    public ResponseEntity<Void> enter(@RequestBody ChatMessage chat){
-        //User loginUser = (User) session.getAttribute("me");
-        chat.setMessage(chat.getName()+"("+chat.getNickname()+")님이 채팅방에 참여하였습니다.");
-        template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
-        return ResponseEntity.ok().build();
-    }
-
-    @MessageMapping("/out")
-    public ResponseEntity<Void> out(@RequestBody ChatMessage chat){
-        //User loginUser = (User) session.getAttribute("me");
-        chat.setMessage(chat.getName()+"("+chat.getNickname()+")님이 채팅방에서 나가셨습니다.");
-        template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
-        return ResponseEntity.ok().build();
-    }
-
 
 }
