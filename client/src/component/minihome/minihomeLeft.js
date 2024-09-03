@@ -231,7 +231,7 @@ function MinihomeLeft() {
 
   useEffect(() => {
     if (mode !== null) { getMinihomeData(); }
-  }, [mode])
+  }, [mode]);
 
   return (
     <Component>

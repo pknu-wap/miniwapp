@@ -142,6 +142,7 @@ function Home() {
   const [minihomeNumber, setMinihomeNumber] = useState(null);
   const [link, setLink] = useState(null);
   const [post, setPost] = useState([]);
+  const [linkID, setLinkID] = useState('');
 
   const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
 
@@ -150,7 +151,9 @@ function Home() {
       const response = await API.get(`userhome/${minihomeNumber}`, { withCredentials: true });
       if (response.data == null) { console.log('THIS IS NULL'); }
       console.log(response);
-      if (response.data.youtubelink !== 'null') { setLink(response.data.youtubelink); }
+      if (response.data.youtubelink !== 'null') { 
+        setLink(response.data.youtubelink); 
+      }
       const responseData = response.data.posts;
       if (response.data == null) { console.log('THIS IS NULL'); }
       const tempPost = [];
@@ -181,6 +184,13 @@ function Home() {
     if (minihomeNumber !== null) { getMinihomeData(); }
   }, [minihomeNumber]);
 
+  useEffect(() => {
+    if (link !== null) {
+      const tempLink = link.split("=");
+      setLinkID(tempLink[1]);
+    }
+  }, [link]);
+
   return (
     <Component>
       <GlobalStyle />
@@ -198,7 +208,7 @@ function Home() {
             </Outer>
           }
           {(link !== null) && 
-            <YouTube videoId={link} opts={{ width: "560", height: "315", playerVars: { autoplay: 1,  rel: 0,  modestbranding: 1, },}} onEnd={(e)=>{e.target.stopVideo(0);}} />
+            <YouTube videoId={linkID} opts={{ width: "100%", height: "100%", playerVars: { autoplay: 0,  rel: 0,  modestbranding: 1, },}} onEnd={(e)=>{e.target.stopVideo(0);}} />
           }
         </Frame>
       </Page>
