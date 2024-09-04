@@ -31,17 +31,20 @@ public class ChatController {
     @MessageMapping("/message")
     public ResponseEntity<Void> receiveMessage(@RequestBody ChatMessage chat) {
         chatService.saveMessage(chat);  // 메시지를 데이터베이스에 저장
+        chat.setState(0);
         template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
         return ResponseEntity.ok().build();
     }
 
     @MessageMapping("/enter")
     public ResponseEntity<Void> enter(@RequestBody ChatMessage chat) {
+        chat.setState(0);
         template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
         return ResponseEntity.ok().build();
     }
     @MessageMapping("/exit")
     public ResponseEntity<Void> exit(@RequestBody ChatMessage chat) {
+        chat.setState(1);
         template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
         return ResponseEntity.ok().build();
     }
