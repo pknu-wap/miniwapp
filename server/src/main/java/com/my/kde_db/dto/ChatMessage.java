@@ -11,6 +11,11 @@ public class ChatMessage {
     private String name;
     private String message;
     private Date createdAt;
+    private MessageType type;
+
+    public enum MessageType {
+        ENTER, LEAVE, CHAT
+    }
 
     public ChatMessage(Long id, String name,String nickname, String message, Date createdAt) {
         this.id = id;
