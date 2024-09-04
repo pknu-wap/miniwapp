@@ -2,7 +2,6 @@ package com.my.kde_db.controller;
 
 import com.my.kde_db.dto.ChatMessage;
 import com.my.kde_db.service.ChatService;
-import com.my.kde_db.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -32,17 +31,6 @@ public class ChatController {
     @MessageMapping("/message")
     public ResponseEntity<Void> receiveMessage(@RequestBody ChatMessage chat) {
         chatService.saveMessage(chat);  // 메시지를 데이터베이스에 저장
-        template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
-        return ResponseEntity.ok().build();
-    }
-
-    @MessageMapping("/enter")
-    public ResponseEntity<Void> enter(@RequestBody ChatMessage chat) {
-        template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
-        return ResponseEntity.ok().build();
-    }
-    @MessageMapping("/exit")
-    public ResponseEntity<Void> exit(@RequestBody ChatMessage chat) {
         template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
         return ResponseEntity.ok().build();
     }
