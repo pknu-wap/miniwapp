@@ -35,6 +35,17 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
+    @MessageMapping("/enter")
+    public ResponseEntity<Void> enter(@RequestBody ChatMessage chat) {
+        template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
+        return ResponseEntity.ok().build();
+    }
+    @MessageMapping("/exit")
+    public ResponseEntity<Void> exit(@RequestBody ChatMessage chat) {
+        template.convertAndSend("/sub/chatroom/1", chat);  // 메시지를 구독자에게 전송
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }
