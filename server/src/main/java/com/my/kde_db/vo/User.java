@@ -17,4 +17,6 @@ public class User {
 	private String nickname = null;
 	private String name = null;
 	private Date birthday = null;
+	private int state= 0;
+	// 보낸사람의 접속상태 : 0 퇴장, 1 입장
 }

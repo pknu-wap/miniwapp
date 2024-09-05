@@ -6,12 +6,12 @@
 <mapper namespace="com.my.kde_db.dao.ChatMapper">
 
     <insert id="insertMessage" parameterType="com.my.kde_db.dto.ChatMessage">
-        INSERT INTO chat_message (name, nickname, message, created_at, state)
-        VALUES (#{name}, #{nickname}, #{message}, NOW(), #{state})
+        INSERT INTO chat_message (name, nickname, message, created_at)
+        VALUES (#{name}, #{nickname}, #{message}, NOW())
     </insert>
 
     <select id="getMessages" resultType="com.my.kde_db.dto.ChatMessage">
-        SELECT id, name,nickname, message, created_at AS createdAt, state
+        SELECT id, name,nickname, message, created_at AS createdAt
         FROM chat_message
         ORDER BY created_at ASC
     </select>

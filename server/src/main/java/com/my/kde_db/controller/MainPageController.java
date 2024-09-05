@@ -21,6 +21,12 @@ public class MainPageController {
     @Autowired
     MainPageService mainPageService;
 
+    @GetMapping("state")
+    public ResponseEntity<MainUser> getState(HttpSession session){
+        User loginUser = (User) session.getAttribute("me");
+        return ResponseEntity.ok(mainPageService.getState(loginUser.getState()));
+    }
+
     @GetMapping("user")
     public ResponseEntity<MainUser> getUser(HttpSession session){
         User loginUser = (User) session.getAttribute("me");
