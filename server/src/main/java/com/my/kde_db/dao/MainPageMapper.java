@@ -8,7 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface MainPageMapper {
-    MainUser findState(int state);
     MainUser findUserByNumber(int number);
 
     List<MainPost> findNewPost();

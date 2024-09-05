@@ -14,7 +14,6 @@ public class MainPageService {
     @Autowired
     MainPageMapper mainPageMapper;
 
-    public MainUser getState(int state){return mainPageMapper.findState(state);}
 
     public MainUser getUser(int number){
     return mainPageMapper.findUserByNumber(number);
