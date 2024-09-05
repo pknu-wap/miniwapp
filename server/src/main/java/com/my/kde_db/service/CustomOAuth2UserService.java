@@ -39,7 +39,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String password = UUID.randomUUID().toString(); // 임의의 비밀번호 설정
         String name = profile != null && profile.get("nickname") != null ? profile.get("nickname").toString() : "Kakao User"; // 기본 이름 설정
         String birthday = kakaoAccount != null && kakaoAccount.get("birthday") != null ? kakaoAccount.get("birthday").toString() : null;
-        int state=  1;
 
         // 사용자 정보 처리
         User user = userMapper.findById(id);
@@ -52,7 +51,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userMapper.save(user);
         }
 
-        user.setState(state);
+        user.setState(1);
         userMapper.savestate(user);
 
         session.setAttribute("me", user);
