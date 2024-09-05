@@ -23,11 +23,11 @@
         CASE WHEN #{birthday} IS NULL THEN NULL ELSE #{birthday} END)
     </insert>
 
-    <insert id="savestate" parameterType="com.my.kde_db.vo.User">
+    <update id="savestate" parameterType="com.my.kde_db.vo.User">
         UPDATE user
         SET state = #{state}
         WHERE nickname = #{nickname}
-    </insert>
+    </update>
 
 
 
