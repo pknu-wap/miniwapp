@@ -33,8 +33,8 @@ public class UserService {
 
 	}
 
-	public void savestate(User user){
-		userMapper.savestate(user);
-	}
+	//public void savestate(User user){
+	//	userMapper.savestate(user);
+	//}
 
 }
