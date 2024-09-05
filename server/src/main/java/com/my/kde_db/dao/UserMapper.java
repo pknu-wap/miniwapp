@@ -13,6 +13,6 @@ public interface UserMapper {
 
     void save(User user);
 
-    //void savestate(User user);
+    void savestate(User user);
 
 }
