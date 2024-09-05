@@ -60,8 +60,7 @@ public class UserController {
 
 	@GetMapping("/loginSuccess")
 	@ResponseBody
-	public ResponseEntity<Void> loginSuccess(@RequestBody User user) {
-		user.setState(1);
+	public ResponseEntity<Void> loginSuccess() {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
