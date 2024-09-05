@@ -33,7 +33,11 @@ public class UserController {
 	
 	@GetMapping("logout")
 	@ResponseBody
-	public ResponseEntity<String> logout() {
+	public ResponseEntity<String> logout(User user,HttpSession session) {
+		User loginUser =(User)session.getAttribute("me");
+		user.setState(0);
+		user.setNickname(loginUser.getNickname());
+		userService.savestate(user);
 		return ResponseEntity.status(HttpStatus.OK).body("로그아웃 성공");
 	}
 

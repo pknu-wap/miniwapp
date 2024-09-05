@@ -50,9 +50,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setName(name); // 기본 이름 설정
             user.setState(1);
             userMapper.save(user);
-
-            session.setAttribute("me", user);
-            return oauth2User;
         }
 
         user.setState(1);
