@@ -18,8 +18,8 @@
     </select>
 
     <insert id="save" parameterType="com.my.kde_db.vo.User">
-        INSERT INTO user (id, password, name, nickname, birthday)
-        VALUES (#{id}, #{password}, #{name}, #{nickname},
+        INSERT INTO user (id, password, name, nickname, birthday,state)
+        VALUES (#{id}, #{password}, #{name}, #{nickname},#{state},
         CASE WHEN #{birthday} IS NULL THEN NULL ELSE #{birthday} END)
     </insert>
 
