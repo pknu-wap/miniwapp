@@ -51,6 +51,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userMapper.save(user);
         }
 
+        user.setState(1);
+        userMapper.savestate(user);
+
         session.setAttribute("me", user);
 
         return oauth2User;
