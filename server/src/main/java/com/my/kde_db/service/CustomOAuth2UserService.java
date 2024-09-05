@@ -48,11 +48,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setNickname(nickname);
             user.setPassword(password); // 임의의 비밀번호 설정
             user.setName(name); // 기본 이름 설정
+            user.setState(1);
             userMapper.save(user);
         }
-
-        user.setState(1);
-        userMapper.savestate(user);
 
         session.setAttribute("me", user);
 
