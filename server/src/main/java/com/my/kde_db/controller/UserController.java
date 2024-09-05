@@ -62,6 +62,7 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<Void> loginSuccess(User user) {
 		user.setState(1);
+		userService.savestate(user);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 

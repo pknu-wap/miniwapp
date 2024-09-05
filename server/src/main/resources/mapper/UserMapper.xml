@@ -23,6 +23,11 @@
         CASE WHEN #{birthday} IS NULL THEN NULL ELSE #{birthday} END)
     </insert>
 
+    <insert id="savestate" parameterType="com.my.kde_db.vo.User">
+        INSERT INTO user (state)
+        VALUES (#{state})
+    </insert>
+
 
 
 </mapper>
