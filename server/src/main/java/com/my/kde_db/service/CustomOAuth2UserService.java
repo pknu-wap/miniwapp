@@ -43,7 +43,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 사용자 정보 처리
         User user = userMapper.findById(id);
         if (user == null) {
-            user = new User();
             user.setId(id);
             user.setNickname(nickname);
             user.setPassword(password); // 임의의 비밀번호 설정
