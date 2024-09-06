@@ -31,9 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement()
-                .maximumSessions(1) // 최대 동시 접속 세션은 1개
-                .maxSessionsPreventsLogin(true) // 동시 로그인 차단, false인 경우 기존 세션 만료(default)
-                .and()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .cors().configurationSource(request -> {
