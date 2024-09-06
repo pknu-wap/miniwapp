@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
-import API from '../utils/API'
-import API2 from '../utils/API2'
+import API from '../utils/API';
+import API2 from '../utils/API2';
 
 const GlobalStyle = createGlobalStyle`
 	*, *::before, *::after {
 		box-sizing: border-box;
     padding: 0px;
-    margin: 0px;
-	}
+    margin: 0px; 
+  }
 `;
 
 const Component = styled.div`
@@ -186,14 +186,12 @@ function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const idImage = `${process.env.PUBLIC_URL}/id.png`;
-  const passwordImage = `${process.env.PUBLIC_URL}/password.png`;
   const loginImage = `${process.env.PUBLIC_URL}/loginBackground.png`;
   const miniwappImage = `${process.env.PUBLIC_URL}/miniwappImage.png`;
   const kakaoImage = `${process.env.PUBLIC_URL}/kakaoImage.png`;
-  const REST_API_KEY = 'b7382d9ab658123d8559ab006e9c2247';
-  const REDIRECT_URI = 'https://miniwappi.shop/login/oauth2/code/kakao';
-  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  // const REST_API_KEY = 'b7382d9ab658123d8559ab006e9c2247';
+  // const REDIRECT_URI = 'https://miniwappi.shop/login/oauth2/code/kakao';
+  // const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const kakaoLink = 'https://miniwappi.shop/oauth2/authorization/kakao';
 
   const saveId = event => { setId(event.target.value); };

@@ -78,7 +78,7 @@ const EntraceButton = styled(Link)`
   z-index: 1;
 `;
 
-const LogoutButton = styled(Link)`
+const LogoutButton = styled.input`
   margin: 20px;
   width: 80px;
   height: 30px;
@@ -165,6 +165,11 @@ function Mainpage() {
     }
   }
 
+  const logout = () => {
+    const response = API.post(`/logout`, { withCredentials: true });
+    window.location.href = '../login';
+  }
+
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -188,7 +193,7 @@ function Mainpage() {
           <HelloUser>안녕하세요 {userName}님!</HelloUser>
           <EntraceButton to={link}>내 미니왑피 입장하기</EntraceButton>
         </ButtonsSection>
-        <LogoutButton to="../login">로그아웃</LogoutButton>
+        <LogoutButton type="button" onClick={logout} value="로그아웃"></LogoutButton>
       </Header>
       <ContentSection>
         <CalendarWrapper>

@@ -166,6 +166,19 @@ const WrittenCommentEdit = styled.input`
   font-size: 16px;
 `;
 
+const WrittenCommentSubmit = styled.input`
+  grid-row: 1;
+  grid-column: 2;
+
+  ${props => props.mine ? "display: flex" : "display: none;"}
+  justify-self: center; 
+  align-self: center;
+  border: none;
+  outline: none;
+  background-color: #D9D9D9;
+  font-size: 16px;
+`;
+
 const WrittenCommentDelete = styled.input`
   grid-row: 1;
   grid-column: 3;
@@ -267,6 +280,7 @@ function OthersGuestbook() {
   const [minihomeNumber, setMinihomeNumber] = useState(null);
   const [name, setName] = useState('');
   const [mode, setMode] = useState(null);
+  const [editMode, setEditMode] = useState('edit');
   const [data, setData] = useState(null);
   const [commentContent, setCommentContent] = useState('');
   const [pageIndex, setPageIndex] = useState(1);
@@ -385,6 +399,7 @@ function OthersGuestbook() {
       };
       const editResponse = await API.put(`vboard/post`, JSON.stringify(commentData), { withCredentials: true });
       console.log(editResponse);
+      setEditMode('edit');
       window.location.reload();
     }
     catch (error) {
@@ -392,6 +407,8 @@ function OthersGuestbook() {
       console.log(error);
     }
   }
+
+  const handleEditMode = () => setEditMode('submit');
 
   const deleteComment = async (event) => {
     try {
@@ -442,7 +459,12 @@ function OthersGuestbook() {
                 <WrittenCommentTitle>{data[0].name}</WrittenCommentTitle>
                 <WrittenCommentDate mine={data[0].visitorNumber == userNumber}>
                   <WrittenCommentDateData mine={data[0].visitorNumber == userNumber}>{data[0].date}</WrittenCommentDateData>
-                  <WrittenCommentEdit mine={data[0].visitorNumber == userNumber} type="submit" value="수정" />
+                  {(editMode == 'edit') && 
+                    <WrittenCommentEdit mine={data[0].visitorNumber == userNumber} type="button" value="수정" onClick={handleEditMode}/>
+                  }
+                  {(editMode == 'submit') && 
+                    <WrittenCommentSubmit mine={data[0].visitorNumber == userNumber} type="submit" value="완료" />
+                  }
                   <WrittenCommentDelete mine={data[0].visitorNumber == userNumber} number={data[0].number} type="button" value="삭제" onClick={deleteComment} />
                 </WrittenCommentDate>
                 <WrittenCommentImage src={data[0].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(data[0].image)} alt="Loading..." />
