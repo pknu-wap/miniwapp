@@ -1,5 +1,7 @@
 package com.my.kde_db.config;
 
+import com.my.kde_db.service.UserService;
+import com.my.kde_db.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 @Component
 public class CustomLogoutHandler implements LogoutHandler {
-
+    private UserService userService;
     private final HttpSession session;
     private final String kakaoLogoutUrl = "https://kapi.kakao.com/v1/user/logout";
 
@@ -25,6 +27,10 @@ public class CustomLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        User logoutUser=(User) session.getAttribute("me");
+        logoutUser.setState(0);
+        userService.savestate(logoutUser);
+
         String accessToken = (String) session.getAttribute("accessToken");
         if (authentication != null && accessToken != null) {
 
