@@ -24,7 +24,7 @@ public class CustomLogoutHandler implements LogoutHandler {
     private final UserMapper userMapper;  // UserMapper 필드 추가
 
     @Autowired
-    public CustomLogoutHandler(HttpSession session, UserMapper userMapper) {  // UserMapper 생성자 주입
+    public CustomLogoutHandler(HttpSession session, UserMapper userMapper) {
             this.session = session;
             this.userMapper = userMapper;
         }
@@ -33,8 +33,16 @@ public class CustomLogoutHandler implements LogoutHandler {
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         System.out.println("로그아웃 핸들러 호출됨");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof User) {
-            User logoutUser = (User) auth.getPrincipal();
+
+        if (auth == null) {
+            System.out.println("로그아웃 시점에 인증 정보가 없습니다.");
+        } else {
+            System.out.println("인증 정보: " + auth.getPrincipal());
+        }
+
+        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
+            User logoutUser = customUserDetails.getUser();
             logoutUser.setState(0);
             userMapper.savestate(logoutUser);
             System.out.println("로그아웃 상태 저장된 유저: " + logoutUser.getName());
