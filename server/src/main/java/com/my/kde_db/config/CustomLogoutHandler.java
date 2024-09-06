@@ -21,10 +21,10 @@ public class CustomLogoutHandler implements LogoutHandler {
     private final String kakaoLogoutUrl = "https://kapi.kakao.com/v1/user/logout";
 
     @Autowired
-    public CustomLogoutHandler(HttpSession session) {
+    public CustomLogoutHandler(UserService userService, HttpSession session) {
+        this.userService = userService;
         this.session = session;
     }
-
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         User logoutUser=(User) session.getAttribute("me");
