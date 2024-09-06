@@ -19,7 +19,7 @@
 
     <insert id="save" parameterType="com.my.kde_db.vo.User">
         INSERT INTO user (id, password, name, nickname,state, birthday)
-        VALUES (#{id}, #{password}, #{name}, #{nickname},#{state},
+        VALUES (#{id}, #{password}, #{name}, #{nickname},#{state}
         CASE WHEN #{birthday} IS NULL THEN NULL ELSE #{birthday} END)
     </insert>
 

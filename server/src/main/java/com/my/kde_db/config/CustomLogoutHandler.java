@@ -38,7 +38,7 @@ public class CustomLogoutHandler implements LogoutHandler {
             userMapper.savestate(logoutUser);
             System.out.println("로그아웃 상태 저장된 유저: "+logoutUser.getName());
         }
-        
+
         String accessToken = (String) session.getAttribute("accessToken");
         if (authentication != null && accessToken != null) {
 
