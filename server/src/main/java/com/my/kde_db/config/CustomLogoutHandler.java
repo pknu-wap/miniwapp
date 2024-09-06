@@ -32,11 +32,15 @@ public class CustomLogoutHandler implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         System.out.println("로그아웃 핸들러 호출됨");
-        User logoutUser = (User) session.getAttribute("me");
-        if (logoutUser != null) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof User) {
+            User logoutUser = (User) auth.getPrincipal();
             logoutUser.setState(0);
             userMapper.savestate(logoutUser);
-            System.out.println("로그아웃 상태 저장된 유저: "+logoutUser.getName());
+            System.out.println("로그아웃 상태 저장된 유저: " + logoutUser.getName());
+        } else {
+            // 인증 정보가 없을 경우 처리 (예: 세션에서 사용자 정보 제거)
+            System.out.println("현재 인증 정보가 없거나 비정상적인 상태입니다.");
         }
 
         String accessToken = (String) session.getAttribute("accessToken");
