@@ -49,19 +49,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setPassword(password); // 임의의 비밀번호 설정
             user.setName(name); // 기본 이름 설정
             userMapper.save(user);
-            user.setState(1);
-            userMapper.savestate(user);
-            session.setAttribute("me", user);
         }
+        user = userMapper.findById(id);
 
-        else{
-            user.setState(1);
-            userMapper.savestate(user);
+        user.setState(1);
+        userMapper.savestate(user);
 
-            session.setAttribute("me", user);
-        }
-
-
+        session.setAttribute("me", user);
 
         return oauth2User;
     }
