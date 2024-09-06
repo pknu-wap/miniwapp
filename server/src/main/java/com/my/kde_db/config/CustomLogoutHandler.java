@@ -21,23 +21,13 @@ public class CustomLogoutHandler implements LogoutHandler {
     private final String kakaoLogoutUrl = "https://kapi.kakao.com/v1/user/logout";
     private final HttpSession session;
 
-    private final UserMapper userMapper;  // UserMapper 필드 추가
-
     @Autowired
-    public CustomLogoutHandler(HttpSession session, UserMapper userMapper) {  // UserMapper 생성자 주입
+    public CustomLogoutHandler(HttpSession session) {  // UserMapper 생성자 주입
         this.session = session;
-        this.userMapper = userMapper;
     }
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         System.out.println("로그아웃 핸들러 호출됨");
-
-        User logoutUser = (User) session.getAttribute("me");
-        if (logoutUser != null) {
-            logoutUser.setState(0);
-            userMapper.savestate(logoutUser);
-            System.out.println("로그아웃 상태 저장된 유저: "+logoutUser.getName());
-        }
 
         String accessToken = (String) session.getAttribute("accessToken");
         if (authentication != null && accessToken != null) {
@@ -58,7 +48,6 @@ public class CustomLogoutHandler implements LogoutHandler {
                 e.printStackTrace();
             }
         }
-        session.invalidate();
     }
 }
 
