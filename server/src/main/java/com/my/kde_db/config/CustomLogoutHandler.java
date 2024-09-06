@@ -3,6 +3,7 @@ package com.my.kde_db.config;
 import com.my.kde_db.service.UserService;
 import com.my.kde_db.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -20,7 +21,7 @@ public class CustomLogoutHandler implements LogoutHandler {
     private final String kakaoLogoutUrl = "https://kapi.kakao.com/v1/user/logout";
 
     @Autowired
-    public CustomLogoutHandler(UserService userService) {
+    public CustomLogoutHandler(@Lazy UserService userService) {
         this.userService = userService;
     }
 
