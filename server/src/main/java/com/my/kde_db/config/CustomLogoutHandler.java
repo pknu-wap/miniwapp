@@ -58,6 +58,7 @@ public class CustomLogoutHandler implements LogoutHandler {
                 e.printStackTrace();
             }
         }
+        session.invalidate();
     }
 }
 
