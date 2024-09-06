@@ -30,6 +30,8 @@ public class CustomLogoutHandler implements LogoutHandler {
     }
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        System.out.println("로그아웃 핸들러 호출됨");
+
         User logoutUser = (User) session.getAttribute("me");
         if (logoutUser != null) {
             logoutUser.setState(0);
@@ -56,6 +58,7 @@ public class CustomLogoutHandler implements LogoutHandler {
                 e.printStackTrace();
             }
         }
+        session.invalidate();
     }
 }
 
