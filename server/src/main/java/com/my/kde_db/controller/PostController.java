@@ -58,4 +58,15 @@ public class PostController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete post");
             }
     }
+
+    @PutMapping("/update/{p_number}") // 게시글 수정
+    public ResponseEntity<String> updatePostContents(@PathVariable("p_number") int postNumber,
+                                                     @RequestBody String contents) {
+        boolean isUpdated = postService.updatePostContents(postNumber, contents);
+        if (isUpdated) {
+            return ResponseEntity.ok("Post updated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update post");
+        }
+    }
 }

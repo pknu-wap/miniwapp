@@ -13,4 +13,7 @@ public class FriendInfo {
     private String nickname =null;
 
     private byte[] image; // 이 필드는 직접 바인딩하지 않음
+
+    private int state;
+
 }

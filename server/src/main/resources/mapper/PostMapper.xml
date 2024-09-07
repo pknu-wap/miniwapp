@@ -64,9 +64,12 @@
                 WHERE number = #{postNumber}
     </update>
 
-    <update id="refactorPost" parameterType = "int">
-        SELECT FRO
-
+    <update id="updatePostContents" parameterType="com.my.kde_db.dto.Post">
+        UPDATE post
+        SET contents = #{contents}
+        WHERE number = #{p_number}
     </update>
+
+
 
 </mapper>
