@@ -75,6 +75,11 @@ const FriendDetails = styled.div`
   flex-direction: column;
 `;
 
+const Friendstatus = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 function Friend() {
   const [totalMember, setTotalMember] = useState(null);
   const [friends, setFriends] = useState([]);
@@ -121,6 +126,9 @@ function Friend() {
                   <div>{friend.name}</div>
                   <div>({friend.nickname})</div>
                 </FriendDetails>
+                <Friendstatus>
+                  <div>{friend.state === 1 ? '온라인' : '오프라인'}</div>
+                </Friendstatus>
               </FriendCard>
             ))
           ) : (
