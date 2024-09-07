@@ -28,10 +28,6 @@ public class ProfileController {
     public ResponseEntity<Map<String, Object>> getProfile(@PathVariable int w_number, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
 
-        if (loginUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         LeftProfile profile = leftProfileService.getProfileByWnumber(w_number);
         if (profile != null) {
             Map<String, Object> result = new HashMap<>();
@@ -49,15 +45,12 @@ public class ProfileController {
     public ResponseEntity<String> updateProfile(@RequestParam("imageFile") MultipartFile imageFile,
                                                 @ModelAttribute LeftProfile profile, HttpSession session) {
         User loginUser = (User) session.getAttribute("me");
-        if (loginUser != null) {
-            boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), imageFile, profile);
-            if (updateSuccess) {
-                return ResponseEntity.ok("Profile updated successfully");
-            } else {
-                return ResponseEntity.badRequest().body("Failed to update profile");
-            }
+
+        boolean updateSuccess = leftProfileService.updateProfile(loginUser.getId(), imageFile, profile);
+        if (updateSuccess) {
+            return ResponseEntity.ok("Profile updated successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            return ResponseEntity.badRequest().body("Failed to update profile");
         }
     }
 }

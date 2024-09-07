@@ -24,7 +24,10 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	
 	//mariadb(선택)
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'
 
 	implementation 'javax.servlet:jstl'
 
@@ -33,7 +36,6 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {

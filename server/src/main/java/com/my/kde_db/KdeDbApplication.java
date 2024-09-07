@@ -12,4 +12,3 @@ public class KdeDbApplication {
 
 }
 
-//확인 url 주소:  http://localhost:8080/user/create?id=userid&pw=password&nick=nickname&address=address&g=gender
