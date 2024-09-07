@@ -108,7 +108,7 @@ function Calendar() {
           // 사용자가 추가하는 일정
           data.calendars.forEach(calendar => {
             const date = new Date(calendar.date);
-            date.setDate(date.getDate() + 1); // 일정이 하루 앞에서 표시가 되어서 하루 더함
+            date.setDate(date.getDate());
             const dateKey = date.toISOString().split('T')[0];
             if (!newEvents[dateKey]) newEvents[dateKey] = [];
             newEvents[dateKey].push(calendar.title);

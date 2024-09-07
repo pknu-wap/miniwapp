@@ -168,6 +168,14 @@ const WrittenCommentCommentEdit = styled.input`
   font-size: 16px;
 `;
 
+const WrittenCommentCommentResubmit = styled.input`
+  grid-row: 1;
+  grid-column: 4;
+  background-color: #D9D9D9;
+  border: none;
+  font-size: 16px;
+`;
+
 const WrittenCommentForm = styled.form`
   grid-row: 3;
   grid-column: 1 / 3;
@@ -222,11 +230,8 @@ function MyGuestbook() {
   const params = useParams();
   const [userNumber, setUserNumber] = useState(null);
   const [minihomeNumber, setMinihomeNumber] = useState(null);
-  const [userImage, setUserImage] = useState('');
   const [name, setName] = useState('');
-  const [mode, setMode] = useState(null);
   const [data, setData] = useState([]);
-  // const [response, setResponse] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [indices, setIndices] = useState([]);
 
@@ -242,6 +247,12 @@ function MyGuestbook() {
   const [commentedContent3, setCommentedContent3] = useState('');
   const [commentedContent4, setCommentedContent4] = useState('');
 
+  const [editMode0, setEditMode0] = useState('edit');
+  const [editMode1, setEditMode1] = useState('edit');
+  const [editMode2, setEditMode2] = useState('edit');
+  const [editMode3, setEditMode3] = useState('edit');
+  const [editMode4, setEditMode4] = useState('edit');
+
   const changePageIndex = (event) => { setPageIndex(parseInt(event.target.value)); }
   const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
 
@@ -256,6 +267,12 @@ function MyGuestbook() {
   const saveCommentedContent2 = event => { setCommentedContent2(event.target.value); }
   const saveCommentedContent3 = event => { setCommentedContent3(event.target.value); }
   const saveCommentedContent4 = event => { setCommentedContent4(event.target.value); }
+
+  const handleEditMode0 = () => setEditMode0('submit');
+  const handleEditMode1 = () => setEditMode1('submit');
+  const handleEditMode2 = () => setEditMode2('submit');
+  const handleEditMode3 = () => setEditMode3('submit');
+  const handleEditMode4 = () => setEditMode4('submit');
 
   const getStatus = async () => {
     try {
@@ -291,7 +308,6 @@ function MyGuestbook() {
 
   const getGuestbookData = async () => {
     try {
-      let tempData = [];
       const nameResponse = await API.get(`leftprofile/info/${minihomeNumber}`, { withCredentials: true });
       const commentResponse = await API.get(`vboard/${minihomeNumber}/${pageIndex}`, { withCredentials: true });
       setName(nameResponse.data.profile.name);
@@ -398,10 +414,11 @@ function MyGuestbook() {
                 }
                 {data[0].comment.comment != null &&
                   <WrittenCommentComment number={data[0].number} onSubmit={editComment}>
-                    <WrittenCommentCommentContent type="text" value={commentedContent0} onChange={saveCommentedContent0} />  
+                    <WrittenCommentCommentContent type="text" value={commentedContent0} readOnly={!(editMode0 === 'submit')} onChange={saveCommentedContent0} />  
                     <WrittenCommentCommentDate>{data[0].comment.date}</WrittenCommentCommentDate>
                     <WrittenCommentCommentDelete number={data[0].number} type="button" value="삭제" onClick={deleteComment} />
-                    <WrittenCommentCommentEdit type="submit" value="수정" />
+                    {(editMode0 === "edit") && <WrittenCommentCommentEdit type="button" value="수정" onClick={handleEditMode0} />}
+                    {(editMode0 === "submit") && <WrittenCommentCommentResubmit type="submit" value="완료" />}
                   </WrittenCommentComment>
                 }
               </WrittenComment>
@@ -420,10 +437,11 @@ function MyGuestbook() {
                 }
                 {data[1].comment.comment != null &&
                   <WrittenCommentComment number={data[1].number} onSubmit={editComment}>
-                    <WrittenCommentCommentContent type="text" value={commentedContent1} onChange={saveCommentedContent1} />  
+                    <WrittenCommentCommentContent type="text" value={commentedContent1} readOnly={!(editMode1 === 'submit')} onChange={saveCommentedContent1} />  
                     <WrittenCommentCommentDate>{data[1].comment.date}</WrittenCommentCommentDate>
                     <WrittenCommentCommentDelete number={data[1].number} type="button" value="삭제" onClick={deleteComment} />
-                    <WrittenCommentCommentEdit type="submit" value="수정" />
+                    {(editMode1 === "edit") && <WrittenCommentCommentEdit type="button" value="수정" onClick={handleEditMode1} />}
+                    {(editMode1 === "submit") && <WrittenCommentCommentResubmit type="submit" value="완료" />}
                   </WrittenCommentComment>
                 }
               </WrittenComment>
@@ -442,10 +460,11 @@ function MyGuestbook() {
                 }
                 {data[2].comment.comment != null &&
                   <WrittenCommentComment number={data[2].number} onSubmit={editComment}>
-                    <WrittenCommentCommentContent type="text" value={commentedContent2} onChange={saveCommentedContent2} />  
+                    <WrittenCommentCommentContent type="text" value={commentedContent2} readOnly={!(editMode2 === 'submit')} onChange={saveCommentedContent2} />  
                     <WrittenCommentCommentDate>{data[2].comment.date}</WrittenCommentCommentDate>
                     <WrittenCommentCommentDelete number={data[2].number} type="button" value="삭제" onClick={deleteComment} />
-                    <WrittenCommentCommentEdit type="submit" value="수정" />
+                    {(editMode2 === "edit") && <WrittenCommentCommentEdit type="button" value="수정" onClick={handleEditMode2} />}
+                    {(editMode2 === "submit") && <WrittenCommentCommentResubmit type="submit" value="완료" />}
                   </WrittenCommentComment>
                 }
               </WrittenComment>
@@ -464,10 +483,11 @@ function MyGuestbook() {
                 }
                 {data[3].comment.comment != null &&
                   <WrittenCommentComment number={data[3].number} onSubmit={editComment}>
-                    <WrittenCommentCommentContent type="text" value={commentedContent3} onChange={saveCommentedContent3} />  
+                    <WrittenCommentCommentContent type="text" value={commentedContent3} readOnly={!(editMode3 === 'submit')} onChange={saveCommentedContent3} />  
                     <WrittenCommentCommentDate>{data[3].comment.date}</WrittenCommentCommentDate>
                     <WrittenCommentCommentDelete number={data[3].number} type="button" value="삭제" onClick={deleteComment} />
-                    <WrittenCommentCommentEdit type="submit" value="수정" />
+                    {(editMode3 === "edit") && <WrittenCommentCommentEdit type="button" value="수정" onClick={handleEditMode3} />}
+                    {(editMode3 === "submit") && <WrittenCommentCommentResubmit type="submit" value="완료" />}
                   </WrittenCommentComment>
                 }
               </WrittenComment>
@@ -486,10 +506,11 @@ function MyGuestbook() {
                 }
                 {data[4].comment.comment != null &&
                   <WrittenCommentComment number={data[4].number} onSubmit={editComment}>
-                    <WrittenCommentCommentContent type="text" value={commentedContent4} onChange={saveCommentedContent4} />  
+                    <WrittenCommentCommentContent type="text" value={commentedContent4} readOnly={!(editMode4 === 'submit')} onChange={saveCommentedContent4} />  
                     <WrittenCommentCommentDate>{data[4].comment.date}</WrittenCommentCommentDate>
                     <WrittenCommentCommentDelete number={data[4].number} type="button" value="삭제" onClick={deleteComment} />
-                    <WrittenCommentCommentEdit type="submit" value="수정" />
+                    {(editMode4 === "edit") && <WrittenCommentCommentEdit type="button" value="수정" onClick={handleEditMode4} />}
+                    {(editMode4 === "submit") && <WrittenCommentCommentResubmit type="submit" value="완료" />}
                   </WrittenCommentComment>
                 }
               </WrittenComment>

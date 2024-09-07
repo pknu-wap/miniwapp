@@ -30,7 +30,7 @@ const Page = styled.form`
 const Title = styled.h1`
   display: flex;
   flex: 1;
-  font-size: 2.5rem;
+  font-size: 32px;
   font-weight: 400;
   justify-content: center;
   align-items: center;
@@ -170,6 +170,7 @@ function MinihomeLeft() {
       setName(response.data.profile.name);
       setNickname(response.data.profile.nickname);
       if (response.data.profile.pagename !== null) { setPagename(response.data.profile.pagename); }
+      else { setPagename(response.data.profile.name + '의 미니왑피'); }
       setUserIntro(response.data.profile.introduction == null ? "" : String(response.data.profile.introduction));
       if (String(response.data.profile.image) === 'null') { 
         const emptyFile = new Blob([]);
@@ -199,7 +200,8 @@ function MinihomeLeft() {
   const changeMinihomeData = async (event) => {
     try {
       event.preventDefault();
-      if (mode) {
+      if (mode) { 
+        console.log("imageFile: " + file);
         const formData = new FormData();
         formData.append("name", name);
         formData.append('nickname', nickname);
@@ -229,7 +231,7 @@ function MinihomeLeft() {
 
   useEffect(() => {
     if (mode !== null) { getMinihomeData(); }
-  }, [mode])
+  }, [mode]);
 
   return (
     <Component>

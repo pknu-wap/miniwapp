@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
-import API from '../utils/API'
+import API from '../utils/API';
+import API2 from '../utils/API2';
 
 const GlobalStyle = createGlobalStyle`
 	*, *::before, *::after {
 		box-sizing: border-box;
     padding: 0px;
-    margin: 0px;
-	}
+    margin: 0px; 
+  }
 `;
 
 const Component = styled.div`
+  background-image: url(${props => props.image});
+  background-repeat: no-repeat;
+
   display: grid;
-  grid-template-columns: 1fr 0.93fr 1fr;
-  grid-template-rows: 1fr 4fr 1fr;
+  grid-template-columns: 0.3fr 1fr 0.3fr;
+  grid-template-rows: 0.1fr 1fr 0.1fr;
   width: 100vw;
   height: 100vh;
 `;
@@ -22,196 +26,232 @@ const Component = styled.div`
 const Page = styled.div`
   grid-row: 2;
   grid-column: 2;
-  flex-direction: column;
+  background-color: white;
+  border: 1.5px solid;
 
-  display: flex;
-  border: 2px solid;
-  border-radius: 20px;
-
-  padding-top: 60px;
-  padding-bottom: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
 `;
 
-const Title = styled.div`
+const InnerPage = styled.div`
+  grid-row: 1;
+  grid-column: 2;
+  background-color: white;
+  border-left: 1.5px solid;
+
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+  padding-bottom: 80px;
+`;
+
+const Miniwappy = styled.div`
+  flex: 1;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 0.8;
-`;
+  height: 100%;
 
-const Miniwappy = styled.h1`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  font-size: 40px;
-  font-weight: 800;
-  text-align: center;
-`;
-
-const Subtitle = styled.h6`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  font-size: 32px;
-  font-weight: 500;
-  letter-spacing: -0.05em;
-  text-align: center;
+  background-image: url(${props => props.image});
+  background-size: 320px 88px;
+  background-position: center center;
+  background-repeat: no-repeat;
 `;
 
 const Form = styled.form`
+  flex: 5;
+  padding-left: 80px;
+  padding-right: 80px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 1.3;
-  padding-left: 40px;
-  padding-right: 40px;
 `;
 
-const ID = styled.input`
+const Container = styled.div`
+  flex: 1.2;
+  max-height: 52px;
+  margin: 12px;
+  margin-top: ${props => props.margintop || 12}px;
+  margin-bottom: ${props => props.marginbottom || 12}px;
+  border: none;
+
   display: flex;
-  flex: 1;
   justify-content: center;
-  align-items: center;
-
-  border: 3px solid;
-  border-radius: 20px;
-  font-size: 20px;
-  font-weight: 400;
-  text-indent: 55px;
-
-  margin: 8px;
-  max-height: 72px;
-
-  background-image: url(${props => props.image});
-  background-repeat: no-repeat;
-  background-position: 22px center;
+  align-items: stretch;
 `;
 
-const Password = styled.input`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+const Input = styled.input`
+  flex: 20;
+  background-color: #EBEBEB;
+  border: none;
+  outline: none;
 
-  border: 3px solid;
-  border-radius: 20px;
   font-size: 20px;
   font-weight: 400;
-  text-indent: 55px;
-  
-  margin: 8px;
-  max-height: 72px;
+  text-indent: 20px;
+`;
 
-  background-image: url(${props => props.image});
-  background-repeat: no-repeat;
-  background-position: 20px center;
+const Box = styled.div`
+  flex: 1;
+`;
+
+const GreenBox = styled(Box)`
+  background-color: #7ED957;
+`;
+
+const YellowBox = styled(Box)`
+  background-color: #FFDE59;
 `;
 
 const Submit = styled.input`
-  display: flex;
   flex: 1;
+  max-height: 44px;
+  margin: 12px;
+  background-color: #FF5757;
+  border: none;
+  box-shadow: 3px 3px 3px #C0C0C0;
+
+  display: flex;
   justify-content: center;
   align-items: center;
-
-  border: 3px solid;
-  border-radius: 20px;
-  font-weight: 400;
-
-  margin: 8px;
-  max-height: 72px;
-
-  background-color: #BDBDBD;
-  font-size: 24px;
+  font-size: 20px;
   letter-spacing: -0.05em;
-  text-indent: 0;
+  color: white;
 `;
 
-const Others = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 0.5;
-`;
-
-const Signup = styled(Link)`
-  display: flex;
+const Or = styled.div`
   flex: 1;
-  justify-content: center;
+  max-height: 42px;
+
+  display: flex;
   align-items: center;
+`;
+
+const OrLine = styled.hr`
+  flex: auto;
+  height: 1.3px;
+  background-color: #000000;
+  border: none;
+`;
+
+const OrText = styled.div`
+  padding: 0 10px;
 
   font-size: 16px;
   font-weight: 400;
-  text-align: center;
-  text-decoration: none;
-  color: black;
 `;
 
-const Exception = styled(Link)`
+const Signup = styled(Link)`
+  flex: 1;
+  max-height: 44px;
+  margin: 12px;
+  background-color: #38B6FF;
+  border: none;
+  box-shadow: 3px 3px 3px #C0C0C0;
+
   display: flex;
-  flex: 1.5;
   justify-content: center;
   align-items: center;
-
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 20px;
   letter-spacing: -0.05em;
-  text-align: center;
   text-decoration: none;
-  color: #0095FF;
+  color: white;
 `;
 
+const KakaoLogin = styled.input`
+  flex: 1.2;
+  max-height: 52px;
+  margin: 12px;
+  background-color: #FEE500;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 3px 3px 3px #C0C0C0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  text-decoration: none;
+  color: black;
+
+  background-image: url(${props => props.image});
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: 20px center;
+`;
 
 function Login() {
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const idImage = `${process.env.PUBLIC_URL}/id.png`;
-  const passwordImage = `${process.env.PUBLIC_URL}/password.png`;
+  const loginImage = `${process.env.PUBLIC_URL}/loginBackground.png`;
+  const miniwappImage = `${process.env.PUBLIC_URL}/miniwappImage.png`;
+  const kakaoImage = `${process.env.PUBLIC_URL}/kakaoImage.png`;
+  // const REST_API_KEY = 'b7382d9ab658123d8559ab006e9c2247';
+  // const REDIRECT_URI = 'https://miniwappi.shop/login/oauth2/code/kakao';
+  // const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const kakaoLink = 'https://miniwappi.shop/oauth2/authorization/kakao';
 
   const saveId = event => { setId(event.target.value); };
   const savePassword = event => { setPassword(event.target.value); };
 
+  const loginHandler = async (event) => {
+    try {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append("username", id);
+      formData.append("password", password);
+      console.log(typeof(id));
+      console.log(typeof(password));
+      if (formData === undefined) {
+        console.log("formData undefined");
+      } else {
+        console.log("formData defined");
+      }
+      const response = await API2.post('user/login', formData, { withCredentials: true });
+      console.log("SUCCESS");
+      console.log(response);
+      navigate('../main');
+      console.log("실행?");
+    }
+    catch (error) {
+      alert('로그인 실패');
+      console.log("ERROR");
+      console.log(error.response);
+    }
+  }
+
+  const kakaoLoginHandler = () => {
+    window.location.href = kakaoLink;
+  };
+
   return (
-    <Component>
+    <Component image={loginImage}>
       <GlobalStyle />
       <Page>
-        <Title>
-          <Miniwappy>ㅁi니왑ㅍi</Miniwappy>
-          <Subtitle>로그인</Subtitle>
-        </Title>
-        <Form method='post' name='login-form' onSubmit={e => {
-          e.preventDefault();
-          const userLoginData = {
-            id: id,
-            password: password
-          };
-          console.log(userLoginData);
-          API.post("/user/login", JSON.stringify(userLoginData), { withCredentials: true })
-            .then(function (response) {
-              if (response.data === "로그인에 실패했습니다") {
-                alert(response.data);
-              } else {
-                console.log("SUCCESS");
-                console.log(response);
-                navigate('../main');
-                console.log("실행?");
-              }
-            })
-            .catch(function (error) {
-              alert(error.response.data);
-              console.log("ERROR");
-              console.log(error.response);
-            })
-        }}>
-          <ID name="id" type="text" placeholder="아이디" value={id} image={idImage} onChange={saveId} />
-          <Password name="password" type="password" placeholder="비밀번호" value={password} image={passwordImage} onChange={savePassword} />
-          <Submit type="submit" value="로그인" />
-        </Form>
-        <Others>
-          <Signup to='../signup'>회원가입</Signup>
-          <Exception to='../loginexception'>로그인이 안되시나요?</Exception>
-        </Others>
+        <InnerPage>
+          <Miniwappy image={miniwappImage} />
+          <Form method='post' name='login-form' onSubmit={loginHandler}>
+            <Container margintop={36}>
+              <GreenBox />
+              <Input name="id" type="text" placeholder="ID" value={id} onChange={saveId} />
+            </Container>
+            <Container marginbottom={80}>
+              <YellowBox />
+              <Input name="password" type="password" placeholder="PASSWORD" value={password} onChange={savePassword} />
+            </Container>
+            <Submit type="submit" value="로그인" />
+            <Or>
+              <OrLine />
+              <OrText>또는</OrText>
+              <OrLine />
+            </Or>
+            <Signup to='../signup'>회원가입</Signup>
+            <KakaoLogin type="button" value="카카오 로그인" image={kakaoImage} onClick={kakaoLoginHandler}/>
+          </Form>
+        </InnerPage>
       </Page>
     </Component>
   );

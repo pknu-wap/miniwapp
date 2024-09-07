@@ -249,6 +249,16 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
   const [schedules, setSchedules] = useState([]);
   const [scheduleNumber, setScheduleNumber] = useState(null);
 
+  //기존의 formattedDate를 하루 더함으로써 DB에 맞게 표시
+  const datePlusOneDay = new Date(selectedDate);
+  datePlusOneDay.setDate(datePlusOneDay.getDate() + 1);
+
+  //selectedDate가 맞게 나오는지 test
+  //console.log(selectedDate);
+
+  // DB에 시간을 맞게 post하기위해 ISO형식에 맞춘 formattedISO또한 하루 더하기. 
+  const formattedDateFixedISO = datePlusOneDay ? datePlusOneDay.toISOString() : '-';
+
   const fetchEvents = async () => {
     try {
       const year = selectedDate.getFullYear();
@@ -258,7 +268,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
         const events = Array.isArray(response.data.calendars) ? response.data.calendars : [];
         const eventsForSelectedDate = events.filter(event => {
           const eventDate = new Date(event.date).toISOString().split('T')[0];
-          return eventDate === formattedDateISO.split('T')[0];
+          return eventDate === formattedDateFixedISO.split('T')[0];
         });
         const eventsWithId = eventsForSelectedDate.map(event => ({ ...event, id: event.number }));
         setSchedules(eventsWithId);
@@ -278,7 +288,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
     }
 
     const newEvent = {
-      date: formattedDateISO,
+      date: formattedDateFixedISO,
       title: scheduleText,
     };
 
@@ -300,7 +310,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
 
   const handleEditEvent = async () => {
     const editEvent = {
-      date: formattedDateISO,
+      date: formattedDateFixedISO,
       title: scheduleText,
       number: scheduleNumber,
     };
@@ -338,7 +348,7 @@ function Modal({ selectedDate, closeModal, addSchedule }) {
     if (selectedDate) {
       fetchEvents();
     }
-  }, [selectedDate, formattedDateISO]);
+  }, [selectedDate, formattedDateFixedISO]);
 
   return (
     <ModalWrapper>

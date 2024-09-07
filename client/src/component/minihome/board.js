@@ -306,50 +306,6 @@ function Board(props) {
 
   const changePageNumber = (event) => { setPageNumber(parseInt(event.target.value)); }
 
-  const changeCheck = (event) => {
-    const postNumber = event.target.getAttribute('number');
-    const checked = event.target.checked;
-    for (let i = 1; i < 11; i++) {
-      
-    }
-    console.log(event.target.parentNode.children[4].checked);
-    let tempArr = []
-    // if (checked) { setCheck(check.push(postNumber)); }
-    // else {
-    //   check.forEach(element => {
-    //     console.log(element);
-    //     console.log(postNumber);
-    //     if (element !== postNumber) { tempArr.push(element); console.log('AAAAAA'); }
-    //   })
-    //   console.log(tempArr);
-    //   console.log(tempArr == check);
-    //   setCheck(tempArr);
-    //   console.log("BBBBBB");
-    // }
-    // console.log(check);
-    // console.log(checked);
-    // const isChecked = event.target.checked;
-    // console.log(isChecked);
-    // const AAA = document.getElementsByTagName("input");
-    // const BBB = AAA.getAttribute("type");
-    // console.log(postNumber);
-    // console.log(AAA);
-    // console.log(BBB);
-    // for (let i = 0; i < checked.length; i++) {
-    //   if (checked[i]["postIndex"] == postNumber) {
-    //     let copy = checked;
-    //     copy[i]["checked"] = !(copy[i]["checked"]);
-    //     setChecked(copy);
-    //   }
-    // }
-    // setChecked(prevChecked =>
-    //   prevChecked.map(item =>
-    //     item.postIndex === postNumber ? { ...item, checked: !item.checked } : item
-    //   )
-    // );
-    // console.log(checked);
-  }
-
   const toPost = (event) => {
     console.log(myData);
     const postNumber = event.target.getAttribute('number');

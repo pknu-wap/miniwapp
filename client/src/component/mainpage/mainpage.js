@@ -78,7 +78,7 @@ const EntraceButton = styled(Link)`
   z-index: 1;
 `;
 
-const LogoutButton = styled(Link)`
+const LogoutButton = styled.input`
   margin: 20px;
   width: 80px;
   height: 30px;
@@ -160,8 +160,19 @@ function Mainpage() {
       setStatus(number);
       setProfileImage(image ? `data:image/png;base64,${image}` : "default_profile_image.png");
     } catch (error) {
-      console.error(error);
-      alert("Failed to load user information");
+      console.log(error);
+      window.location.href = '../login';
+      // alert("Failed to load user information");
+    }
+  }
+
+  const logout = async () => {
+    try {
+      const response = await API.post(`/logout`, {}, { withCredentials: true });
+      if (response.status == 200) window.location.href = '../login';
+    } catch (error) {
+      console.log("로그아웃 실패");
+      console.log(error);
     }
   }
 
@@ -188,7 +199,7 @@ function Mainpage() {
           <HelloUser>안녕하세요 {userName}님!</HelloUser>
           <EntraceButton to={link}>내 미니왑피 입장하기</EntraceButton>
         </ButtonsSection>
-        <LogoutButton to="../login">로그아웃</LogoutButton>
+        <LogoutButton type="button" onClick={logout} value="로그아웃"></LogoutButton>
       </Header>
       <ContentSection>
         <CalendarWrapper>

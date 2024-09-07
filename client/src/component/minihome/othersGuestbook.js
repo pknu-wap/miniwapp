@@ -166,6 +166,19 @@ const WrittenCommentEdit = styled.input`
   font-size: 16px;
 `;
 
+const WrittenCommentSubmit = styled.input`
+  grid-row: 1;
+  grid-column: 2;
+
+  ${props => props.mine ? "display: flex" : "display: none;"}
+  justify-self: center; 
+  align-self: center;
+  border: none;
+  outline: none;
+  background-color: #D9D9D9;
+  font-size: 16px;
+`;
+
 const WrittenCommentDelete = styled.input`
   grid-row: 1;
   grid-column: 3;
@@ -267,6 +280,7 @@ function OthersGuestbook() {
   const [minihomeNumber, setMinihomeNumber] = useState(null);
   const [name, setName] = useState('');
   const [mode, setMode] = useState(null);
+  const [editMode, setEditMode] = useState('edit');
   const [data, setData] = useState(null);
   const [commentContent, setCommentContent] = useState('');
   const [pageIndex, setPageIndex] = useState(1);
@@ -283,7 +297,7 @@ function OthersGuestbook() {
   const changePageIndex = event => { setPageIndex(parseInt(event.target.value)); }
   const getParams = () => { setMinihomeNumber(params.minihomeNumber); }
 
-  const saveCommentContent0 = event => { setCommentContent0(event.target.value); }
+  const saveCommentContent0 = event => { setCommentContent0(event.target.value); console.log((data[0].visitorNumber !== userNumber)); }
   const saveCommentContent1 = event => { setCommentContent1(event.target.value); }
   const saveCommentContent2 = event => { setCommentContent2(event.target.value); }
   const saveCommentContent3 = event => { setCommentContent3(event.target.value); }
@@ -360,38 +374,6 @@ function OthersGuestbook() {
     }
   }
 
-  // const changeData = async () => {
-  //   try {
-  //     const pagePost = response[pageIndex];
-  //     const pagePostData = pagePost.data;
-  //     let tempData = [];
-  //     for (let i = 0; i < pagePostData.length; i++) {
-  //       if (pagePostData[i].length !== 0) {
-  //         tempData.push(
-  //           <WrittenComment mode={mode}>
-  //             <WrittenCommentTitle>{pagePostData[i].nickname}</WrittenCommentTitle>
-  //             <WrittenCommentDate mine={pagePostData[i].visitorNumber == userNumber}>
-  //               {pagePostData[i].date}
-  //             </WrittenCommentDate>
-  //             <WrittenCommentImage src={pagePostData[i].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(pagePostData[i].image)} alt="Loading..." />
-  //             <WrittenCommentContent>{pagePostData[i].contents}</WrittenCommentContent>
-  //             <WrittenCommentComment>
-  //               <WrittenCommentCommentContent>{pagePostData[i].comment.comment}</WrittenCommentCommentContent>
-  //               <WrittenCommentCommentDate>{pagePostData[i].comment.date}</WrittenCommentCommentDate>
-  //             </WrittenCommentComment>
-  //           </WrittenComment>
-  //         );
-  //       }
-  //     }
-  //     console.log(response);
-  //     console.log(pagePostData);
-  //   }
-  //   catch (error) {
-  //     alert('실패');
-  //     console.log(error);
-  //   }
-  // }
-
   const postComment = async (event) => {
     try {
       event.preventDefault();
@@ -417,6 +399,7 @@ function OthersGuestbook() {
       };
       const editResponse = await API.put(`vboard/post`, JSON.stringify(commentData), { withCredentials: true });
       console.log(editResponse);
+      setEditMode('edit');
       window.location.reload();
     }
     catch (error) {
@@ -424,6 +407,8 @@ function OthersGuestbook() {
       console.log(error);
     }
   }
+
+  const handleEditMode = () => setEditMode('submit');
 
   const deleteComment = async (event) => {
     try {
@@ -474,11 +459,12 @@ function OthersGuestbook() {
                 <WrittenCommentTitle>{data[0].name}</WrittenCommentTitle>
                 <WrittenCommentDate mine={data[0].visitorNumber == userNumber}>
                   <WrittenCommentDateData mine={data[0].visitorNumber == userNumber}>{data[0].date}</WrittenCommentDateData>
-                  <WrittenCommentEdit mine={data[0].visitorNumber == userNumber} type="submit" value="수정" />
+                  {(editMode == 'edit') && <WrittenCommentEdit mine={data[0].visitorNumber == userNumber} type="button" value="수정" onClick={handleEditMode}/>}
+                  {(editMode == 'submit') &&  <WrittenCommentSubmit mine={data[0].visitorNumber == userNumber} type="submit" value="완료" />}
                   <WrittenCommentDelete mine={data[0].visitorNumber == userNumber} number={data[0].number} type="button" value="삭제" onClick={deleteComment} />
                 </WrittenCommentDate>
                 <WrittenCommentImage src={data[0].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(data[0].image)} alt="Loading..." />
-                <WrittenCommentContent value={commentContent0} readOnly={!(data[0].visitorNumber == userNumber)} onChange={saveCommentContent0} />
+                <WrittenCommentContent value={commentContent0} readOnly={!((data[0].visitorNumber == userNumber) && (editMode === 'submit'))} onChange={saveCommentContent0} />
                 <WrittenCommentComment isNull={data[0].comment.comment == null}>
                   <WrittenCommentCommentName isNull={data[0].comment.comment == null}>{data[0].comment.name}</WrittenCommentCommentName>
                   <WrittenCommentCommentContent>{data[0].comment.comment}</WrittenCommentCommentContent>
@@ -491,11 +477,12 @@ function OthersGuestbook() {
                 <WrittenCommentTitle>{data[1].name}</WrittenCommentTitle>
                 <WrittenCommentDate mine={data[1].visitorNumber == userNumber}>
                   <WrittenCommentDateData mine={data[1].visitorNumber == userNumber}>{data[1].date}</WrittenCommentDateData>
-                  <WrittenCommentEdit mine={data[1].visitorNumber == userNumber} type="submit" value="수정" />
+                  {(editMode == 'edit') && <WrittenCommentEdit mine={data[1].visitorNumber == userNumber} type="button" value="수정" onClick={handleEditMode}/>}
+                  {(editMode == 'submit') && <WrittenCommentSubmit mine={data[1].visitorNumber == userNumber} type="submit" value="완료" />}
                   <WrittenCommentDelete mine={data[1].visitorNumber == userNumber} number={data[1].number} type="button" value="삭제" onClick={deleteComment} />
                 </WrittenCommentDate>
                 <WrittenCommentImage src={data[1].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(data[1].image)} alt="Loading..." />
-                <WrittenCommentContent value={commentContent1} readOnly={!(data[1].visitorNumber == userNumber)} onChange={saveCommentContent1} />
+                <WrittenCommentContent value={commentContent1} readOnly={!((data[1].visitorNumber == userNumber) && (editMode === 'submit'))} onChange={saveCommentContent1} />
                 <WrittenCommentComment isNull={data[1].comment.comment == null}>
                   <WrittenCommentCommentName isNull={data[1].comment.comment == null}>{data[1].comment.name}</WrittenCommentCommentName>
                   <WrittenCommentCommentContent>{data[1].comment.comment}</WrittenCommentCommentContent>
@@ -508,11 +495,12 @@ function OthersGuestbook() {
                 <WrittenCommentTitle>{data[2].name}</WrittenCommentTitle>
                 <WrittenCommentDate mine={data[2].visitorNumber == userNumber}>
                   <WrittenCommentDateData mine={data[2].visitorNumber == userNumber}>{data[2].date}</WrittenCommentDateData>
-                  <WrittenCommentEdit mine={data[2].visitorNumber == userNumber} type="submit" value="수정" />
+                  {(editMode == 'edit') && <WrittenCommentEdit mine={data[2].visitorNumber == userNumber} type="button" value="수정" onClick={handleEditMode}/>}
+                  {(editMode == 'submit') && <WrittenCommentSubmit mine={data[2].visitorNumber == userNumber} type="submit" value="완료" />}
                   <WrittenCommentDelete mine={data[2].visitorNumber == userNumber} number={data[2].number} type="button" value="삭제" onClick={deleteComment} />
                 </WrittenCommentDate>
                 <WrittenCommentImage src={data[2].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(data[2].image)} alt="Loading..." />
-                <WrittenCommentContent value={commentContent2} readOnly={!(data[2].visitorNumber == userNumber)} onChange={saveCommentContent2} />
+                <WrittenCommentContent value={commentContent2} readOnly={!((data[2].visitorNumber == userNumber) && (editMode === 'submit'))} onChange={saveCommentContent2} />
                 <WrittenCommentComment isNull={data[2].comment.comment == null}>
                   <WrittenCommentCommentName isNull={data[2].comment.comment == null}>{data[2].comment.name}</WrittenCommentCommentName>
                   <WrittenCommentCommentContent>{data[2].comment.comment}</WrittenCommentCommentContent>
@@ -525,11 +513,12 @@ function OthersGuestbook() {
                 <WrittenCommentTitle>{data[3].name}</WrittenCommentTitle>
                 <WrittenCommentDate mine={data[3].visitorNumber == userNumber}>
                   <WrittenCommentDateData mine={data[3].visitorNumber == userNumber}>{data[3].date}</WrittenCommentDateData>
-                  <WrittenCommentEdit mine={data[3].visitorNumber == userNumber} type="submit" value="수정" />
+                  {(editMode == 'edit') && <WrittenCommentEdit mine={data[3].visitorNumber == userNumber} type="button" value="수정" onClick={handleEditMode} />}
+                  {(editMode == 'submit') && <WrittenCommentSubmit mine={data[3].visitorNumber == userNumber} type="submit" value="완료" />}
                   <WrittenCommentDelete mine={data[3].visitorNumber == userNumber} number={data[3].number} type="button" value="삭제" onClick={deleteComment} />
                 </WrittenCommentDate>
                 <WrittenCommentImage src={data[3].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(data[3].image)} alt="Loading..." />
-                <WrittenCommentContent value={commentContent3} readOnly={!(data[3].visitorNumber == userNumber)} onChange={saveCommentContent3} />
+                <WrittenCommentContent value={commentContent3} readOnly={!((data[3].visitorNumber == userNumber) && (editMode === 'submit'))} onChange={saveCommentContent3} />
                 <WrittenCommentComment isNull={data[3].comment.comment == null}>
                   <WrittenCommentCommentName isNull={data[3].comment.comment == null}>{data[3].comment.name}</WrittenCommentCommentName>
                   <WrittenCommentCommentContent>{data[3].comment.comment}</WrittenCommentCommentContent>
@@ -542,11 +531,12 @@ function OthersGuestbook() {
                 <WrittenCommentTitle>{data[4].name}</WrittenCommentTitle>
                 <WrittenCommentDate mine={data[4].visitorNumber == userNumber}>
                   <WrittenCommentDateData mine={data[4].visitorNumber == userNumber}>{data[4].date}</WrittenCommentDateData>
-                  <WrittenCommentEdit mine={data[4].visitorNumber == userNumber} type="submit" value="수정" />
+                  {(editMode == 'edit') && <WrittenCommentEdit mine={data[4].visitorNumber == userNumber} type="button" value="수정" onClick={handleEditMode}/>}
+                  {(editMode == 'submit') &&  <WrittenCommentSubmit mine={data[4].visitorNumber == userNumber} type="submit" value="완료" />}
                   <WrittenCommentDelete mine={data[4].visitorNumber == userNumber} number={data[4].number} type="button" value="삭제" onClick={deleteComment} />
                 </WrittenCommentDate>
                 <WrittenCommentImage src={data[4].image == null ? `${process.env.PUBLIC_URL}/profile_image.png` : 'data:image/png;base64,' + String(data[4].image)} alt="Loading..." />
-                <WrittenCommentContent value={commentContent4} readOnly={!(data[4].visitorNumber == userNumber)} onChange={saveCommentContent4} />
+                <WrittenCommentContent value={commentContent4} readOnly={!((data[4].visitorNumber == userNumber) && (editMode === 'submit'))} onChange={saveCommentContent4} />
                 <WrittenCommentComment isNull={data[4].comment.comment == null}>
                   <WrittenCommentCommentName isNull={data[4].comment.comment == null}>{data[4].comment.name}</WrittenCommentCommentName>
                   <WrittenCommentCommentContent>{data[4].comment.comment}</WrittenCommentCommentContent>
