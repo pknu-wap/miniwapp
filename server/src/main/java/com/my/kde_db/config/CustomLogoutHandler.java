@@ -38,22 +38,15 @@ public class CustomLogoutHandler implements LogoutHandler {
             System.out.println("로그아웃 시점에 인증 정보가 없습니다.");
         } else {
             System.out.println("인증 정보: " + auth.getPrincipal());
-        }
-
-        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
-            User logoutUser = customUserDetails.getUser();
+            User logoutUser = (User) session.getAttribute("me");
             logoutUser.setState(0);
             userMapper.savestate(logoutUser);
             System.out.println("로그아웃 상태 저장된 유저: " + logoutUser.getName());
-        } else {
-            // 인증 정보가 없을 경우 처리 (예: 세션에서 사용자 정보 제거)
-            System.out.println("현재 인증 정보가 없거나 비정상적인 상태입니다.");
         }
+
 
         String accessToken = (String) session.getAttribute("accessToken");
         if (authentication != null && accessToken != null) {
-
             // 카카오 로그아웃 API 호출
             try {
                 URL url = new URL(kakaoLogoutUrl);
