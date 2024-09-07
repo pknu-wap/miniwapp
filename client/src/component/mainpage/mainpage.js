@@ -160,14 +160,20 @@ function Mainpage() {
       setStatus(number);
       setProfileImage(image ? `data:image/png;base64,${image}` : "default_profile_image.png");
     } catch (error) {
-      console.error(error);
-      alert("Failed to load user information");
+      console.log(error);
+      window.location.href = '../login';
+      // alert("Failed to load user information");
     }
   }
 
-  const logout = () => {
-    const response = API.post(`/logout`, { withCredentials: true });
-    window.location.href = '../login';
+  const logout = async () => {
+    try {
+      const response = await API.post(`/logout`, {}, { withCredentials: true });
+      if (response.status == 200) window.location.href = '../login';
+    } catch (error) {
+      console.log("로그아웃 실패");
+      console.log(error);
+    }
   }
 
   useEffect(() => {

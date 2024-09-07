@@ -35,6 +35,7 @@ function Chat() {
     try {
       const response = await API.get(`/mainpage/user`, { withCredentials: true });
       if (response.data.name !== 'null') {
+        console.log(response.data);
         setName(response.data.name);
         sessionStorage.setItem('name', response.data.name); // sessionStorage에 저장
       }

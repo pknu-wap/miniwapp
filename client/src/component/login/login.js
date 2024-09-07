@@ -71,8 +71,8 @@ const Container = styled.div`
   flex: 1.2;
   max-height: 52px;
   margin: 12px;
-  margin-top: ${props => props.marginTop || 12}px;
-  margin-bottom: ${props => props.marginBottom || 12}px;
+  margin-top: ${props => props.margintop || 12}px;
+  margin-bottom: ${props => props.marginbottom || 12}px;
   border: none;
 
   display: flex;
@@ -234,11 +234,11 @@ function Login() {
         <InnerPage>
           <Miniwappy image={miniwappImage} />
           <Form method='post' name='login-form' onSubmit={loginHandler}>
-            <Container marginTop={36}>
+            <Container margintop={36}>
               <GreenBox />
               <Input name="id" type="text" placeholder="ID" value={id} onChange={saveId} />
             </Container>
-            <Container marginBottom={80}>
+            <Container marginbottom={80}>
               <YellowBox />
               <Input name="password" type="password" placeholder="PASSWORD" value={password} onChange={savePassword} />
             </Container>
