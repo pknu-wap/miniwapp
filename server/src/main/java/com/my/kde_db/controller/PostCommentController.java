@@ -41,6 +41,17 @@ public class PostCommentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete comment");
         }
     }
+    @PutMapping("/update/{commentId}/{postId}")
+    public ResponseEntity<String> updateComment(@PathVariable("commentId") int commentId,
+                                                @PathVariable("postId") int postId,
+                                                @RequestBody String comment) {
+        boolean isUpdated = postCommentService.updateComment(commentId, postId, comment);
+        if (isUpdated) {
+            return ResponseEntity.ok("Comment updated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update comment");
+        }
+    }
 
 
 }

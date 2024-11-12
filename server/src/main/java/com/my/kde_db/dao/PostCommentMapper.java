@@ -10,6 +10,8 @@ public interface PostCommentMapper {
 
     boolean deleteComment(@Param("commentId") int commentId, @Param("postId") int postId);
 
+    boolean updateComment(@Param("commentId") int commentId, @Param("postId") int postId, @Param("comment") String comment);
+
 
 }
 
