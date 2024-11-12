@@ -51,14 +51,13 @@ public class PostController {
     }
     @DeleteMapping("/delete/{p_number}") // p_number는 게시글번호
     public ResponseEntity<String> deletePost(@PathVariable("p_number") int postNumber) {
-            boolean isDeleted = postService.deletePost(postNumber);
-            if (isDeleted) {
-                return ResponseEntity.ok("Post deleted successfully");
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete post");
-            }
+        boolean isDeleted = postService.deletePost(postNumber);
+        if (isDeleted) {
+            return ResponseEntity.ok("Post deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete post");
+        }
     }
-
     @PutMapping("/update/{p_number}") // 게시글 수정
     public ResponseEntity<String> updatePostContents(@PathVariable("p_number") int postNumber,
                                                      @RequestBody String contents) {
@@ -68,5 +67,4 @@ public class PostController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update post");
         }
-    }
-}
+    }}

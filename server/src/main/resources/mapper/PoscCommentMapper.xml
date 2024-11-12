@@ -11,7 +11,7 @@
     <delete id="deleteComment" parameterType="map">
         DELETE FROM post_comment
         WHERE number = #{commentId}
-          AND post_number = #{postId}
+        AND post_number = #{postId}
     </delete>
 
     <update id="updateComment" parameterType="map">
