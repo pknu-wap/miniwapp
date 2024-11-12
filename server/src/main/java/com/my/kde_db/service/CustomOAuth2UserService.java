@@ -50,6 +50,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setName(name); // 기본 이름 설정
             userMapper.save(user);
         }
+        user = userMapper.findById(id);
+
+        user.setState(1);
+        userMapper.savestate(user);
 
         session.setAttribute("me", user);
 

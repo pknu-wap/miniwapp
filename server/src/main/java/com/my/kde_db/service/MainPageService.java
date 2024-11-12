@@ -14,6 +14,7 @@ public class MainPageService {
     @Autowired
     MainPageMapper mainPageMapper;
 
+
     public MainUser getUser(int number){
     return mainPageMapper.findUserByNumber(number);
     }

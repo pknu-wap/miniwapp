@@ -1,6 +1,10 @@
 package com.my.kde_db.config;
 
+import com.my.kde_db.dao.UserMapper;
+import com.my.kde_db.service.UserService;
+import com.my.kde_db.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -14,20 +18,35 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 @Component
 public class CustomLogoutHandler implements LogoutHandler {
-
-    private final HttpSession session;
     private final String kakaoLogoutUrl = "https://kapi.kakao.com/v1/user/logout";
+    private final HttpSession session;
+
+    private final UserMapper userMapper;  // UserMapper 필드 추가
 
     @Autowired
-    public CustomLogoutHandler(HttpSession session) {
-        this.session = session;
-    }
+    public CustomLogoutHandler(HttpSession session, UserMapper userMapper) {
+            this.session = session;
+            this.userMapper = userMapper;
+        }
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        System.out.println("로그아웃 핸들러 호출됨");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null) {
+            System.out.println("로그아웃 시점에 인증 정보가 없습니다.");
+        } else {
+            System.out.println("인증 정보: " + auth.getPrincipal());
+            User logoutUser = (User) session.getAttribute("me");
+            logoutUser.setState(0);
+            userMapper.savestate(logoutUser);
+            System.out.println("로그아웃 상태 저장된 유저: " + logoutUser.getName());
+        }
+
+
         String accessToken = (String) session.getAttribute("accessToken");
         if (authentication != null && accessToken != null) {
-
             // 카카오 로그아웃 API 호출
             try {
                 URL url = new URL(kakaoLogoutUrl);
@@ -35,7 +54,6 @@ public class CustomLogoutHandler implements LogoutHandler {
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Authorization", "Bearer " + accessToken);
                 int responseCode = conn.getResponseCode(); // API 호출
-
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     System.out.println("카카오 로그아웃 성공");
                 } else {
@@ -45,8 +63,10 @@ public class CustomLogoutHandler implements LogoutHandler {
                 e.printStackTrace();
             }
         }
+        session.invalidate();
     }
 }
+
 
 
 

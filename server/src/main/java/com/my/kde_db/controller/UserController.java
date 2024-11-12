@@ -60,7 +60,11 @@ public class UserController {
 
 	@GetMapping("/loginSuccess")
 	@ResponseBody
-	public ResponseEntity<Void> loginSuccess() {
+	public ResponseEntity<Void> loginSuccess(User user,HttpSession session) {
+		User loginUser =(User)session.getAttribute("me");
+		user.setState(1);
+		user.setNickname(loginUser.getNickname());
+		userService.savestate(user);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 

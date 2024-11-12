@@ -16,11 +16,6 @@ public class UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	public User findByIdAndPw(User user) {
-		return userMapper.findByIdAndPw(user);
-
-	}
-
 	public User findById(String  id) {
 		return userMapper.findById(id);
 
@@ -36,6 +31,10 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userMapper.save(user);
 
+	}
+
+	public void savestate(User user){
+		userMapper.savestate(user);
 	}
 
 }

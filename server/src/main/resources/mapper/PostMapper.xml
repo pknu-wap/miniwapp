@@ -20,31 +20,31 @@
 
     <select id="findPostDetailsByNumber" resultType="com.my.kde_db.dto.PostDetails">
         SELECT
-            p.title,
-            p.contents,
-            p.view_count,
-            u.name,
-            u.nickname
+        p.title,
+        p.contents,
+        p.view_count,
+        u.name,
+        u.nickname
         FROM
-            post p
-                JOIN user u ON p.user_number = u.number
+        post p
+        JOIN user u ON p.user_number = u.number
         WHERE
-            p.number = #{postNumber}
-          AND p.user_number = #{ownerNumber}
+        p.number = #{postNumber}
+        AND p.user_number = #{ownerNumber}
     </select>
 
     <select id="findCommentsByPostNumber" resultType="com.my.kde_db.dto.PostComment">
         SELECT
-            c.number,
-            c.comment,
-            c.date,
-            u.name,
-            u.nickname
+        c.number,
+        c.comment,
+        c.date,
+        u.name,
+        u.nickname
         FROM
-            post_comment c
-                JOIN user u ON c.user_number = u.number
+        post_comment c
+        JOIN user u ON c.user_number = u.number
         WHERE
-            c.post_number = #{postNumber}
+        c.post_number = #{postNumber}
     </select>
 
 
@@ -60,8 +60,8 @@
     </delete>
 
     <update id="incrementViewCount" parameterType="int">
-    UPDATE post SET view_count = view_count + 1
-                WHERE number = #{postNumber}
+        UPDATE post SET view_count = view_count + 1
+        WHERE number = #{postNumber}
     </update>
 
     <update id="refactorPost" parameterType = "int">

@@ -36,6 +36,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+
+	//webSocket 추가
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 }
 
 tasks.named('test') {
