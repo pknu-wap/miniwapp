@@ -23,6 +23,12 @@
 
 ### [웹 사이트 동작 예시 피그마](https://www.figma.com/file/AUiyU68S8W2GoxrpF7pSsG/miniwap_p?type=design&node-id=0-1&mode=design&t=2NmHfzkhvpHQtrYb-0)
 
+#### 화면 ex)
+<img src="https://github.com/user-attachments/assets/08567c75-3b87-4fd2-98f5-346fd93fd8b2" width="500">
+<img src="https://github.com/user-attachments/assets/c73cdc73-71d3-4a33-9739-2fe661021874" width="500">
+
+
+
 <!--사용화면은 어느정도 완성된 이후?-->
 
 <br><br>
