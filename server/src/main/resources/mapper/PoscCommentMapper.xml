@@ -20,5 +20,3 @@
     WHERE number = #{commentId}
     AND post_number = #{postId}
     </update>
-
-</mapper>
