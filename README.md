@@ -20,6 +20,9 @@
 * **친구**
   * WAP회원들은 모두 친구..입니다! 친구의 미니홈피를 구경해보세요.
 
+
+### [웹 사이트 동작 예시 피그마](https://www.figma.com/file/AUiyU68S8W2GoxrpF7pSsG/miniwap_p?type=design&node-id=0-1&mode=design&t=2NmHfzkhvpHQtrYb-0)
+
 <!--사용화면은 어느정도 완성된 이후?-->
 
 <br><br>
