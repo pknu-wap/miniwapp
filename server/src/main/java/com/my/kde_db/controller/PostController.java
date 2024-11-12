@@ -67,4 +67,4 @@ public class PostController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update post");
         }
-    }}
+ }}
