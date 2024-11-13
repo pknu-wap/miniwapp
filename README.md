@@ -21,7 +21,7 @@
   * WAP회원들은 모두 친구..입니다! 친구의 미니홈피를 구경해보세요.
 
 
-### [화면 흐름도, 디자인 (피그마)](https://www.figma.com/file/AUiyU68S8W2GoxrpF7pSsG/miniwap_p?type=design&node-id=0-1&mode=design&t=2NmHfzkhvpHQtrYb-0)
+### [화면 흐름도, 디자인 (클릭시 피그마로 이동)](https://www.figma.com/file/AUiyU68S8W2GoxrpF7pSsG/miniwap_p?type=design&node-id=0-1&mode=design&t=2NmHfzkhvpHQtrYb-0)
 
 #### 웹사이트 접속화면 ex)
 <img src="https://github.com/user-attachments/assets/08567c75-3b87-4fd2-98f5-346fd93fd8b2" width="550">
