@@ -23,7 +23,7 @@
 
 ### [화면 흐름도, 디자인 (클릭시 피그마로 이동)](https://www.figma.com/file/AUiyU68S8W2GoxrpF7pSsG/miniwap_p?type=design&node-id=0-1&mode=design&t=2NmHfzkhvpHQtrYb-0)
 
-### [![image](https://github.com/user-attachments/assets/8d34244e-00bc-46c8-a51a-9517dd960cd2)](https://www.notion.so/115c5a2810d680cdaccfe45af7bdce67)  ⭠⭠ 클릭시 노션 페이지로 이동
+### [![image](https://github.com/user-attachments/assets/8d34244e-00bc-46c8-a51a-9517dd960cd2)](https://www.notion.so/miniwapp-dev/i-i-b13beb6788c047489ef21d5169cfa213)  ⭠⭠ 클릭시 노션 페이지로 이동
 
 #### 웹사이트 접속화면 ex)
 <img src="https://github.com/user-attachments/assets/08567c75-3b87-4fd2-98f5-346fd93fd8b2" width="550">
