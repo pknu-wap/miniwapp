@@ -9,8 +9,6 @@
 
 ### 진행기간
 >2024.03.16 ~ 2024.09.10
-
-#### [<img src="https://github.com/user-attachments/assets/836350a5-9830-4dca-9301-f6af4b4409aa" width="20" height="20"/> 개발 노션](https://www.notion.so/miniwapp-dev/i-i-b13beb6788c047489ef21d5169cfa213)
 ### 핵심기능
 * **미니홈피**
   * 나만의 미니홈을 구성할 수 있습니다. 사람들에게 나의 최근 게시글, 좋아하는 노래 등을 보여줄 수 있습니다.
