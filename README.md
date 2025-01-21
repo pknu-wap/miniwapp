@@ -1,4 +1,3 @@
-
 ![KakaoTalk_20240521_161727062](https://github.com/pknu-wap/miniwapp/assets/102894803/aafa4a4a-5c65-4029-a879-10f365f66e7f)
 >WAP의 마이크로 블로그 서비스, ㅁi니왑ㅍi
 
@@ -11,31 +10,33 @@
 ### 진행기간
 >2024.03.16 ~ 2024.09.10
 
+#### [<img src="https://github.com/user-attachments/assets/836350a5-9830-4dca-9301-f6af4b4409aa" width="20" height="20"/> 개발 노션](https://www.notion.so/miniwapp-dev/i-i-b13beb6788c047489ef21d5169cfa213)
 ### 핵심기능
 * **미니홈피**
   * 나만의 미니홈을 구성할 수 있습니다. 사람들에게 나의 최근 게시글, 좋아하는 노래 등을 보여줄 수 있습니다.
+<img src="https://github.com/user-attachments/assets/86537b06-2369-4bdc-bbef-f4a811fecf2e" width="550">
+<br> <br>
+
 * **프로필**
   * 나를 소개할 수 있습니다. 프로필 사진, 나의 별명, 소개를 작성할 수 있습니다.
+<img src="https://github.com/user-attachments/assets/7d716c77-5573-4c9e-88f9-06e48859f19e" width="550">
+<br> <br>
+
 * **게시판**
-  * 간단한 블로그를 작성할 수 있습니다. 
+  * 간단한 블로그를 작성할 수 있습니다.
+<img src="https://github.com/user-attachments/assets/d4439b3c-0bb0-4fa4-8c2e-15585ebf9c1a" width="550">
+<br> <br>
+
 * **방명록**
   * 다른 회원들에게 한줄 방명록을 작성할 수 있습니다.
+<img src="https://github.com/user-attachments/assets/ef045f70-d9cb-4f39-b6a5-07e310607550" width="550">
+<br> <br>
+
 * **친구**
   * WAP회원들은 모두 친구..입니다! 친구의 미니홈피를 구경해보세요.
- <br> <br>
-
-
-🗂️결과물
-------------
-- **웹사이트 접속화면**
-
-<img src="https://github.com/user-attachments/assets/08567c75-3b87-4fd2-98f5-346fd93fd8b2" width="550">
-<img src="https://github.com/user-attachments/assets/c73cdc73-71d3-4a33-9739-2fe661021874" width="550">
-<img src="https://github.com/user-attachments/assets/a6cc1243-0841-4569-b541-034d991fd147" width="550">
-
-#### [<img src="https://github.com/user-attachments/assets/836350a5-9830-4dca-9301-f6af4b4409aa" width="20" height="20"/> 개발 노션](https://www.notion.so/miniwapp-dev/i-i-b13beb6788c047489ef21d5169cfa213)
-#### [✏화면 흐름도(디자인)](https://www.figma.com/file/AUiyU68S8W2GoxrpF7pSsG/miniwap_p?type=design&node-id=0-1&mode=design&t=2NmHfzkhvpHQtrYb-0)
+<img src="https://github.com/user-attachments/assets/217c6ca1-3628-42d0-9754-eaa01bb21125" width="550">
 <br> <br>
+
 🛠️기술스택
 --------
 ![2024_1_project_stack](https://github.com/pknu-wap/2024_1_web3/assets/102894803/3b39a915-0106-4959-9e07-6bd8c97aa03b)  
